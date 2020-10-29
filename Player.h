@@ -9,7 +9,7 @@
 
 class Territory; //forward declaration to avoid compilation errors
 
-#include "Territory.h"
+#include "Map.h"
 #include "Order.h"
 #include "Cards.h"
 #include <vector>
