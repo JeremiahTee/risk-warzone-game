@@ -52,3 +52,7 @@ Debug/
 *.db-shm
 
 .vs/Warzone-Asg1/v16/
+
+*.idb
+
+*.pdb
