@@ -116,11 +116,6 @@ Player* Player::getNew()
 	return new Player(*this);
 }
 
-int Player::getPlayerID()
-{
-	return playerId;
-}
-
 //ostream operator for Player prints number of territories and indicates whether the hand is valid or not
 std::ostream& operator <<(ostream& out, const Player& p)
 {
@@ -146,10 +141,10 @@ void Player::notifyGame(int totalCountries)
 
 	if(percentage == 100.0)
 	{
-		std::cout << "Congratulations! Player " << getPlayerID << " has " << percentage << "owns all territories." << std::endl;
+		std::cout << "Congratulations! Player " << playerId << " has " << percentage << "owns all territories." << std::endl;
 	}else
 	{
-		std::cout << "Player " << getPlayerID << " has " << percentage << "% of territories owned." << std::endl;
+		std::cout << "Player " << playerId << " has " << percentage << "% of territories owned." << std::endl;
 	}
 
 }

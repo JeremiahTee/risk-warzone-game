@@ -24,7 +24,6 @@ private:
 	vector<Territory*> territories;
 	Hand* hand;
 	OrderList* orders;
-	int playerId = 0;
 	
 public:
 	Player() = default;
@@ -34,7 +33,7 @@ public:
 	vector<Territory> toAttack();
 	Hand getHand();
 	void issueOrder();
-	int getPlayerID();
+	int playerId = 0;
 	Player* operator = (Player& o);
 	Player(const Player& o);
 	virtual Player* getNew();
