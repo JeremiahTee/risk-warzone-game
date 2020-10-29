@@ -48,3 +48,7 @@ Debug/
 .vs/Warzone-Asg1/v16/ipch/AutoPCH/9ba653895eeac618/CARDS.ipch
 
 .vs/Warzone-Asg1/v16/ipch/AutoPCH/fddd7b7631079726/PLAYER.ipch
+
+*.db-shm
+
+.vs/Warzone-Asg1/v16/
