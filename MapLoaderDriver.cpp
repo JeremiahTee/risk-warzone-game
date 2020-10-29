@@ -26,7 +26,7 @@ bool main() {
 	vector<Territory> continentList = mapLoader.GetContinentList();
 	continentList = mapLoader.ReadMapFile(path, continentList);
 
-	//Add countries
+	//Add territories
 	vector<Territory> countryList = mapLoader.GetCountryList();
 	countryList = mapLoader.ReadMapFileForCountries(path, countryList);
 

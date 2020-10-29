@@ -24,10 +24,10 @@ private:
 public:
 	vector<Territory> ReadMapFile(string _inputFileStream, vector<Territory>& _continentList); // reads file & returns list of continents
 	vector<vector<Territory>> ReadMapFileForBorders(string _inputFileStream, vector<vector<Territory>>& _bordersList, vector<Territory>& _countryList); //reads file & returns list of borders for each country
-	vector<Territory> ReadMapFileForCountries(string _inputFileStream, vector<Territory>& _countryList); //reads file & returns list of countries
+	vector<Territory> ReadMapFileForCountries(string _inputFileStream, vector<Territory>& _countryList); //reads file & returns list of territories
 
 	void ShowBorders(vector<vector<Territory>> _bordersList); // shows all the borders stored in bordersList, used mainly to debug
-	void ShowTerritories(vector<Territory> _countryList); // shows all countries stored in countryList, used mainly to debug
+	void ShowTerritories(vector<Territory> _countryList); // shows all territories stored in countryList, used mainly to debug
 	void ShowContinents(vector<Territory> _continentList); // shows all continents stored in continentList, used mainly to debug
 	vector<Territory> GetContinentList();
 	vector<Territory> GetCountryList();

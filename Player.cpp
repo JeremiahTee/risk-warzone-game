@@ -5,6 +5,9 @@
 //============================================================================
 
 #include "Player.h"
+
+#include <iomanip>
+
 #include "Order.h"
 #include <ostream>
 #include <vector>
@@ -14,18 +17,17 @@ using std::string;
 using std::vector;
 
 //fully parametrized constructor
-Player::Player(vector<Territory*> playerTerritories, Hand* playerHand, string playerName)
+Player::Player(vector<Territory*> playerTerritories, Hand* playerHand, int id)
 {
 	territories = playerTerritories;
 	hand = playerHand;
-	name = playerName;
+	playerId = id;
 	this->orders = new OrderList();
 }
 
 //copy constructor
 Player::Player(const Player& p)
 {
-	name = p.name;
 	territories = p.territories;
 	hand = p.hand;
 }
@@ -114,16 +116,68 @@ Player* Player::getNew()
 	return new Player(*this);
 }
 
+int Player::getPlayerID()
+{
+	return playerId;
+}
+
 //ostream operator for Player prints number of territories and indicates whether the hand is valid or not
 std::ostream& operator <<(ostream& out, const Player& p)
 {
 	if(p.hand != nullptr)
 	{
-		out << "\nPlayer: " << p.name << " has " << p.territories.size() << " territories and a valid Hand.\n";
+		out << "\nPlayer: " << p.playerId << " has " << p.territories.size() << " territories and a valid Hand.\n";
 	}else
 	{
-		out << "\nPlayer: " << p.name << " has " << p.territories.size() << " territories and an empty Hand.\n";
+		out << "\nPlayer: " << p.playerId << " has " << p.territories.size() << " territories and an empty Hand.\n";
 	}
 	
 	return out;
 }
+
+void Player::notifyGame(int totalCountries)
+{
+	int currentTerritories = getTerritories().size();
+	double percentage = 0.0;
+	if(totalCountries > 0)
+	{
+		 percentage = (currentTerritories / totalCountries) * 100;
+	}
+
+	if(percentage == 100.0)
+	{
+		std::cout << "Congratulations! Player " << getPlayerID << " has " << percentage << "owns all territories." << std::endl;
+	}else
+	{
+		std::cout << "Player " << getPlayerID << " has " << percentage << "% of territories owned." << std::endl;
+	}
+
+}
+
+void printPlayerTable(int phase)
+{
+	if(phase == 1) //Reinforcement phase
+	{
+
+	}else
+	{
+		
+	}
+}
+
+void Player::notifyPhase(int phase)
+{
+	switch(phase)
+	{
+		case 1: std::cout << "Phase 1" << std::endl;
+			break;
+		case 2: std::cout << "Phase 2" << std::endl;
+			break;
+		case 3: std::cout << "Phase 3" << std::endl;
+			break;
+	}
+}
+
+
+//Setup Observer methods stuff here
+//Update Player driver logic -> when creating player, give it random int as playerID
