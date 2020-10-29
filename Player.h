@@ -24,7 +24,6 @@ private:
 	vector<Territory*> territories;
 	Hand* hand;
 	OrderList* orders;
-	int armyCount;
 	int playerId = 0;
 	
 public:
@@ -35,11 +34,13 @@ public:
 	vector<Territory> toAttack();
 	Hand getHand();
 	void issueOrder();
+	int getPlayerID();
 	Player* operator = (Player& o);
 	Player(const Player& o);
 	virtual Player* getNew();
 	friend ostream& operator << (ostream& out, const Player& p);
 
 	//Observer pattern
-	
+	void notifyGame(int totalTerr) override;
+	void notifyPhase(int phase) override;
 };

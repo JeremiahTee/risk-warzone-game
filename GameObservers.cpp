@@ -1,3 +1,9 @@
+//============================================================================
+// Name        : Player.cpp
+// Author      : Jeremiah Tiongson (40055477)
+// Description : Observer & Subject implementations
+//============================================================================
+
 #include "GameObservers.h"
 #include <iostream>
 
@@ -40,7 +46,7 @@ void Subject::updateGame()
 
 	for(; i != _observers->end(); ++i)
 	{
-		(*i)->notifyGame(countries);
+		(*i)->notifyGame(territories);
 	}
 }
 
@@ -49,9 +55,9 @@ void Subject::setPhase(int& phase)
 	this->phase = phase;
 }
 
-void Subject::setCountriesCount(int amount)
+void Subject::setTerritoriesCount(int terrCount)
 {
-	this->countries = amount;
+	this->territories = terrCount;
 }
 
 

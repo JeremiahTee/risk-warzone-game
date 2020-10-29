@@ -1,7 +1,11 @@
+//============================================================================
+// Name        : Player.cpp
+// Author      : Jeremiah Tiongson (40055477)
+// Description : Observer & Subject class declarations
+//============================================================================
+
 #pragma once
 #include <list>
-
-//Observer making use of pure virtual function
 
 using std::list;
 
@@ -23,11 +27,11 @@ public:
 	virtual void updatePhase();
 	virtual void updateGame();
 	virtual void setPhase(int& phase);
-	virtual void setCountriesCount(int totalCountries);
+	virtual void setTerritoriesCount(int totalTerr);
 	Subject();
 	~Subject();
 private:
 	std::list<Observer*>* _observers;
 	int phase;
-	int countries;
+	int territories;
 };
