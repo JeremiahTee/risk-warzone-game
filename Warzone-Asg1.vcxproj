@@ -143,6 +143,7 @@
     <ClInclude Include="Cards.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MapLoader.h" />
+    <ClInclude Include="GameObservers.h" />
     <ClInclude Include="Order.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Territory.h" />
@@ -150,6 +151,7 @@
   <ItemGroup>
     <ClCompile Include="Cards.cpp" />
     <ClCompile Include="CardsDriver.cpp" />
+    <ClCompile Include="GameObservers.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapDriver.cpp" />
     <ClCompile Include="MapLoader.cpp" />

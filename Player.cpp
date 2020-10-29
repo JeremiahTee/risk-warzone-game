@@ -14,18 +14,17 @@ using std::string;
 using std::vector;
 
 //fully parametrized constructor
-Player::Player(vector<Territory*> playerTerritories, Hand* playerHand, string playerName)
+Player::Player(vector<Territory*> playerTerritories, Hand* playerHand, int id)
 {
 	territories = playerTerritories;
 	hand = playerHand;
-	name = playerName;
+	playerId = id;
 	this->orders = new OrderList();
 }
 
 //copy constructor
 Player::Player(const Player& p)
 {
-	name = p.name;
 	territories = p.territories;
 	hand = p.hand;
 }
@@ -119,11 +118,14 @@ std::ostream& operator <<(ostream& out, const Player& p)
 {
 	if(p.hand != nullptr)
 	{
-		out << "\nPlayer: " << p.name << " has " << p.territories.size() << " territories and a valid Hand.\n";
+		out << "\nPlayer: " << p.playerId << " has " << p.territories.size() << " territories and a valid Hand.\n";
 	}else
 	{
-		out << "\nPlayer: " << p.name << " has " << p.territories.size() << " territories and an empty Hand.\n";
+		out << "\nPlayer: " << p.playerId << " has " << p.territories.size() << " territories and an empty Hand.\n";
 	}
 	
 	return out;
 }
+
+//Setup Observer methods stuff here
+//Update Player driver logic -> when creating player, give it random int as playerID

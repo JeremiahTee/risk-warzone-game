@@ -5,6 +5,7 @@
 //============================================================================
 
 #pragma once
+#include "GameObservers.h"
 
 class Territory; //forward declaration to avoid compilation errors
 
@@ -17,17 +18,18 @@ class Territory; //forward declaration to avoid compilation errors
 using std::vector;
 using std::string;
 
-class Player
+class Player : public Observer
 {
 private:
 	vector<Territory*> territories;
 	Hand* hand;
 	OrderList* orders;
+	int armyCount;
+	int playerId = 0;
 	
 public:
-	string name; //left public intentionally just for testing purposes & to avoid setting up unnecessary getter
 	Player() = default;
-	Player(vector<Territory*> territories, Hand* hand, string playerName);
+	Player(vector<Territory*> territories, Hand* hand, int id);
 	vector<Territory> getTerritories();
 	vector<Territory> toDefend();
 	vector<Territory> toAttack();
@@ -37,4 +39,7 @@ public:
 	Player(const Player& o);
 	virtual Player* getNew();
 	friend ostream& operator << (ostream& out, const Player& p);
+
+	//Observer pattern
+	
 };
