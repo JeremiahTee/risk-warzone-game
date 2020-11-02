@@ -3,8 +3,7 @@
 // Author      : Maxime Johnson (40081684)
 // Description : Driver class to test out Map and Territory features.
 //============================================================================
-/*
-#include "Territory.h"
+
 #include "Map.h"
 #include <iostream>
 
@@ -48,4 +47,4 @@ int main() {
 	}
 
 	return 0;
-}*/
+}

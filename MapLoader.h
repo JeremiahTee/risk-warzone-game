@@ -7,7 +7,7 @@
 #pragma once
 #include <vector>
 #include "Map.h"
-#include "Territory.h"
+#include "Map.h"
 
 using namespace std;
 
