@@ -70,7 +70,7 @@ bool Map::validate() {
 }
 
 bool Map::validateTerritoryConnectivity() {
-  vector<Territory> territoryList = getTerritories();
+  vector<Territory*> territoryList = getTerritories();
 
   //Checks that there exists a node that is able to reach all nodes.
   for (auto i : territoryList) {
@@ -82,11 +82,11 @@ bool Map::validateTerritoryConnectivity() {
   return true;
 }
 
-bool Map::validateNodeConnectivity(Territory& startingNode) {
-	vector<Territory> territoryList = getTerritories();
+bool Map::validateNodeConnectivity(Territory* startingNode) {
+	vector<Territory*> territoryList = getTerritories();
 
-	vector<Territory> toProcess;
-	vector<Territory> processed;
+	vector<Territory*> toProcess;
+	vector<Territory*> processed;
 
 	if (territoryList.size() > 0) {
 		toProcess.push_back(startingNode);
@@ -94,11 +94,11 @@ bool Map::validateNodeConnectivity(Territory& startingNode) {
 
 	//Processes every territory connected to eachother that hasn't already been processed or is queued for processing.
 	while (toProcess.size() > 0) {
-		Territory currentlyProcessing = toProcess[toProcess.size() - 1];
+		Territory* currentlyProcessing = toProcess[toProcess.size() - 1];
 		toProcess.pop_back();
 		processed.push_back(currentlyProcessing);
 
-		vector<Territory> neighbors = getTerritoryNeighbors(currentlyProcessing);
+		vector<Territory*> neighbors = getTerritoryNeighbors(currentlyProcessing);
 		for (auto i : neighbors) {
 			if (!contains(processed, i) && !contains(toProcess, i)) {
 				toProcess.push_back(i);
@@ -169,49 +169,49 @@ bool Map::validateContinentExclusivity() {
 	return true;
 }
 
-Territory Map::getTerritory(string territoryName) {
+Territory* Map::getTerritory(string territoryName) {
   if (!territories.empty()) {
     for (auto i : territories) {
-      if (i.getName() == territoryName) {
+      if (i->getName() == territoryName) {
         return i;
       }
     }
   } else {
-    return Territory("N/A");
+    return &Territory("N/A");
   }
 }
 
-vector<Territory> Map::getTerritories() {
+vector<Territory*> Map::getTerritories() {
 	return this->territories;
 }
 
-vector<Territory> Map::getTerritoryNeighbors(Territory& territory) {
-	return territoryNeighbors.at(territory.getName());
+vector<Territory*> Map::getTerritoryNeighbors(Territory* territory) {
+	return territoryNeighbors.at(territory->getName());
 }
 
-vector<Territory> Map::getTerritoryNeighbors(string territoryName) {
+vector<Territory*> Map::getTerritoryNeighbors(string territoryName) {
 	return territoryNeighbors.at(territoryName);
 }
 
 
 
-void Map::addTerritory(Territory& territory, vector<Territory> neighborList) {
+void Map::addTerritory(Territory* territory, vector<Territory*> neighborList) {
 	territories.push_back(territory);
-	territoryNeighbors[territory.getName()] = neighborList;
+	territoryNeighbors[territory->getName()] = neighborList;
 }
 
-void Map::addTerritory(string continent, Territory& territory, vector<Territory> neighborList) {
+void Map::addTerritory(string continent, Territory* territory, vector<Territory*> neighborList) {
 	addTerritory(territory, neighborList);
 	registerWithContinent(continent, territory);
 }
 
 
 
-unordered_map<string, vector<Territory>> Map::getTerritoryNeighborMap() {
+unordered_map<string, vector<Territory*>> Map::getTerritoryNeighborMap() {
 	return territoryNeighbors;
 }
 
-void Map::setTerritoryNeighborsMap(unordered_map<string, vector<Territory>> map) {
+void Map::setTerritoryNeighborsMap(unordered_map<string, vector<Territory*>> map) {
 	territoryNeighbors = map;
 }
 
@@ -225,29 +225,29 @@ vector<string> Map::getContinents() {
 	return toReturn;
 }
 
-unordered_map<string, vector<Territory>> Map::getContinentMap() {
+unordered_map<string, vector<Territory*>> Map::getContinentMap() {
 	return continents;
 }
 
-void Map::registerWithContinent(string continent, Territory& territory) {
+void Map::registerWithContinent(string continent, Territory* territory) {
 	continents[continent].push_back(territory);
 }
 
 
 
-bool Map::contains(vector<Territory> list, Territory& territory) {
+bool Map::contains(vector<Territory*> list, Territory* territory) {
 	for (auto i : list) {
-		if (i.getName() == territory.getName()) {
+		if (i->getName() == territory->getName()) {
 			return true;
 		}
 	}
 	return false;
 }
 
-bool Map::hasDuplicates(vector<Territory> list) {
+bool Map::hasDuplicates(vector<Territory*> list) {
 	for (int i = 0; i < list.size() - 1; i++) {
 		for (int j = i + 1; j < list.size(); j++) {
-			if (list[i].getName() == list[j].getName()) {
+			if (list[i]->getName() == list[j]->getName()) {
 				return true;
 			}
 		}
