@@ -55,9 +55,9 @@ vector<Territory> Player::getTerritories()
 }
 
 //Shuffles the player's territories and removes the last two if the size is greater than 2
-vector<Territory> Player::toDefend()
+vector<Territory*> Player::toDefend()
 {
-	vector<Territory> terr_toDefend = getTerritories();
+	vector<Territory*> terr_toDefend = getOwnedTerritories();
 	std::random_device rd;
 	std::mt19937 g(rd());
 	std::shuffle(terr_toDefend.begin(), terr_toDefend.end(), g);
@@ -73,9 +73,9 @@ vector<Territory> Player::toDefend()
 }
 
 //Shuffles the player's territories and removes the last territory is size is greater than 1
-vector<Territory> Player::toAttack()
+vector<Territory*> Player::toAttack()
 {
-	vector<Territory> terr_toAttack = getTerritories();
+	vector<Territory*> terr_toAttack = getOwnedTerritories();
 	std::random_device rd;
 	std::mt19937 g(rd());
 	std::shuffle(terr_toAttack.begin(), terr_toAttack.end(), g);
@@ -103,12 +103,13 @@ void Player::issueOrder()
 }
 
 //Returns the hand if it has a valid pointer to it
-Hand Player::getHand()
+Hand* Player::getHand()
 {
-	Hand h = Hand();
-	if (hand != nullptr) 
-		return *hand;
-	return h;
+	return hand;
+}
+
+OrderList* Player::getOrderList() {
+	
 }
 
 Player* Player::getNew()
@@ -128,6 +129,14 @@ std::ostream& operator <<(ostream& out, const Player& p)
 	}
 	
 	return out;
+}
+
+vector<Territory*> Player::getOwnedTerritories() {
+	return territories;
+}
+
+void Player::setOwnedTerritories(vector<Territory*> list) {
+	territories = list;
 }
 
 void Player::notifyGame(int totalCountries)
