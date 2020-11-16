@@ -8,6 +8,7 @@ class GameEngine{
 public:
 	Map* map;
 	vector<Player*> players;
+	bool validExecution;
 
 	GameEngine();
 	~GameEngine();
