@@ -7,7 +7,7 @@
 #pragma once
 
 class Territory; //forward declaration to avoid compilation errors
-
+class OrderList;
 #include "Territory.h"
 #include "Order.h"
 #include "Cards.h"
@@ -25,10 +25,14 @@ private:
 	OrderList* orders;
 	
 public:
+	int numOfArmies;//Change to better name
+	vector<Player*> negotiated;
+	bool isNegotiated(Player*, Player*);
 	string name; //left public intentionally just for testing purposes & to avoid setting up unnecessary getter
 	Player() = default;
 	Player(vector<Territory*> territories, Hand* hand, string playerName);
 	vector<Territory> getTerritories();
+	vector<Territory*> getTerritories2();
 	vector<Territory> toDefend();
 	vector<Territory> toAttack();
 	Hand getHand();

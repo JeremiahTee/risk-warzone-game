@@ -29,6 +29,23 @@ Player::Player(const Player& p)
 	territories = p.territories;
 	hand = p.hand;
 }
+bool Player::isNegotiated(Player* p1, Player* p2)
+{
+	vector<Player*> myvec = p1->negotiated;
+	vector<Player*>::iterator it = myvec.begin();
+	for (it = myvec.begin(); it != myvec.end(); ++it)
+	{
+
+
+		if (*it == p2)
+		{
+			return true;
+		};
+		
+
+	};
+	return false;
+}
 
 //assignment operator overloading
 Player* Player:: operator = (Player& p)
@@ -51,7 +68,10 @@ vector<Territory> Player::getTerritories()
 
 	return playerTerritories;
 }
-
+vector<Territory*> Player::getTerritories2()
+{
+	return territories;
+}
 //Shuffles the player's territories and removes the last two if the size is greater than 2
 vector<Territory> Player::toDefend()
 {
@@ -88,7 +108,7 @@ vector<Territory> Player::toAttack()
 }
 
 //Issues a Bomb order and adds it to the Player's list of orders
-void Player::issueOrder()
+/*void Player::issueOrder()
 {
 	Order* order = new Bomb();
 	if(order != nullptr)
@@ -98,7 +118,7 @@ void Player::issueOrder()
 		//Print the list to verify that order is indeed in the list
 		orders->printlist();
 	}
-}
+}*/
 
 //Returns the hand if it has a valid pointer to it
 Hand Player::getHand()

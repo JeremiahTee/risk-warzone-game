@@ -7,7 +7,7 @@
 //	Maxime Johnson      | 40081684 | 11johnson1111@gmail.com
 //	Marjolaine Roy      | 40098364 | roy.marjolaine@hotmail.com
 //============================================================================
-
+/*
 #include "Territory.h"
 #include "Player.h"
 #include <ostream>
@@ -137,4 +137,4 @@ int main()
 	delete hand_two;
 	
 	return 0;
-}
+}*/
