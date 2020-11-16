@@ -9,6 +9,8 @@ public:
 	Map* map;
 	vector<Player*> players;
 
+	~GameEngine();
+
 	void start();
 	void startupPhase();
 	string queryDirectory(string directory);

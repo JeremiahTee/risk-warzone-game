@@ -2,9 +2,9 @@
 
 
 int main() { //This is the main driver
-	GameEngine* g;
+	GameEngine* g = new GameEngine();
 	g->start();
 	g->startupPhase();
-	
+	delete g;
 	return 0;
 }

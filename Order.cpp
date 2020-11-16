@@ -399,6 +399,13 @@ OrderList::OrderList(const OrderList& ol)
 		orders.push_back(x->getNew());
 	};
 };
+
+OrderList::~OrderList() {
+	for (auto order : orders) {
+		delete order;
+	}
+}
+
 ostream& operator<<(ostream& os, OrderList& olist)
 {
 	int count = 0;

@@ -17,11 +17,18 @@
 namespace fs = std::filesystem;
 using namespace std;
 
+GameEngine::~GameEngine() {
+	delete map;
+	for (auto player : players) {
+		delete player;
+	}
+}
+
 void GameEngine::start() {
 	//Create map from file.
-	string fileName = queryDirectory("");
+	//string fileName = queryDirectory("");
 	//Map* map = createMap(fileName);
-	Map* map = Map::getTestMap();
+	map = Map::getTestMap();
 
 	//Create number of players from count.
 	int playerCount = queryPlayerCount();
@@ -32,6 +39,8 @@ void GameEngine::start() {
 
 void GameEngine::startupPhase() {
 	//Shuffle elements in players.
+	cout << "In startup phase now." << endl;
+
 	auto rng = std::default_random_engine{};
 	std::shuffle(std::begin(players), std::end(players), rng);
 	
@@ -120,7 +129,7 @@ void GameEngine::assignTerritoriesToPlayers(vector<Player*> playerList, vector<T
 
 	if (playerList.size() > 0) {
 		while (territoryIndex >= territoryList.size()) {
-			Map::assignTerritory(playerList[playerIndex], territoryList[territoryIndex]);
+			Map::assignTerritory(playerList.at(playerIndex), territoryList.at(territoryIndex));
 
 			territoryIndex++;
 			playerIndex++;

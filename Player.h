@@ -26,19 +26,26 @@ private:
 	OrderList* orders;
 
 public:
+	int playerId = 0;
+
 	Player() = default;
 	Player(vector<Territory*> territories, Hand* hand, int id);
-	vector<Territory*> toDefend();
-	vector<Territory*> toAttack();
+	Player(const Player& o);
+	~Player();
+
+	virtual Player* getNew();
+	
 	Hand* getHand();
 	OrderList* getOrderList();
 	vector<Territory*> getOwnedTerritories();
 	void setOwnedTerritories(vector<Territory*> list);
+
+	vector<Territory*> toDefend();
+	vector<Territory*> toAttack();
+	
 	void issueOrder();
-	int playerId = 0;
+	
 	Player* operator = (Player& o);
-	Player(const Player& o);
-	virtual Player* getNew();
 	friend ostream& operator << (ostream& out, const Player& p);
 
 	//Observer pattern

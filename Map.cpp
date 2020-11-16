@@ -65,6 +65,12 @@ Map::Map(const Map& map) {
 	continents = map.continents;
 }
 
+Map::~Map() {
+	for (auto territory : territories) {
+		delete territory;
+	}
+}
+
 bool Map::validate() {
 	return validateTerritoryConnectivity() && validateContinentConnectivity() && validateContinentExclusivity();
 }
@@ -182,7 +188,7 @@ Territory* Map::getTerritory(string territoryName) {
 }
 
 vector<Territory*> Map::getTerritories() {
-	return this->territories;
+	return territories;
 }
 
 vector<Territory*> Map::getTerritoryNeighbors(Territory* territory) {

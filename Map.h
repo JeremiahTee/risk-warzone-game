@@ -50,6 +50,7 @@ private:
 public:
 	Map() = default;
 	Map(const Map& map);
+	~Map();
 
 	bool validate(); //Validates the three map conditions.
 	bool validateTerritoryConnectivity(); //Validates territory connectivity.

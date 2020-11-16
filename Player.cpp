@@ -38,24 +38,11 @@ Player* Player:: operator = (Player& p)
 	return p.getNew();
 }
 
-
-//Gets the users' territories if the pointer is not null
-/*
-vector<Territory> Player::getTerritories()
-{
-	vector<Territory> playerTerritories;
-
-	for (auto it = territories.begin(); it != territories.end(); ++it)
-	{
-		if (it.operator*() != nullptr)
-		{
-			playerTerritories.push_back(*it.operator*());
-		}
-	}
-
-	return playerTerritories;
+Player::~Player() {
+	delete hand;
+	delete orders;
 }
-*/
+
 
 //Shuffles the player's territories and removes the last two if the size is greater than 2
 vector<Territory*> Player::toDefend()

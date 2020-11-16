@@ -4,6 +4,7 @@
 // Description : Driver class to test out Map and Territory features.
 //============================================================================
 
+/*
 #include "Map.h"
 #include <iostream>
 
@@ -57,4 +58,4 @@ int main() {
 	d = NULL;
 
 	return 0;
-}
+}*/
