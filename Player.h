@@ -24,14 +24,16 @@ private:
 	vector<Territory*> territories;
 	Hand* hand;
 	OrderList* orders;
-	
+
 public:
 	Player() = default;
 	Player(vector<Territory*> territories, Hand* hand, int id);
-	vector<Territory> getTerritories();
-	vector<Territory> toDefend();
-	vector<Territory> toAttack();
-	Hand getHand();
+	vector<Territory*> toDefend();
+	vector<Territory*> toAttack();
+	Hand* getHand();
+	OrderList* getOrderList();
+	vector<Territory*> getOwnedTerritories();
+	void setOwnedTerritories(vector<Territory*> list);
 	void issueOrder();
 	int playerId = 0;
 	Player* operator = (Player& o);

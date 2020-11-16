@@ -38,7 +38,9 @@ Player* Player:: operator = (Player& p)
 	return p.getNew();
 }
 
+
 //Gets the users' territories if the pointer is not null
+/*
 vector<Territory> Player::getTerritories()
 {
 	vector<Territory> playerTerritories;
@@ -53,11 +55,12 @@ vector<Territory> Player::getTerritories()
 
 	return playerTerritories;
 }
+*/
 
 //Shuffles the player's territories and removes the last two if the size is greater than 2
-vector<Territory> Player::toDefend()
+vector<Territory*> Player::toDefend()
 {
-	vector<Territory> terr_toDefend = getTerritories();
+	vector<Territory*> terr_toDefend = getOwnedTerritories();
 	std::random_device rd;
 	std::mt19937 g(rd());
 	std::shuffle(terr_toDefend.begin(), terr_toDefend.end(), g);
@@ -73,9 +76,9 @@ vector<Territory> Player::toDefend()
 }
 
 //Shuffles the player's territories and removes the last territory is size is greater than 1
-vector<Territory> Player::toAttack()
+vector<Territory*> Player::toAttack()
 {
-	vector<Territory> terr_toAttack = getTerritories();
+	vector<Territory*> terr_toAttack = getOwnedTerritories();
 	std::random_device rd;
 	std::mt19937 g(rd());
 	std::shuffle(terr_toAttack.begin(), terr_toAttack.end(), g);
@@ -93,7 +96,7 @@ vector<Territory> Player::toAttack()
 void Player::issueOrder()
 {
 	Order* order = new Bomb();
-	if(order != nullptr)
+	if (order != nullptr)
 	{
 		std::cout << "Bomb order successfully placed.\n\n";
 		orders->add(order);
@@ -103,12 +106,13 @@ void Player::issueOrder()
 }
 
 //Returns the hand if it has a valid pointer to it
-Hand Player::getHand()
+Hand* Player::getHand()
 {
-	Hand h = Hand();
-	if (hand != nullptr) 
-		return *hand;
-	return h;
+	return hand;
+}
+
+OrderList* Player::getOrderList() {
+	return orders;
 }
 
 Player* Player::getNew()
@@ -119,30 +123,40 @@ Player* Player::getNew()
 //ostream operator for Player prints number of territories and indicates whether the hand is valid or not
 std::ostream& operator <<(ostream& out, const Player& p)
 {
-	if(p.hand != nullptr)
+	if (p.hand != nullptr)
 	{
 		out << "\nPlayer: " << p.playerId << " has " << p.territories.size() << " territories and a valid Hand.\n";
-	}else
+	}
+	else
 	{
 		out << "\nPlayer: " << p.playerId << " has " << p.territories.size() << " territories and an empty Hand.\n";
 	}
-	
+
 	return out;
+}
+
+vector<Territory*> Player::getOwnedTerritories() {
+	return territories;
+}
+
+void Player::setOwnedTerritories(vector<Territory*> list) {
+	territories = list;
 }
 
 void Player::notifyGame(int totalCountries)
 {
-	int currentTerritories = getTerritories().size();
+	int currentTerritories = getOwnedTerritories().size();
 	double percentage = 0.0;
-	if(totalCountries > 0)
+	if (totalCountries > 0)
 	{
-		 percentage = (currentTerritories / totalCountries) * 100;
+		percentage = (currentTerritories / totalCountries) * 100;
 	}
 
-	if(percentage == 100.0)
+	if (percentage == 100.0)
 	{
 		std::cout << "Congratulations! Player " << playerId << " has " << percentage << "owns all territories." << std::endl;
-	}else
+	}
+	else
 	{
 		std::cout << "Player " << playerId << " has " << percentage << "% of territories owned." << std::endl;
 	}
@@ -151,25 +165,26 @@ void Player::notifyGame(int totalCountries)
 
 void printPlayerTable(int phase)
 {
-	if(phase == 1) //Reinforcement phase
+	if (phase == 1) //Reinforcement phase
 	{
 
-	}else
+	}
+	else
 	{
-		
+
 	}
 }
 
 void Player::notifyPhase(int phase)
 {
-	switch(phase)
+	switch (phase)
 	{
-		case 1: std::cout << "Phase 1" << std::endl;
-			break;
-		case 2: std::cout << "Phase 2" << std::endl;
-			break;
-		case 3: std::cout << "Phase 3" << std::endl;
-			break;
+	case 1: std::cout << "Phase 1" << std::endl;
+		break;
+	case 2: std::cout << "Phase 2" << std::endl;
+		break;
+	case 3: std::cout << "Phase 3" << std::endl;
+		break;
 	}
 }
 
