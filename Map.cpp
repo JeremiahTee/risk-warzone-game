@@ -65,21 +65,27 @@ Map::Map(const Map& map) {
 	continents = map.continents;
 }
 
+Map::~Map() {
+	for (auto territory : territories) {
+		delete territory;
+	}
+}
+
 bool Map::validate() {
 	return validateTerritoryConnectivity() && validateContinentConnectivity() && validateContinentExclusivity();
 }
 
 bool Map::validateTerritoryConnectivity() {
-  vector<Territory*> territoryList = getTerritories();
+	vector<Territory*> territoryList = getTerritories();
 
-  //Checks that there exists a node that is able to reach all nodes.
-  for (auto i : territoryList) {
-    if (!validateNodeConnectivity(i)) {
-      return false;
-    }
-  }
+	//Checks that there exists a node that is able to reach all nodes.
+	for (auto i : territoryList) {
+		if (!validateNodeConnectivity(i)) {
+			return false;
+		}
+	 }
 
-  return true;
+	return true;
 }
 
 bool Map::validateNodeConnectivity(Territory* startingNode) {
@@ -182,7 +188,7 @@ Territory* Map::getTerritory(string territoryName) {
 }
 
 vector<Territory*> Map::getTerritories() {
-	return this->territories;
+	return territories;
 }
 
 vector<Territory*> Map::getTerritoryNeighbors(Territory* territory) {
@@ -233,7 +239,44 @@ void Map::registerWithContinent(string continent, Territory* territory) {
 	continents[continent].push_back(territory);
 }
 
+void Map::assignTerritory(Player* player, Territory* territory) {
+	territory->setOwner(player);
+	vector<Territory*> list = player->getOwnedTerritories();
+	list.push_back(territory);
+	player->setOwnedTerritories(list);
+}
 
+Map* Map::getTestMap() {
+	Territory* a = new Territory("a");
+	Territory* b = new Territory("b");
+	Territory* c = new Territory("c");
+	Territory* d = new Territory("d");
+
+	Map* map = new Map();
+
+	vector<Territory*> list = {
+		b
+	};
+	map->addTerritory("1", a, list);
+
+	list = {
+		c
+	};
+	map->addTerritory("1", b, list);
+
+	list = {
+		b,d
+	};
+	map->addTerritory("2", c, list);
+
+	list = {
+		c,
+		a
+	};
+	map->addTerritory("2", d, list);
+
+	return map;
+}
 
 bool Map::contains(vector<Territory*> list, Territory* territory) {
 	for (auto i : list) {
