@@ -73,6 +73,10 @@ public:
 	unordered_map<string, vector<Territory*>> getContinentMap(); //Get continent map.
 	void registerWithContinent(string continent, Territory* territory); //Register a territory with a continent.
 
+	static void assignTerritory(Player* player, Territory* territory); //Makes a 2-way link between a Player/Territory pair.
+
+	static Map* getTestMap(); //Creates a test map for testing purposes.
+
 	bool contains(vector<Territory*> list, Territory* territory); //Check if list contains a territory.
 	bool hasDuplicates(vector<Territory*> list); //Check if list has any duplicate territories.
 
