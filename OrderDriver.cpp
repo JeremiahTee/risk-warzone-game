@@ -3,58 +3,184 @@
 // Author      : Aryamann Mehra (40127106)
 // Description : Order driver class.
 //============================================================================
-/*
+
 #include "Order.h"
 #include<iostream>
-
+#include "Map.h"
 int main()
 {
-	Order* o1 = new Deploy();
-	Order* o2 = new Advance();
-	Order* o3 = new Bomb();
-	Order* o4 = new Blockade();
-	Order* o5 = new Airlift();
-	Order* o6 = new Negotiate();
-	// Created one of every type of order
+	Player* p1;
+	Player* p2;
 
-	Bomb b = Bomb();
-	b.setValidity(true);//Since orders have not been implemented, here we manually specify that the order is valid so that we can test the general program behaviour.
+	Territory* alabama = new Territory("Alabama");
+	Territory* boston = new Territory("Boston");;
+	Territory* colorado = new Territory("Colorado");
+	Territory* delaware = new Territory("Delaware");
 
-	Order* o7 = &b;
-	// Created an independant order of type bomb (to show it can be casted to Order* type).
-	o1->setValidity(true);
-	o2->setValidity(true);
-	o3->setValidity(true);
-	o5->setValidity(true);
-	//Sets more orders to valid
 
-	OrderList* mo = new OrderList();//Creating the object of OrderList.
-	mo->add(o1);
-	mo->add(o2);
-	mo->add(o3);
-	mo->add(o4);
-	mo->add(o5);
-	mo->add(o6);
-	mo->add(o7);
+	vector<Territory*> t1;
+	vector<Territory*> t2;
 
-	OrderList mo2object = *mo;//Create a deep copy of OrderList mo and store in mo2object
 
-	OrderList* mo2 = &mo2object;//Create a pointer to this new object to use in the driver class, to show the working of deep copy
 
-	std::cout << *mo;//print the contents of the mo list
 
-	std::cout << "\n\n";
-	mo2->move(1, 4);//Move objects in the deep copy of the list
-	std::cout << *mo2;// Shows the changes to the list
-	std::cout << "\n\n";
-	mo2->remove(6);
-	mo2->printlist();//Here the 6th order is removed and the list is printed to show changes
-	std::cout << "\n\n";
-	mo2->executeOrders();//Execute all valid orders in the mo2 list.
-	std::cout << "\n\nThe list will now be printed after executing the orders\n\n";
-	mo2->printlist();
-	std::cout << "\n\nNow showing the original list to show that the original object is unaffected by the changes to copy list.\n\n";
-	std::cout << *mo;//Prints original list
+	t1.push_back(alabama);
+	t1.push_back(boston);
+	t2.push_back(colorado);
+	t2.push_back(delaware);
+
+
+
+	Hand h1 = Hand(); //empty hand, will test P2's hand for features
+	Hand* hand_one = &h1;
+
+	Hand* hand_two = new Hand(1, 2, 3, 4, 5, 6); //valid hand pointer with actual values for P2
+
+	p1 = new Player(t1, hand_one, "Jeremiah");
+	p2 = new Player(t2, hand_two, "Micheal Cera");
+
+	boston->setArmyCount(5);
+	colorado->setArmyCount(5);
+	delaware->setArmyCount(5);
+	alabama->setOwner(p1);
+	boston->setOwner(p1);
+	colorado->setOwner(p2);
+	delaware->setOwner(p2);
+
+	vector<Territory> p1_terr = p1->getTerritories();
+	vector<Territory> p2_terr = p2->getTerritories();
+
+	cout << "------------ GETTER: getTerritories() -------------- \n";
+	cout << "Player 1's territories:\n";
+
+	for (auto it = p1_terr.begin(); it != p1_terr.end(); ++it)
+	{
+		cout << it->getName() << std::endl;
+	}
+
+	cout << "\nPlayer 2's territories:\n";
+
+	for (auto it = p2_terr.begin(); it != p2_terr.end(); ++it)
+	{
+		cout << it->getName() << std::endl;
+	}
+
+	vector<Territory> p1_terr_to_attack = p1->toAttack();
+	vector<Territory> p2_terr_to_defend = p2->toDefend();
+
+
+
+
+
+	cout << "\n------------ Creating Deck in order to test functionalities -------------- \n";
+
+	int spy(1);
+	int bomb(2);
+	int reinforcement(3);
+	int blockade(4);
+	int airlift(5);
+	int diplomacy(6);
+
+	Deck* dp = new Deck(spy, bomb, reinforcement, blockade, airlift, diplomacy); //deck pointer
+
+	for (int i = 0; i < 7; i++)
+	{
+		int cardType(0);
+		cardType = dp->draw(dp);
+		hand_two->addToHand(cardType, hand_two);
+	}
+
+	cout << "\n------------ Printing out Deck in order to test ostream functionality -------------- \n";
+
+	cout << *dp;
+
+	cout << "\n------------ Printing out Hand in order to test ostream functionality -------------- \n";
+
+	cout << *hand_two;
+
+	cout << "\n------------ Printing out Player 2 to show ostream functionality -------------- \n";
+
+
+
+
+	p1->numOfArmies = 5;
+	p2->numOfArmies = 5;
+
+
+	Order* o1 = new Deploy(4, alabama, p1);
+
+	/****		Showing Deploy			**/
+	alabama->setArmyCount(5);
+	std::cout << "Player armies before: " << p1->numOfArmies;
+	std::cout << "\nTerritory armies before: " << alabama->getArmyCount();
+	o1->execute();
+	std::cout << "\nPlayer armies after: " << p1->numOfArmies;
+	std::cout << "\nTerritory armies after : " << alabama->getArmyCount();
+	/****		Showing Deploy			**/
+
+	std::cout << "\n\n\n";
+
+	/****		Showing Airlift			**/
+
+	//NOTE: Ask nora whether Airlift can be used to attack.
+
+	boston->setArmyCount(6);
+
+	Order* o2 = new Airlift(boston, alabama, 4, p1);
+
+	std::cout << "\nBoston armies before: " << boston->getArmyCount();
+	std::cout << "\nAlabama armies before: " << alabama->getArmyCount();
+
+	o2->execute();
+
+
+	std::cout << "\nBoston armies after : " << boston->getArmyCount();
+	std::cout << "\nAlabama armies after : " << alabama->getArmyCount();
+	/****		Showing Airlift			**/
+
+	std::cout << "\n\n\n";
+
+	/****		Showing Bomb			**/
+	Order* o3 = new Bomb(alabama, p2);
+	std::cout << "\nAlabama armies before: " << alabama->getArmyCount();
+
+
+	o3->execute();
+
+	std::cout << "\nAlabama armies after : " << alabama->getArmyCount();
+
+
+	/****		Showing Bomb			**/
+
+	std::cout << "\n\n\n";
+
+	/****		Showing Blockade			**/
+	vector<Territory*> t3;
+	Hand* hand_three = new Hand(1, 2, 3, 4, 5, 6);
+	Player* neutral = new Player(t3, hand_three, "Neutral");
+
+	Order* o4 = new Blockade(boston, p1, neutral);
+	std::cout << "\nBoston armies before: " << boston->getArmyCount();
+	std::cout << "\nBoston owner before: " << boston->getOwner()->name;
+	o4->execute();
+	std::cout << "\nBoston armies before: " << boston->getArmyCount();
+	std::cout << "\nBoston owner before: " << boston->getOwner()->name;
+	/****		Showing Blockade			**/
+
+	std::cout << "\n\n\n";
+
+	/****		Showing Negotiate		****/
+	Order* o5 = new Negotiate(p1, p2);
+	o5->execute();
+	o2->execute();
+	/****		Showing Negotiate		****/
+
+	delete alabama;
+	delete boston;
+	delete colorado;
+	delete delaware;
+
+
+
 	return 0;
 };
-*/
