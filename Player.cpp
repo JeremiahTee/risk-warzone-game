@@ -39,6 +39,10 @@ Player* Player:: operator = (Player& p)
 }
 
 Player::~Player() {
+	for (auto territory : territories) {
+		territory->setOwner(NULL);
+	}
+	
 	delete hand;
 	delete orders;
 }

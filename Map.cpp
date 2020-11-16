@@ -76,16 +76,16 @@ bool Map::validate() {
 }
 
 bool Map::validateTerritoryConnectivity() {
-  vector<Territory*> territoryList = getTerritories();
+	vector<Territory*> territoryList = getTerritories();
 
-  //Checks that there exists a node that is able to reach all nodes.
-  for (auto i : territoryList) {
-    if (!validateNodeConnectivity(i)) {
-      return false;
-    }
-  }
+	//Checks that there exists a node that is able to reach all nodes.
+	for (auto i : territoryList) {
+		if (!validateNodeConnectivity(i)) {
+			return false;
+		}
+	 }
 
-  return true;
+	return true;
 }
 
 bool Map::validateNodeConnectivity(Territory* startingNode) {

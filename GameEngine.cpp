@@ -17,14 +17,9 @@
 namespace fs = std::filesystem;
 using namespace std;
 
-GameEngine::~GameEngine() {
-	delete map;
-	for (auto player : players) {
-		delete player;
-	}
-}
+GameEngine::GameEngine() {
+	cout << "Initializing game engine..." << endl;
 
-void GameEngine::start() {
 	//Create map from file.
 	//string fileName = queryDirectory("");
 	//Map* map = createMap(fileName);
@@ -37,10 +32,17 @@ void GameEngine::start() {
 	//Enable/Disable Observers HERE, ask JT when it is go time.
 }
 
-void GameEngine::startupPhase() {
-	//Shuffle elements in players.
-	cout << "In startup phase now." << endl;
+GameEngine::~GameEngine() {
+	delete map;
+	for (auto player : players) {
+		delete player;
+	}
+}
 
+void GameEngine::startupPhase() {
+	cout << "Running startup phase..." << endl;
+
+	//Shuffle elements in players.
 	auto rng = std::default_random_engine{};
 	std::shuffle(std::begin(players), std::end(players), rng);
 	
