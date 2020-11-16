@@ -77,10 +77,17 @@ Map MapLoader::CombineInfos(vector<Territory>& _continentList, vector<Territory>
 
 	for (int i = 0; i < _countryList.size(); i++)
 	{
-		map.addTerritory(_countryList[i], _bordersList[i]);
+		//HELLO, Max Johnson here. Had to switch hella stuff to pointers in my code, added this loop so i didnt have to do the same to the entire maploader.
+		vector<Territory*> tempList;
+
+		for (auto x : _bordersList[i]) {
+			tempList.push_back(&x);
+		}
+
+		map.addTerritory(&_countryList[i], tempList);
 		currContinentNb = continentNb[i] - 1;
 		Territory continentName = _continentList[currContinentNb];
-		map.registerWithContinent(_continentList[currContinentNb].getName(), _countryList[i]);
+		map.registerWithContinent(_continentList[currContinentNb].getName(), &_countryList[i]);
 	}
 
 	bool validate = false;

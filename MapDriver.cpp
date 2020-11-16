@@ -3,8 +3,8 @@
 // Author      : Maxime Johnson (40081684)
 // Description : Driver class to test out Map and Territory features.
 //============================================================================
+
 /*
-#include "Territory.h"
 #include "Map.h"
 #include <iostream>
 
@@ -12,14 +12,14 @@ using namespace std;
 
 int main() {
 
-	Territory a = Territory("a");
-	Territory b = Territory("b");
-	Territory c = Territory("c");
-	Territory d = Territory("d");
+	Territory* a = new Territory("a");
+	Territory* b = new Territory("b");
+	Territory* c = new Territory("c");
+	Territory* d = new Territory("d");
 
 	Map map = Map();
 
-	vector<Territory> list = {
+	vector<Territory*> list = {
 		b
 	};
 	map.addTerritory("1", a, list);
@@ -46,6 +46,16 @@ int main() {
 	else {
 		cout << "false" << endl;
 	}
+
+	delete a;
+	delete b;
+	delete c;
+	delete d;
+
+	a = NULL;
+	b = NULL;
+	c = NULL;
+	d = NULL;
 
 	return 0;
 }*/

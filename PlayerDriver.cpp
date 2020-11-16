@@ -7,16 +7,21 @@
 //	Maxime Johnson      | 40081684 | 11johnson1111@gmail.com
 //	Marjolaine Roy      | 40098364 | roy.marjolaine@hotmail.com
 //============================================================================
+
 /*
-#include "Territory.h"
+#include "Map.h"
 #include "Player.h"
 #include <ostream>
+#include <ctime>
+#include <process.h>
 
 using std::vector;
 using std::cout;
 
 int main()
 {
+	srand((unsigned) time(NULL) * _getpid());
+	
 	Territory* alabama;
 	Territory* boston;
 	Territory* colorado;
@@ -50,8 +55,8 @@ int main()
 
 	Hand* hand_two = new Hand(1, 2, 3, 4, 5, 6); //valid hand pointer with actual values for P2
 
-	Player p1 = Player(t1, hand_one, "Jeremiah");
-	Player p2 = Player(t2, hand_two, "Micheal Cera");
+	Player p1 = Player(t1, hand_one, rand() % 100);
+	Player p2 = Player(t2, hand_two, rand() % 100);
 
 	vector<Territory> p1_terr = p1.getTerritories();
 	vector<Territory> p2_terr = p2.getTerritories();
@@ -125,7 +130,7 @@ int main()
 
 	cout << p2;
 
-        // Pointer cleanup
+    // Pointer cleanup
 	delete alabama;
 	delete boston;
 	delete colorado;
