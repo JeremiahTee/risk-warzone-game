@@ -31,13 +31,13 @@ int main()
 
 
 
-	Hand h1 = Hand(); //empty hand, will test P2's hand for features
-	Hand* hand_one = &h1;
+	Hand* h1 =new Hand(); //empty hand, will test P2's hand for features
+	Hand* hand_one = h1;
 
 	Hand* hand_two = new Hand(1, 2, 3, 4, 5, 6); //valid hand pointer with actual values for P2
 
-	p1 = new Player(t1, hand_one, "Jeremiah");
-	p2 = new Player(t2, hand_two, "Micheal Cera");
+	p1 = new Player(t1, hand_one, 1);
+	p2 = new Player(t2, hand_two, 2);
 
 	boston->setArmyCount(5);
 	colorado->setArmyCount(5);
@@ -47,26 +47,28 @@ int main()
 	colorado->setOwner(p2);
 	delaware->setOwner(p2);
 
-	vector<Territory> p1_terr = p1->getTerritories();
-	vector<Territory> p2_terr = p2->getTerritories();
+	vector<Territory*> p1_terr = p1->getOwnedTerritories();
+	vector<Territory*> p2_terr = p2->getOwnedTerritories();
 
 	cout << "------------ GETTER: getTerritories() -------------- \n";
 	cout << "Player 1's territories:\n";
 
 	for (auto it = p1_terr.begin(); it != p1_terr.end(); ++it)
 	{
-		cout << it->getName() << std::endl;
+		Territory* thisTerritory = *it;
+		cout << thisTerritory->getName() << std::endl;
 	}
 
 	cout << "\nPlayer 2's territories:\n";
 
 	for (auto it = p2_terr.begin(); it != p2_terr.end(); ++it)
 	{
-		cout << it->getName() << std::endl;
+		Territory* thisTerritory = *it;
+		cout << thisTerritory->getName() << std::endl;
 	}
 
-	vector<Territory> p1_terr_to_attack = p1->toAttack();
-	vector<Territory> p2_terr_to_defend = p2->toDefend();
+	vector<Territory*> p1_terr_to_attack = p1->toAttack();
+	vector<Territory*> p2_terr_to_defend = p2->toDefend();
 
 
 
@@ -92,11 +94,11 @@ int main()
 
 	cout << "\n------------ Printing out Deck in order to test ostream functionality -------------- \n";
 
-	cout << *dp;
+	//cout << *dp;
 
 	cout << "\n------------ Printing out Hand in order to test ostream functionality -------------- \n";
 
-	cout << *hand_two;
+	//cout << *hand_two;
 
 	cout << "\n------------ Printing out Player 2 to show ostream functionality -------------- \n";
 
@@ -157,7 +159,7 @@ int main()
 	/****		Showing Blockade			**/
 	vector<Territory*> t3;
 	Hand* hand_three = new Hand(1, 2, 3, 4, 5, 6);
-	Player* neutral = new Player(t3, hand_three, "Neutral");
+	Player* neutral = new Player(t3, hand_three, -1);
 
 	Order* o4 = new Blockade(boston, p1, neutral);
 	std::cout << "\nBoston armies before: " << boston->getArmyCount();
