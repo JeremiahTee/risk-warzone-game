@@ -159,7 +159,7 @@ void Player::notifyGame(int totalCountries)
 	double percentage = 0.0;
 	if (totalCountries > 0)
 	{
-		percentage = (currentTerritories / totalCountries) * 100;
+		percentage = (static_cast<double>(currentTerritories) / totalCountries) * 100;
 	}
 
 	if (percentage == 100.0)
