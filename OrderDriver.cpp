@@ -13,7 +13,7 @@ int main()
 	Player* p2;
 
 	Territory* alabama = new Territory("Alabama");
-	Territory* boston = new Territory("Boston");;
+	Territory* boston = new Territory("Boston");
 	Territory* colorado = new Territory("Colorado");
 	Territory* delaware = new Territory("Delaware");
 
@@ -31,13 +31,13 @@ int main()
 
 
 
-	Hand h1 = Hand(); //empty hand, will test P2's hand for features
-	Hand* hand_one = &h1;
+	Hand* h1 =new Hand(); //empty hand, will test P2's hand for features
+	Hand* hand_one = h1;
 
 	Hand* hand_two = new Hand(1, 2, 3, 4, 5, 6); //valid hand pointer with actual values for P2
 
-	p1 = new Player(t1, hand_one, "Jeremiah");
-	p2 = new Player(t2, hand_two, "Micheal Cera");
+	p1 = new Player(t1, hand_one, 01);
+	p2 = new Player(t2, hand_two, 02);
 
 	boston->setArmyCount(5);
 	colorado->setArmyCount(5);
@@ -47,26 +47,28 @@ int main()
 	colorado->setOwner(p2);
 	delaware->setOwner(p2);
 
-	vector<Territory> p1_terr = p1->getTerritories();
-	vector<Territory> p2_terr = p2->getTerritories();
+	vector<Territory*> p1_terr = p1->getOwnedTerritories();
+	vector<Territory*> p2_terr = p2->getOwnedTerritories();
 
 	cout << "------------ GETTER: getTerritories() -------------- \n";
-	cout << "Player 1's territories:\n";
+	//cout << "Player 1's territories:\n";
 
-	for (auto it = p1_terr.begin(); it != p1_terr.end(); ++it)
+	/*for (auto it = p1_terr.begin(); it != p1_terr.end(); ++it)
 	{
-		cout << it->getName() << std::endl;
+		Territory* thisTer = it;
+		cout << thisTer->getName() << std::endl;
 	}
 
 	cout << "\nPlayer 2's territories:\n";
 
 	for (auto it = p2_terr.begin(); it != p2_terr.end(); ++it)
 	{
-		cout << it->getName() << std::endl;
+		Territory* thisTer = it;
+		cout << thisTer->getName() << std::endl;
 	}
 
-	vector<Territory> p1_terr_to_attack = p1->toAttack();
-	vector<Territory> p2_terr_to_defend = p2->toDefend();
+	vector<Territory*> p1_terr_to_attack = p1->toAttack();
+	vector<Territory*> p2_terr_to_defend = p2->toDefend();
 
 
 
@@ -92,15 +94,15 @@ int main()
 
 	cout << "\n------------ Printing out Deck in order to test ostream functionality -------------- \n";
 
-	cout << *dp;
+	//cout << *dp;
 
 	cout << "\n------------ Printing out Hand in order to test ostream functionality -------------- \n";
 
-	cout << *hand_two;
+	//cout << *hand_two;
 
 	cout << "\n------------ Printing out Player 2 to show ostream functionality -------------- \n";
 
-
+	*/
 
 
 	p1->numOfArmies = 5;
@@ -111,13 +113,68 @@ int main()
 
 	/****		Showing Deploy			**/
 	alabama->setArmyCount(5);
-	std::cout << "Player armies before: " << p1->numOfArmies;
+	std::cout << "Player1 armies before: " << p1->numOfArmies;
 	std::cout << "\nTerritory armies before: " << alabama->getArmyCount();
 	o1->execute();
-	std::cout << "\nPlayer armies after: " << p1->numOfArmies;
+	std::cout << "\nPlayer1 armies after: " << p1->numOfArmies;
 	std::cout << "\nTerritory armies after : " << alabama->getArmyCount();
 	/****		Showing Deploy			**/
+	std::cout << "\n\n\n";
+	/****		Showing Advance	(DEFENCE)		**/
+	Order* o6 = new Advance(boston,alabama,4,p1);
+	std::cout << "\nBoston armies before: " << boston->getArmyCount();
+	std::cout << "\nAlabama armies before: " << alabama->getArmyCount();
+	o6->execute();
+	std::cout << "\nBoston armies before: " << boston->getArmyCount();
+	std::cout << "\nAlabama armies before: " << alabama->getArmyCount();
+	/****		Showing Advance			**/
+	std::cout << "\n\n\n";
+	cout << "Player 1's territories:\n";
 
+
+
+	vector <Territory*> myvec = p1->getTerritories2();
+	for (auto it = myvec.begin(); it != myvec.end(); ++it)
+	{
+		Territory* thisTer = *it;
+		cout << thisTer->getName() << std::endl;
+	}
+
+	cout << "\nPlayer 2's territories:\n";
+	 myvec = p2->getTerritories2();
+	for (auto it = myvec.begin(); it != myvec.end(); ++it)
+	{
+		Territory* thisTer = *it;
+		cout << thisTer->getName() << std::endl;
+	}
+	std::cout << "\n\n\n";
+
+
+	/****		Showing Advance	(OFFENCE)		**/
+	Order* o7 = new Advance(alabama, colorado, 6, p1);
+	std::cout << "\nAlabama armies before: " << alabama->getArmyCount();
+	std::cout << "\nColorado armies before: " << colorado->getArmyCount()<<endl;
+	o7->execute();
+	std::cout <<" "<<colorado->getOwner()->playerId << "\nArmies left after: " << colorado->getArmyCount() << "\n\n";
+	
+	std::cout << "\Alabama armies after: " << alabama->getArmyCount()<<"\n\n";
+
+
+	myvec = p1->getTerritories2();
+	for (auto it = myvec.begin(); it != myvec.end(); ++it)
+	{
+		Territory* thisTer = *it;
+		cout << thisTer->getName() << std::endl;
+	}
+
+	cout << "\nPlayer 2's territories:\n";
+	myvec = p2->getTerritories2();
+	for (auto it = myvec.begin(); it != myvec.end(); ++it)
+	{
+		Territory* thisTer = *it;
+		cout << thisTer->getName() << std::endl;
+	}
+	/****		Showing Advance			**/
 	std::cout << "\n\n\n";
 
 	/****		Showing Airlift			**/
@@ -157,7 +214,7 @@ int main()
 	/****		Showing Blockade			**/
 	vector<Territory*> t3;
 	Hand* hand_three = new Hand(1, 2, 3, 4, 5, 6);
-	Player* neutral = new Player(t3, hand_three, "Neutral");
+	Player* neutral = new Player(t3, hand_three, -1);
 
 	Order* o4 = new Blockade(boston, p1, neutral);
 	std::cout << "\nBoston armies before: " << boston->getArmyCount();
@@ -172,7 +229,8 @@ int main()
 	/****		Showing Negotiate		****/
 	Order* o5 = new Negotiate(p1, p2);
 	o5->execute();
-	o2->execute();
+	Order* o8 = new Advance(boston, delaware, 1, p1);
+	o8->execute();
 	/****		Showing Negotiate		****/
 
 	delete alabama;

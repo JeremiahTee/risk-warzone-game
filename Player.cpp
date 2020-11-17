@@ -63,7 +63,7 @@ Player::~Player() {
 	delete hand;
 	delete orders;
 }
-vector<Territory*> Player::getTerritories2()
+ vector<Territory*> &Player::getTerritories2()
 {
 	return territories;
 }
@@ -153,7 +153,7 @@ void Player::setOwnedTerritories(vector<Territory*> list) {
 	territories = list;
 }
 
-void Player::notifyGame(int totalCountries)
+/*void Player::notifyGame(int totalCountries)
 {
 	int currentTerritories = getOwnedTerritories().size();
 	double percentage = 0.0;
@@ -171,7 +171,7 @@ void Player::notifyGame(int totalCountries)
 		std::cout << "Player " << playerId << " has " << percentage << "% of territories owned." << std::endl;
 	}
 
-}
+}*/
 
 void printPlayerTable(int phase)
 {
@@ -185,7 +185,7 @@ void printPlayerTable(int phase)
 	}
 }
 
-void Player::notifyPhase(int phase)
+/*void Player::notifyPhase(int phase)
 {
 	switch (phase)
 	{
@@ -196,7 +196,7 @@ void Player::notifyPhase(int phase)
 	case 3: std::cout << "Phase 3" << std::endl;
 		break;
 	}
-}
+}*/
 
 
 //Setup Observer methods stuff here

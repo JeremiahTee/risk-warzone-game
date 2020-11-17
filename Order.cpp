@@ -109,8 +109,12 @@ Advance::Advance(Territory* source1, Territory* target1, int numArmies1, Player*
 bool Advance::validate()
 {
 
-	if ((source->getArmyCount() < numArmies) || (source->getOwner() != p) || (false) || (p->isNegotiated(p, target->getOwner())))//third condition is adjacency of source & neighbour
+	if ((source->getArmyCount() < numArmies) || (source->getOwner() != p) || (source->isNeighbor(source,target,2)) || (p->isNegotiated(p, target->getOwner())))//third condition is adjacency of source & neighbour
 	{
+		if (p->isNegotiated(p, target->getOwner()))
+		{
+			std::cout << "Attack invalid due to active negotiate card.";
+		}
 		return false;
 	};
 	return true;
@@ -126,7 +130,7 @@ void Advance::execute()
 		}
 		else
 		{
-			srand(time(0));
+			srand(time(NULL));
 			int probattack;
 			int probdefend;
 
@@ -153,6 +157,7 @@ void Advance::execute()
 			if (attackingArmies == 0)
 			{
 				target->setArmyCount(defendingArmies);
+				std::cout << "Defender Wins"<<endl;
 			}
 			else
 			{
@@ -170,25 +175,25 @@ void Advance::execute()
 
 					};
 				};*/
-
 				int count = 0;
-
+				vector<Territory*>::iterator looper;
 				vector<Territory*> myvec = defender->getTerritories2();
-				for (auto looper = myvec.begin(); looper != myvec.end(); ++looper)
+				for ( looper = defender->getTerritories2().begin(); looper != defender->getTerritories2().end(); ++looper)
 				{
 
 					if (*looper == target)
 					{
-
+						
 						break;
 					};
-					++count;
+					count++;
 				};
-				defender->getTerritories2().erase(defender->getTerritories2().begin() + count);
+				
+				defender->getTerritories2().erase(looper);
 				target->setOwner(p);
 				p->getTerritories2().push_back(target);
-
-
+				std::cout << "Attacker Wins";
+				p->conqueredOne = true;
 			}
 		}
 
@@ -216,6 +221,10 @@ bool Bomb::validate()
 	{
 		return true;
 	};
+	if (p->isNegotiated(p, target->getOwner()))
+	{
+		std::cout << "Attack invalid due to active negotiate card.";
+	}
 	return false;
 };
 void Bomb::execute()
