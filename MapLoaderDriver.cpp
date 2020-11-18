@@ -3,12 +3,13 @@
 // Author      : Marjolaine Roy (40098364)
 // Description : Map Loader Driver c++ class.
 //============================================================================
-/*
+
+#include "MapLoader.h";
+#include <iostream>
 #include <iostream>
 #include <string>
-#include "Map.h"
-#include "MapLoader.h"
-#include "Territory.h"
+#include "../Assignment1/Map.h"
+#include "../Assignment1/Territory.h"
 
 using namespace std;
 
@@ -16,26 +17,37 @@ bool main() {
 
 	Map map = Map();
 	MapLoader mapLoader = MapLoader();
-
 	string path = {};
 
 	cout << "Enter a file" << endl;
 	cin >> path;
 
-	//Add continents
-	vector<Territory> continentList = mapLoader.GetContinentList();
-	continentList = mapLoader.ReadMapFile(path, continentList);
+	//Check validity
+	bool isValid = mapLoader.CheckValidity(path);
 
-	//Add territories
-	vector<Territory> countryList = mapLoader.GetCountryList();
-	countryList = mapLoader.ReadMapFileForCountries(path, countryList);
+	if (isValid) {
+		std::cout << "Map file is valid." << endl;
 
-	//Add borders
-	vector<vector<Territory>> bordersList = mapLoader.GetBordersList();
-	bordersList = mapLoader.ReadMapFileForBorders(path, bordersList, countryList);
+		//Add continents
+		vector<Territory> continentList = {};
+		continentList = mapLoader.ReadMapFile(path, continentList);
 
-	//Create the map
-	map = mapLoader.CombineInfos(continentList, countryList, bordersList);
-	
+		//Add countries
+		vector<Territory> countryList = {};
+		countryList = mapLoader.ReadMapFileForCountries(path, countryList);
+
+		//Add borders
+		vector<vector<Territory>> bordersList = {};
+		bordersList = mapLoader.ReadMapFileForBorders(path, bordersList, countryList);
+
+		//Create the map
+		if (!continentList.empty() && !countryList.empty() && !bordersList.empty() ) {
+			map = mapLoader.CombineInfos(continentList, countryList, bordersList);
+		}
+	}
+	else {
+		cout << "\nMap file is invalid. Cannot create map." << endl;
+	}
+
 	return 0;
-}*/
+}
