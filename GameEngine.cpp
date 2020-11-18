@@ -18,9 +18,33 @@ vector<Player> Game::turns = {};
 //}
 
 
-void Game::setTurns()
-{
-	
+void GameEngine::gameStartPhase() {
+	cout << "Initializing game engine..." << endl;
+
+	string fileName = queryDirectory("maps");
+	cout << "Loading " + fileName + " from file..." << endl;
+	createMap("maps\\"+fileName);
+
+	cout << "Checking map validity..." << endl;
+	if (map->validate()) {
+		cout << "Map is valid!" << endl;
+	}
+	else {
+		cout << "Map is invalid, terminating..." << endl;
+		validExecution = false;
+	}
+
+	if (validExecution) {
+		cout << "Creating players...";
+		int playerCount = queryPlayerCount();
+		cout << "Creating players..." << endl;
+		players = createPlayers(playerCount);
+
+		deck = new Deck(10, 10, 10, 10, 10, 10);
+
+		//Enable/Disable Observers HERE, ask JT when it is go time.
+	}
+	cout << "\n";
 }
 
 vector<Player>& Game::getPlayerTurns()
