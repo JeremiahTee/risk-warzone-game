@@ -80,7 +80,7 @@ Map MapLoader::CombineInfos(vector<Territory>& _continentList, vector<Territory>
 		map.addTerritory(_countryList[i], _bordersList[i]);
 		currContinentNb = continentNb[i] -1;
 		Territory continentName = _continentList[currContinentNb];
-		map.registerWithContinent(_continentList[currContinentNb].getName(), _countryList[i]);
+		map.registerWithContinent(_continentList[currContinentNb].getName(), &_countryList[i]);
 	}
 
 	bool validate = false;

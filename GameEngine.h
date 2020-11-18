@@ -1,36 +1,23 @@
 #pragma once
-
-#include "GameObservers.h"
-#include "Map.h"
 #include "Cards.h"
-#include "Territory.h"
+#include "Map.h"
 
-class Player; //forward declaration
+class Player;
 
-// Part 1: Game start  ?? might not need a class for this
-class Startup
-{
-	
-};
-
-// Part 2: Game play (game startup phase)
-// Game inherits from Subject as it needs to be observed
-class Game : public Subject
-{
+class GameEngine{
 public:
-	Game(int playerCount, std::string& map);
-	std::vector<Player>& getPlayerTurns();
+	Map* map;
+	vector<Player*> players;
+	bool validExecution;
 
-private:
-	static Map map;
-	Deck gameDeck;
-	std::vector<Player> players;
-	static std::vector<Player> turns;
-	int phase;
-	int totalPlayers;
+	GameEngine();
+	~GameEngine();
+
 	void startupPhase();
-	void setTurns();
-	void setArmies();
-	void setObservers();
-	void setMap();
+	string queryDirectory(string directory);
+	Map* createMap(string path);
+	int queryPlayerCount();
+	vector<Player*> createPlayers(int playerCount);
+	void assignTerritoriesToPlayers(vector<Player*> playerList, vector<Territory*> territoryList);
+	void assignInitialArmies(vector<Player*> playerList);
 };
