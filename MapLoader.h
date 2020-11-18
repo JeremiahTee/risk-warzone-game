@@ -38,5 +38,5 @@ class MapLoader {
 		vector<int> GetContinentNb();
 		vector<int> GetArmiesNb();
 
-		Map CombineInfos(vector<Territory*> _continentList, vector<Territory*> _countryList, vector<vector<Territory*>> _bordersList); //stores all information into map
+		Map* CombineInfos(vector<Territory>& _continentList, vector<Territory>& _countryList, vector<vector<Territory>>& _bordersList); //stores all information into map
 };

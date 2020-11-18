@@ -179,9 +179,8 @@ vector<Territory*> MapLoader::ReadMapFile(string _inputFileStream, vector<Territ
 	}
 	else {
 		cout << "File is not open " << "\n";
+		exit(0);
 	}
-
-
 }
 
 vector<Territory*> MapLoader::ReadMapFileForCountries(string _inputFileStream, vector<Territory*> _countryList) {
@@ -210,7 +209,7 @@ vector<Territory*> MapLoader::ReadMapFileForCountries(string _inputFileStream, v
 				if (territoryName == "[borders]" || territoryName == _countryList.at(_countryList.size() - 1)->getName())
 				{
 					break;
-				};
+				}
 
 				Territory* country = new Territory(territoryName);
 				continentNb.push_back(continent);
@@ -222,9 +221,9 @@ vector<Territory*> MapLoader::ReadMapFileForCountries(string _inputFileStream, v
 		std::cout << "Country list size: " << _countryList.size() << endl;
 		return _countryList;
 	}
-	else {
-		cout << "File is not open " << "\n";
-	}
+
+	cout << "File is not open " << "\n";
+	exit(0);
 }
 
 
@@ -271,7 +270,7 @@ vector<vector<Territory*>> MapLoader::ReadMapFileForBorders(string _inputFileStr
 				if (nList.at(nList.size() - 1)->getName() == nList.at(nList.size() - 2)->getName())
 				{
 					nList.pop_back();
-				};
+				}
 
 				_bordersList.push_back(nList);
 			}
@@ -282,8 +281,8 @@ vector<vector<Territory*>> MapLoader::ReadMapFileForBorders(string _inputFileStr
 		std::cout << "Borders list size: " << _bordersList.size() << endl;
 		return _bordersList;
 	}
-	else {
-		std::cout << "File is not open " << "\n";
-	}
+
+	cout << "File is not open " << "\n";
+	exit(0);
 }
 

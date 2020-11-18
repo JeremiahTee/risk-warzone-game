@@ -188,7 +188,7 @@ Territory* Map::getTerritory(string territoryName) {
       }
     }
   } else {
-    return &Territory("N/A");
+    return new Territory("N/A");
   }
 }
 
@@ -225,7 +225,20 @@ unordered_map<string, vector<Territory*>> Map::getTerritoryNeighborMap() {
 void Map::setTerritoryNeighborsMap(unordered_map<string, vector<Territory*>> map) {
 	territoryNeighbors = map;
 }
+bool Territory::isNeighbor(Territory* t1, Territory* t2, int n)
+{
+	
+		if (n == 1)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	
 
+}
 
 
 vector<string> Map::getContinents() {

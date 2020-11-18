@@ -31,6 +31,23 @@ Player::Player(const Player& p)
 	territories = p.territories;
 	hand = p.hand;
 }
+bool Player::isNegotiated(Player* p1, Player* p2)
+{
+	vector<Player*> myvec = p1->negotiated;
+	vector<Player*>::iterator it = myvec.begin();
+	for (it = myvec.begin(); it != myvec.end(); ++it)
+	{
+
+
+		if (*it == p2)
+		{
+			return true;
+		};
+		
+
+	};
+	return false;
+}
 
 //assignment operator overloading
 Player* Player:: operator = (Player& p)
@@ -46,8 +63,10 @@ Player::~Player() {
 	delete hand;
 	delete orders;
 }
-
-
+ vector<Territory*> &Player::getTerritories2()
+{
+	return territories;
+}
 //Shuffles the player's territories and removes the last two if the size is greater than 2
 vector<Territory*> Player::toDefend()
 {
@@ -84,7 +103,7 @@ vector<Territory*> Player::toAttack()
 }
 
 //Issues a Bomb order and adds it to the Player's list of orders
-void Player::issueOrder()
+/*void Player::issueOrder()
 {
 	Order* order = new Bomb();
 	if (order != nullptr)
@@ -94,7 +113,7 @@ void Player::issueOrder()
 		//Print the list to verify that order is indeed in the list
 		orders->printlist();
 	}
-}
+}*/
 
 //Returns the hand if it has a valid pointer to it
 Hand* Player::getHand()
@@ -134,13 +153,13 @@ void Player::setOwnedTerritories(vector<Territory*> list) {
 	territories = list;
 }
 
-void Player::notifyGame(int totalCountries)
+/*void Player::notifyGame(int totalCountries)
 {
 	int currentTerritories = getOwnedTerritories().size();
 	double percentage = 0.0;
 	if (totalCountries > 0)
 	{
-		percentage = (currentTerritories / totalCountries) * 100;
+		percentage = (static_cast<double>(currentTerritories) / totalCountries) * 100;
 	}
 
 	if (percentage == 100.0)
@@ -152,7 +171,7 @@ void Player::notifyGame(int totalCountries)
 		std::cout << "Player " << playerId << " has " << percentage << "% of territories owned." << std::endl;
 	}
 
-}
+}*/
 
 void printPlayerTable(int phase)
 {
@@ -166,7 +185,7 @@ void printPlayerTable(int phase)
 	}
 }
 
-void Player::notifyPhase(int phase)
+/*void Player::notifyPhase(int phase)
 {
 	switch (phase)
 	{
@@ -177,7 +196,7 @@ void Player::notifyPhase(int phase)
 	case 3: std::cout << "Phase 3" << std::endl;
 		break;
 	}
-}
+}*/
 
 
 //Setup Observer methods stuff here
