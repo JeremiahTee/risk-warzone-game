@@ -8,7 +8,7 @@
 #include <process.h>
 #include <iostream>
 #include <filesystem>
-#include <vector>;
+#include <vector>
 
 #include <algorithm>
 #include <random>
@@ -19,32 +19,6 @@ using namespace std;
 
 GameEngine::GameEngine() {
 	validExecution = true;
-
-	cout << "Initializing game engine..." << endl;
-	//Create map from file.
-	//string fileName = queryDirectory("");
-	//Map* map = createMap(fileName);
-	map = Map::getTestMap(); //UNCOMMENT ABOVE WHEN MAPLOADER IS FIXED.
-
-	cout << "Checking map validity..." << endl;
-	if (map->validate()) {
-		cout << "Map is valid!" << endl;
-	}
-	else {
-		cout << "Map is invalid, terminating..." << endl;
-		validExecution = false;
-		return;
-	}
-
-	cout << "Creating players...";;
-	//Create number of players from count.
-	int playerCount = queryPlayerCount();
-	cout << "Creating players..." << endl;
-	vector<Player*> players = createPlayers(playerCount);
-
-	//Enable/Disable Observers HERE, ask JT when it is go time.
-
-	cout << "\n";
 }
 
 GameEngine::~GameEngine() {
@@ -54,41 +28,72 @@ GameEngine::~GameEngine() {
 	}
 }
 
+void GameEngine::gameStartPhase() {
+	cout << "Initializing game engine..." << endl;
+	//Create map from file.
+	string fileName = queryDirectory("maps");
+	cout << "Loading " + fileName + " from file..." << endl;
+	//map = createMap("maps\\"+fileName);
+	map = Map::getTestMap(); //UNCOMMENT ABOVE WHEN MAPLOADER IS FIXED.
+
+	cout << "Checking map validity..." << endl;
+	if (map->validate()) {
+		cout << "Map is valid!" << endl;
+	}
+	else {
+		cout << "Map is invalid, terminating..." << endl;
+		validExecution = false;
+	}
+
+	if (validExecution) {
+		cout << "Creating players...";
+		int playerCount = queryPlayerCount();
+		cout << "Creating players..." << endl;
+		players = createPlayers(playerCount);
+
+		deck = new Deck(10, 10, 10, 10, 10, 10);
+
+		//Enable/Disable Observers HERE, ask JT when it is go time.
+	}
+	cout << "\n";
+}
+
 void GameEngine::startupPhase() {
 	if (!validExecution) {
 		cout << "Execution invalid, cancelling startup phase..." << endl;
-		return;
 	}
+	else {
 
-	cout << "Running startup phase..." << endl;
+		cout << "Running startup phase..." << endl;
 
-	//Shuffle elements in players.
-	cout << "Shuffling player list..." << endl;
-	auto rng = std::default_random_engine{};
-	std::shuffle(std::begin(players), std::end(players), rng);
-	
-	//Assign all territories to players.
-	cout << "Assigning territories to players..." << endl;
-	vector<Territory*> toAssign = map->getTerritories();
-	assignTerritoriesToPlayers(players, toAssign);
+		//Shuffle elements in players.
+		cout << "Shuffling player list..." << endl;
+		auto rng = std::default_random_engine{};
+		std::shuffle(std::begin(players), std::end(players), rng);
 
-	//Assign initial army counts.
-	cout << "Assigning initial armies..." << endl;
-	assignInitialArmies(players);
+		//Assign all territories to players.
+		cout << "Assigning territories to players..." << endl;
+		vector<Territory*> toAssign = map->getTerritories();
+		assignTerritoriesToPlayers(players, toAssign);
+
+		//Assign initial army counts.
+		cout << "Assigning initial armies..." << endl;
+		assignInitialArmies(players);
+	}
 }
 
 string GameEngine::queryDirectory(string directory) {
 	vector<string> namelist;
-	cout << "Directories:" << endl;
+	cout << "Files names:" << endl;
 	try
 	{
 		for (const auto& entry : fs::directory_iterator(directory)) {
-			cout << entry.path() << endl;
+			cout << entry.path().filename() << endl;
 		}
 	}
 	catch (exception& e)
 	{
-		cout << "Unable to display file contents." << endl;
+		cout << "Unable to display file contents..." << endl;
 	}
 	
 

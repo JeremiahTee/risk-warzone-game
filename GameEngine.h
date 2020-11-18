@@ -8,11 +8,13 @@ class GameEngine{
 public:
 	Map* map;
 	vector<Player*> players;
+	Deck* deck;
 	bool validExecution;
 
 	GameEngine();
 	~GameEngine();
 
+	void gameStartPhase();
 	void startupPhase();
 	string queryDirectory(string directory);
 	Map* createMap(string path);
