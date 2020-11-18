@@ -1,4 +1,4 @@
-#include "GameEngine.h"
+/*#include "GameEngine.h"
 
 int main() { //This is the main driver
 	GameEngine* g = new GameEngine();
@@ -8,4 +8,4 @@ int main() { //This is the main driver
 
 	delete g;
 	return 0;
-}
+}*/

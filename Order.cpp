@@ -83,7 +83,7 @@ void Order::setValidity(bool s)
 	isvalid = s;
 };
 
-Advance::Advance(Territory* source1, Territory* target1, int numArmies1, Player* p1) //: Order("Advance", "move some armies from one of the current player's territories (source) to an adjacent territory (target).If the target territory belongs to the current player, the armies are moved to the target territory.If the target territory belongs to another player, an attack happens between the two territories. ")
+Advance::Advance(Territory* source1, Territory* target1, int numArmies1, Player* p1) : Order("Advance", "move some armies from one of the current player's territories (source) to an adjacent territory (target).If the target territory belongs to the current player, the armies are moved to the target territory.If the target territory belongs to another player, an attack happens between the two territories. ")
 {
 
 	source = source1;
@@ -198,7 +198,7 @@ void Advance::execute()
 
 
 
-Bomb::Bomb(Territory* target1, Player* p1) //: Order("Bomb", "destroy half of the armies located on an opponent's territory that is adjacent to one of the current player’s territories.")
+Bomb::Bomb(Territory* target1, Player* p1) : Order("Bomb", "destroy half of the armies located on an opponent's territory that is adjacent to one of the current player’s territories.")
 {
 	target = target1;
 	p = p1;
@@ -236,13 +236,13 @@ Bomb* Bomb::getNew()
 };
 
 
-Blockade::Blockade(Territory* target1, Player* p1, Player* neutral1) //: Order("Blockade", "triple the number of armies on one of the current player's territories and make it a neutral territory.")
+Blockade::Blockade(Territory* target1, Player* p1, Player* neutral1) : Order("Blockade", "triple the number of armies on one of the current player's territories and make it a neutral territory.")
 {
 	target = target1;
 	p = p1;
 	neutral = neutral1;
 };
-Blockade::Blockade(const Blockade& bl) //: Order(bl.name, bl.description)
+Blockade::Blockade(const Blockade& bl) : Order("Blockade", "Blockade Order ")
 {
 
 };
@@ -465,6 +465,11 @@ OrderList::~OrderList() {
 	for (auto order : orders) {
 		delete order;
 	}
+}
+
+std::list<Order*> OrderList::getOrders()
+{
+	return orders;
 }
 
 ostream& operator<<(ostream& os, OrderList& olist)
