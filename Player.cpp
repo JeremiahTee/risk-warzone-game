@@ -159,7 +159,7 @@ void Player::setOwnedTerritories(vector<Territory*> list) {
 	double percentage = 0.0;
 	if (totalCountries > 0)
 	{
-		percentage = (static_cast<double>(currentTerritories) / totalCountries) * 100;
+		percentage = (currentTerritories / totalCountries) * 100;
 	}
 
 	if (percentage == 100.0)

@@ -8,16 +8,13 @@ class GameEngine{
 public:
 	Map* map;
 	vector<Player*> players;
-	Deck* deck;
-	bool validExecution;
 
 	GameEngine();
 	~GameEngine();
 
-	void gameStartPhase();
 	void startupPhase();
 	string queryDirectory(string directory);
-	void createMap(string path);
+	Map* createMap(string path);
 	int queryPlayerCount();
 	vector<Player*> createPlayers(int playerCount);
 	void assignTerritoriesToPlayers(vector<Player*> playerList, vector<Territory*> territoryList);

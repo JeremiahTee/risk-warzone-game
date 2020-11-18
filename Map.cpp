@@ -66,12 +66,9 @@ Map::Map(const Map& map) {
 }
 
 Map::~Map() {
-	cout << "Destructing" << endl;
-	/*
 	for (auto territory : territories) {
 		delete territory;
 	}
-	*/
 }
 
 bool Map::validate() {
@@ -186,7 +183,7 @@ Territory* Map::getTerritory(string territoryName) {
       }
     }
   } else {
-    return new Territory("N/A");
+    return &Territory("N/A");
   }
 }
 
@@ -209,9 +206,9 @@ void Map::addTerritory(Territory* territory, vector<Territory*> neighborList) {
 	territoryNeighbors[territory->getName()] = neighborList;
 }
 
-void Map::addTerritory(string continent, int bonusArmyCount, Territory* territory, vector<Territory*> neighborList) {
+void Map::addTerritory(string continent, Territory* territory, vector<Territory*> neighborList) {
 	addTerritory(territory, neighborList);
-	registerWithContinent(continent, bonusArmyCount, territory);
+	registerWithContinent(continent, territory);
 }
 
 
@@ -225,14 +222,17 @@ void Map::setTerritoryNeighborsMap(unordered_map<string, vector<Territory*>> map
 }
 bool Territory::isNeighbor(Territory* t1, Territory* t2, int n)
 {
-	if (n == 1)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	
+		if (n == 1)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	
+
 }
 
 
@@ -248,9 +248,8 @@ unordered_map<string, vector<Territory*>> Map::getContinentMap() {
 	return continents;
 }
 
-void Map::registerWithContinent(string continent, int bonusArmyCount, Territory* territory) {
+void Map::registerWithContinent(string continent, Territory* territory) {
 	continents[continent].push_back(territory);
-	continentArmies[continent] = bonusArmyCount;
 }
 
 void Map::assignTerritory(Player* player, Territory* territory) {
@@ -271,23 +270,23 @@ Map* Map::getTestMap() {
 	vector<Territory*> list = {
 		b
 	};
-	map->addTerritory("1", 1, a, list);
+	map->addTerritory("1", a, list);
 
 	list = {
 		c
 	};
-	map->addTerritory("1", 1, b, list);
+	map->addTerritory("1", b, list);
 
 	list = {
 		b,d
 	};
-	map->addTerritory("2", 1, c, list);
+	map->addTerritory("2", c, list);
 
 	list = {
 		c,
 		a
 	};
-	map->addTerritory("2", 1, d, list);
+	map->addTerritory("2", d, list);
 
 	return map;
 }

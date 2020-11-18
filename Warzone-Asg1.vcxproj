@@ -142,7 +142,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Cards.h" />
-    <ClInclude Include="GameEngine.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MapLoader.h" />
     <ClInclude Include="GameObservers.h" />
@@ -152,7 +151,6 @@
   <ItemGroup>
     <ClCompile Include="Cards.cpp" />
     <ClCompile Include="CardsDriver.cpp" />
-    <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="GameObservers.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapDriver.cpp" />
@@ -162,7 +160,6 @@
     <ClCompile Include="Order.cpp" />
     <ClCompile Include="OrderDriver.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="google.map" />
