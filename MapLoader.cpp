@@ -77,8 +77,14 @@ Map MapLoader::CombineInfos(vector<Territory>& _continentList, vector<Territory>
 
 	for (int i = 0; i < _countryList.size(); i++)
 	{
-		map.addTerritory(_countryList[i], _bordersList[i]);
-		currContinentNb = continentNb[i] -1;
+		vector<Territory*> tempList;
+
+		for (auto x : _bordersList[i]) {
+			tempList.push_back(&x);
+		}
+
+		map.addTerritory(&_countryList[i], tempList);
+		currContinentNb = continentNb[i] - 1;
 		Territory continentName = _continentList[currContinentNb];
 		map.registerWithContinent(_continentList[currContinentNb].getName(), &_countryList[i]);
 	}
