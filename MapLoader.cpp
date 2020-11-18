@@ -82,16 +82,7 @@ Map MapLoader::CombineInfos(vector<string>& _continentList, vector<Territory>& _
 		Territory continentName = _continentList[currContinentNb];
 		map.registerWithContinent(_continentList[currContinentNb], _countryList[i]);
 	}
-
-	bool validate = false;
-	validate = map.validate();
-	if(map.validate() == true)
-		cout << "\nMap is valid" << endl;
-	else {
-
-		cout << "\nMap is not valid" << endl;
-	}
-
+	cout << endl;
 	return map;
 }
 
