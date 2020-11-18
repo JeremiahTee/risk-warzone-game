@@ -198,6 +198,7 @@ void GameEngine::assignInitialArmies(vector<Player*> playerList) {
 		player->mapPlayed = map;
 		Hand* playerHand = player->getHand();
 		player->numOfArmies = armyCount;
+		player->gameDeck = deck;
 	}
 	
 }
@@ -221,9 +222,11 @@ void GameEngine::reinforcementPhase()
 		p->numOfArmies = floor(myvec.size() / 3);
 		bool owns;
 		int continentbonus = 4;//need to get this property from map/maploader for each continent
-		for (auto it = map->getContinentMap().begin();it != map->getContinentMap().end();++it)
+		std::cout << "HI";
+		for (auto& it  :map->getContinentMap())
 		{
-			owns = map->checkContinentOwnership(p, it->second);
+			std::cout << "HI2";
+			owns = map->checkContinentOwnership(p, it.second);
 			if (owns)
 			{
 				p->numOfArmies += continentbonus;
@@ -278,6 +281,7 @@ void GameEngine::orderExecutionPhase()
 					{
 						orderit->execute();
 						allDone = false;
+						
 						break;
 					}
 				}

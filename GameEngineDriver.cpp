@@ -5,6 +5,6 @@ int main()
 	
 	g.gameStartPhase();
 	g.startupPhase();
-	
+	g.mainGameLoop();
 
 }
