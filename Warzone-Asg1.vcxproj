@@ -153,6 +153,7 @@
     <ClCompile Include="Cards.cpp" />
     <ClCompile Include="CardsDriver.cpp" />
     <ClCompile Include="GameEngine.cpp" />
+    <ClCompile Include="GameEngineDriver.cpp" />
     <ClCompile Include="GameObservers.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapDriver.cpp" />

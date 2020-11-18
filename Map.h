@@ -45,7 +45,7 @@ public:
 class Map
 {
 private:
-	
+	vector<Territory*> territories;
 	unordered_map<string, vector<Territory*>> territoryNeighbors;
 	unordered_map<string, vector<Territory*>> continents;
 	unordered_map<string, int> continentArmies;
