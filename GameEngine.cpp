@@ -34,7 +34,6 @@ void GameEngine::gameStartPhase() {
 	string fileName = queryDirectory("maps");
 	cout << "Loading " + fileName + " from file..." << endl;
 	createMap("maps\\"+fileName);
-	//map = Map::getTestMap(); //UNCOMMENT ABOVE WHEN MAPLOADER IS FIXED.
 
 	cout << "Checking map validity..." << endl;
 	if (map->validate()) {
