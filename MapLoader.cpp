@@ -31,10 +31,10 @@ void MapLoader::ShowBorders(vector<vector<Territory>> _bordersList) {
 	}
 }
 
-void MapLoader::ShowContinents(vector<Territory> _continentList) {
+void MapLoader::ShowContinents(vector<string> _continentList) {
 
 	Territory currentContinent;
-	vector<Territory> cL = _continentList;
+	vector<string> cL = _continentList;
 
 	for (int i = 0; i < cL.size(); i++) {
 		currentContinent = cL.at(i);
@@ -42,7 +42,7 @@ void MapLoader::ShowContinents(vector<Territory> _continentList) {
 	}
 }
 
-vector<Territory> MapLoader::GetContinentList()
+vector<string> MapLoader::GetContinentList()
 {
 	return continentList;
 }
@@ -68,7 +68,7 @@ vector<int> MapLoader::GetArmiesNb()
 }
 
 
-Map MapLoader::CombineInfos(vector<Territory>& _continentList, vector<Territory>& _countryList, vector<vector<Territory>>& _bordersList)
+Map MapLoader::CombineInfos(vector<string>& _continentList, vector<Territory>& _countryList, vector<vector<Territory>>& _bordersList)
 {
 
 	Territory currentT;
@@ -80,7 +80,7 @@ Map MapLoader::CombineInfos(vector<Territory>& _continentList, vector<Territory>
 		map.addTerritory(_countryList[i], _bordersList[i]);
 		currContinentNb = continentNb[i] -1;
 		Territory continentName = _continentList[currContinentNb];
-		map.registerWithContinent(_continentList[currContinentNb].getName(), _countryList[i]);
+		map.registerWithContinent(_continentList[currContinentNb], _countryList[i]);
 	}
 
 	bool validate = false;
@@ -132,8 +132,6 @@ bool MapLoader::CheckValidity(string _inputFileStream) {
 		if (line == "[borders]") {
 			hasBorders = true;
 		}
-
-	
 	}
 
 	if (hasContinents && hasBorders && hasCountries && hasFiles)
@@ -145,7 +143,7 @@ bool MapLoader::CheckValidity(string _inputFileStream) {
 	return isValid;
 }
 
-vector<Territory> MapLoader::ReadMapFile(string _inputFileStream, vector<Territory>& _continentList) {
+vector<string> MapLoader::ReadMapFile(string _inputFileStream, vector<string>& _continentList) {
 	cout << "\nREGISTERING CONTINENTS" << endl;
 	string line;
 	ifstream inputFileStream(_inputFileStream);
@@ -163,7 +161,7 @@ vector<Territory> MapLoader::ReadMapFile(string _inputFileStream, vector<Territo
 
 			//first line
 			inputFileStream >> continentName >> armies >> color;
-			Territory continent = Territory(continentName);
+			string continent = string(continentName);
 			armiesNb.push_back(armies);
 			_continentList.push_back(continent);
 
@@ -174,7 +172,7 @@ vector<Territory> MapLoader::ReadMapFile(string _inputFileStream, vector<Territo
 				{
 					break;
 				};
-				Territory continent = Territory(continentName);
+				string continent = string(continentName);
 				armiesNb.push_back(armies);
 				_continentList.push_back(continent);
  			}
@@ -225,6 +223,7 @@ vector<Territory> MapLoader::ReadMapFileForCountries(string _inputFileStream, ve
 			}
 
 		inputFileStream.close();
+
 		std::cout << "Country list size: " << _countryList.size() << endl;
 		return _countryList;
 	}

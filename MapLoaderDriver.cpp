@@ -29,7 +29,7 @@ bool main() {
 		std::cout << "Map file is valid." << endl;
 
 		//Add continents
-		vector<Territory> continentList = {};
+		vector<string> continentList = {};
 		continentList = mapLoader.ReadMapFile(path, continentList);
 
 		//Add countries
