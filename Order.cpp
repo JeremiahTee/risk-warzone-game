@@ -1,6 +1,5 @@
 ﻿#include "Order.h"
 #include <iostream>
-#include <stdio.h> 
 #include <stdlib.h> 
 #include<time.h> 
 #include <vector> 
@@ -21,11 +20,6 @@ Order::Order()
 {
 
 }
-
-
-
-
-
 
 Deploy::Deploy(int numArmies1, Territory* t1, Player* p1) : Order("Deploy", "place some armies on one of the current player's territories. ")
 {

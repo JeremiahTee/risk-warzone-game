@@ -3,7 +3,7 @@
 // Author      : Jeremiah Tiongson (40055477)
 // Description : Observer & Subject implementations
 //============================================================================
-/*
+
 #include "GameObservers.h"
 #include <iostream>
 
@@ -59,7 +59,3 @@ void Subject::setTerritoriesCount(int terrCount)
 {
 	this->territories = terrCount;
 }
-
-
-
-*/
