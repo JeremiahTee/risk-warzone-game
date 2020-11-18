@@ -66,9 +66,12 @@ Map::Map(const Map& map) {
 }
 
 Map::~Map() {
+	cout << "Destructing" << endl;
+	/*
 	for (auto territory : territories) {
 		delete territory;
 	}
+	*/
 }
 
 bool Map::validate() {
@@ -77,6 +80,8 @@ bool Map::validate() {
 
 bool Map::validateTerritoryConnectivity() {
 	vector<Territory*> territoryList = getTerritories();
+
+	cout << territoryList.size() << endl;
 
 	//Checks that there exists a node that is able to reach all nodes.
 	for (auto i : territoryList) {

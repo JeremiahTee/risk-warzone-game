@@ -30,11 +30,11 @@ GameEngine::~GameEngine() {
 
 void GameEngine::gameStartPhase() {
 	cout << "Initializing game engine..." << endl;
-	//Create map from file.
+
 	string fileName = queryDirectory("maps");
 	cout << "Loading " + fileName + " from file..." << endl;
-	//map = createMap("maps\\"+fileName);
-	map = Map::getTestMap(); //UNCOMMENT ABOVE WHEN MAPLOADER IS FIXED.
+	createMap("maps\\"+fileName);
+	//map = Map::getTestMap(); //UNCOMMENT ABOVE WHEN MAPLOADER IS FIXED.
 
 	cout << "Checking map validity..." << endl;
 	if (map->validate()) {
@@ -95,7 +95,6 @@ string GameEngine::queryDirectory(string directory) {
 	{
 		cout << "Unable to display file contents..." << endl;
 	}
-	
 
 	cout << "\n";
 
@@ -109,23 +108,25 @@ string GameEngine::queryDirectory(string directory) {
 	return path;
 }
 
-Map* GameEngine::createMap(string path) {
+void GameEngine::createMap(string path) {
 	MapLoader mapLoader = MapLoader();
-
+	
 	//Add continents
-	vector<Territory> continentList = mapLoader.GetContinentList();
+	vector<Territory*> continentList = mapLoader.GetContinentList();
 	continentList = mapLoader.ReadMapFile(path, continentList);
 
 	//Add territories
-	vector<Territory> countryList = mapLoader.GetCountryList();
+	vector<Territory*> countryList = mapLoader.GetCountryList();
 	countryList = mapLoader.ReadMapFileForCountries(path, countryList);
 
 	//Add borders
-	vector<vector<Territory>> bordersList = mapLoader.GetBordersList();
+	vector<vector<Territory*>> bordersList = mapLoader.GetBordersList();
 	bordersList = mapLoader.ReadMapFileForBorders(path, bordersList, countryList);
 
 	//Create the map
-	return &mapLoader.CombineInfos(continentList, countryList, bordersList);
+	map = &mapLoader.CombineInfos(continentList, countryList, bordersList);
+
+	//return map;
 }
 
 int GameEngine::queryPlayerCount() {

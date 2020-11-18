@@ -17,7 +17,7 @@ public:
 	void gameStartPhase();
 	void startupPhase();
 	string queryDirectory(string directory);
-	Map* createMap(string path);
+	void createMap(string path);
 	int queryPlayerCount();
 	vector<Player*> createPlayers(int playerCount);
 	void assignTerritoriesToPlayers(vector<Player*> playerList, vector<Territory*> territoryList);
