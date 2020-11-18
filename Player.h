@@ -9,7 +9,7 @@
 
 class Territory; //forward declaration to avoid compilation errors
 
-#include "Map.h"
+#include "Territory.h"
 #include "Order.h"
 #include "Cards.h"
 #include <vector>
@@ -24,28 +24,20 @@ private:
 	vector<Territory*> territories;
 	Hand* hand;
 	OrderList* orders;
-
-public:
 	int playerId = 0;
-
+	
+public:
 	Player() = default;
 	Player(vector<Territory*> territories, Hand* hand, int id);
-	Player(const Player& o);
-	~Player();
-
-	virtual Player* getNew();
-	
-	Hand* getHand();
-	OrderList* getOrderList();
-	vector<Territory*> getOwnedTerritories();
-	void setOwnedTerritories(vector<Territory*> list);
-
-	vector<Territory*> toDefend();
-	vector<Territory*> toAttack();
-	
+	vector<Territory> getTerritories();
+	vector<Territory> toDefend();
+	vector<Territory> toAttack();
+	Hand getHand();
 	void issueOrder();
-	
+	int getPlayerID();
 	Player* operator = (Player& o);
+	Player(const Player& o);
+	virtual Player* getNew();
 	friend ostream& operator << (ostream& out, const Player& p);
 
 	//Observer pattern

@@ -17,7 +17,7 @@ private:
     int airlift; //Card Type 4
     int diplomacy; //Card Type 5 //Not Order
 public:
-    //friend ostream& operator<<(ostream& os, Deck& d);
+    friend ostream& operator<<(ostream& os, Deck& d);
     Deck* operator= (Deck& d);
     Deck(const Deck& deck);
     Deck(int, int, int, int, int, int);
@@ -48,7 +48,7 @@ private:
     int airlift;        // Card Type 4
     int diplomacy;      // Card Type 5
 public:
-    //friend ostream& operator<<(ostream& os, Hand& h);
+    friend ostream& operator<<(ostream& os, Hand& h);
     Hand* operator= (Hand& h);
     Hand() = default;
     Hand(const Hand& deck);

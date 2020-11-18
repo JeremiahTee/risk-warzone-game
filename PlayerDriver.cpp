@@ -8,8 +8,7 @@
 //	Marjolaine Roy      | 40098364 | roy.marjolaine@hotmail.com
 //============================================================================
 
-/*
-#include "Map.h"
+#include "Territory.h"
 #include "Player.h"
 #include <ostream>
 #include <ctime>
@@ -142,4 +141,4 @@ int main()
 	delete hand_two;
 	
 	return 0;
-}*/
+}
