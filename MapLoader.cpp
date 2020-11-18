@@ -68,16 +68,16 @@ vector<int> MapLoader::GetArmiesNb()
 }
 
 
-Map MapLoader::CombineInfos(vector<Territory*> _continentList, vector<Territory*> _countryList, vector<vector<Territory*>> _bordersList)
+Map* MapLoader::CombineInfos(vector<Territory*> _continentList, vector<Territory*> _countryList, vector<vector<Territory*>> _bordersList)
 {
-	Map map;
+	Map* map = new Map();
 	int currContinentNb;
 
 	for (int i = 0; i < _countryList.size(); i++)
 	{
-		map.addTerritory(_countryList[i], _bordersList[i]);
+		map->addTerritory(_countryList[i], _bordersList[i]);
 		currContinentNb = continentNb[i] - 1;
-		map.registerWithContinent(_continentList[currContinentNb]->getName(), _countryList[i]);
+		map->registerWithContinent(_continentList[currContinentNb]->getName(), _countryList[i]->getArmyCount(), _countryList[i]); //This can be changed to something else.
 	}
 
 	cout << "!" << endl;

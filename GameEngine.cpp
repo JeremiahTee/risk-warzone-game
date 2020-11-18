@@ -125,7 +125,7 @@ void GameEngine::createMap(string path) {
 
 	//Create the map
 
-	return mapLoader.CombineInfos(continentList, countryList, bordersList);
+	map = mapLoader.CombineInfos(continentList, countryList, bordersList);
 }
 
 int GameEngine::queryPlayerCount() {
