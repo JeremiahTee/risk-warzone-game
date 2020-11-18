@@ -109,31 +109,31 @@ int Deck::draw(Deck* d)
 };
 
 //add card to the deck
-void Deck::addToDeck(int i, Deck* d)
+void Deck::addToDeck(int i)
 {
     if (i == 0)
     {
-        d->setSpy(d->getSpy() + 1);
+        setSpy(getSpy() + 1);
     }
     else if (i == 1)
     {
-        d->setBomb(d->getBomb() + 1);
+       setBomb(getBomb() + 1);
     }
     else if (i == 2)
     {
-        d->setReinforcement(d->getReinforcement() + 1);
+        setReinforcement(getReinforcement() + 1);
     }
     else if (i == 3)
     {
-        d->setBlockade(d->getBlockade() + 1);
+        setBlockade(getBlockade() + 1);
     }
     else if (i == 4)
     {
-        d->setAirlift(d->getAirlift() + 1);
+        setAirlift(getAirlift() + 1);
     }
     else if (i == 5)
     {
-        d->setDiplomacy(d->getDiplomacy() + 1);
+        setDiplomacy(getDiplomacy() + 1);
     }
 };
 
@@ -246,32 +246,32 @@ Hand::Hand(int s, int bo, int r, int bl, int a, int d)
 };
 
 //Create Order of card type, add order to orderlist and remove card from hand
-void Hand::play(int cardType, Hand* h)
+void Hand::play(int cardType)
 {
     switch (cardType)
     {
     case 0:
-        h->setSpy(h->getSpy() - 1);
+       setSpy(getSpy() - 1);
         cout << "A Spy card has been played and removed from your hand." << endl;
         break;
     case 1:
-        h->setBomb(h->getBomb() - 1);
+        setBomb(getBomb() - 1);
         cout << "A Bomb card has been played and removed from your hand." << endl;
         break;
     case 2:
-        h->setReinforcement(h->getReinforcement() - 1);
+        setReinforcement(getReinforcement() - 1);
         cout << "A Reinforcement card has been played and removed from your hand." << endl;
         break;
     case 3:
-        h->setBlockade(h->getBlockade() - 1);
+        setBlockade(getBlockade() - 1);
         cout << "A Blockade card has been played and removed from your hand." << endl;
         break;
     case 4:
-        h->setAirlift(h->getAirlift() - 1);
+       setAirlift(getAirlift() - 1);
         cout << "A Airlift card has been played and removed from your hand." << endl;
         break;
     case 5:
-        h->setDiplomacy(h->getDiplomacy() - 1);
+        setDiplomacy(getDiplomacy() - 1);
         cout << "A Diplomacy card has been played and removed from your hand." << endl;
         break;
     }

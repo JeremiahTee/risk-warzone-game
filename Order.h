@@ -15,9 +15,9 @@ class Order
 protected:
 	/*Since not much is known about the execution of every order, the name and description is what is stored every order, along with whether or not it has
 	been executed. These properties are common to all orders and hence they're stored in the base class.*/
-	std::string name;
+	
 	std::string description;
-	bool executed;
+	
 	bool isvalid;//Since we do not know implementation details of individual orders, this value is included so that we can manually specify if an order is valid or not, for testing purposes.
 public:
 	virtual bool validate() = 0;//only relies on isvalid for now. This has been overloaded for all child classes.
@@ -25,7 +25,8 @@ public:
 
 	//checks whether an order is valid or not, and executes it if it is. This has been overloaded for all child classes.
 
-														   //To print the orders in sequence, and index each order, this takes an int value to print the index of that order. This has been overloaded for all child classes.
+	std::string name;
+	bool executed;													   //To print the orders in sequence, and index each order, this takes an int value to print the index of that order. This has been overloaded for all child classes.
 	Order(std::string name, std::string desc);//The constructor called by all the child classes' default constructor
 	friend ostream& operator<<(ostream&, Order& o);
 	Order();
@@ -116,7 +117,7 @@ public:
 	OrderList(std::list<Order*>);
 	OrderList();
 	~OrderList();
-	
+	std::list<Order*> getOrders();
 	void move(int movefrom, int moveto); //Moves the order at the movefrom position, and places it in the position of the moveto position
 	void add(Order* passed);//adds a new Order to the list, appending it to the back of the list (since orders are placed sequentially by default
 	void printlist();

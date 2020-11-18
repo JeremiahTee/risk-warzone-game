@@ -33,6 +33,6 @@ public:
 	vector<vector<Territory>> GetBordersList();
 	vector<int> GetContinentNb();
 	vector<int> GetArmiesNb();
-
+	
 	Map CombineInfos(vector<Territory>& _continentList, vector<Territory>& _countryList, vector<vector<Territory>>& _bordersList); //stores all information into map
 };

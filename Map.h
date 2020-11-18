@@ -5,14 +5,16 @@
 //============================================================================
 
 #pragma once
+#include <map>
 
+class Map;
 class Player; //forward declaration to avoid compilation errors
 
 #include "Player.h"
 #include <vector>
 #include <unordered_map>
 #include <string>
-
+#include <map>
 using namespace std;
 
 class Territory
@@ -27,7 +29,7 @@ public:
 	Territory(string n); //constructor with just a name.
 	Territory(string n, Player* player, int armies); //constructor with name, owner, and an army count.
 	Territory(const Territory& territory); //copy constructor.
-
+	
 	string getName(); //Get territory name.
 	bool isNeighbor(Territory* t1, Territory* t2, int n);//Only till maploader fixed
 	Player* getOwner(); //Get owner of territory.
@@ -43,15 +45,19 @@ public:
 class Map
 {
 private:
-	vector<Territory*> territories;
+	
 	unordered_map<string, vector<Territory*>> territoryNeighbors;
 	unordered_map<string, vector<Territory*>> continents;
-
+	unordered_map<string, int> contBonus;
+	vector<Territory*> territories;
 public:
+	
 	Map() = default;
 	Map(const Map& map);
 	~Map();
-
+	Player* winner;
+	map<Territory*, vector<Territory*>> getTerritoryNeighbors( Player*);
+	bool checkWinner(vector<Player*> p);
 	bool validate(); //Validates the three map conditions.
 	bool validateTerritoryConnectivity(); //Validates territory connectivity.
 	bool validateNodeConnectivity(Territory* startingNode); //Validates node connectivity given starting node.
@@ -71,16 +77,18 @@ public:
 	void setTerritoryNeighborsMap(unordered_map<string, vector<Territory*>> map); //Set territory name to neighbor vector map.
 
 	vector<string> getContinents(); //Get list of territory names.
+
+	
 	unordered_map<string, vector<Territory*>> getContinentMap(); //Get continent map.
 	void registerWithContinent(string continent, Territory* territory); //Register a territory with a continent.
 
 	static void assignTerritory(Player* player, Territory* territory); //Makes a 2-way link between a Player/Territory pair.
-
+	
 	static Map* getTestMap(); //Creates a test map for testing purposes.
 
 	bool contains(vector<Territory*> list, Territory* territory); //Check if list contains a territory.
 	bool hasDuplicates(vector<Territory*> list); //Check if list has any duplicate territories.
-
+	bool checkContinentOwnership(Player* p, vector<Territory*> cont);
 	Map& operator=(const Map& m); //assignment operator.
 	friend ostream& operator <<(ostream& out, Map& m);//stream insertion operator.
 };
