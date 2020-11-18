@@ -11,10 +11,76 @@
 
 using namespace std;
 
+Territory::Territory(string n) {
+	name = n;
+	armyCount = 0;
+	owner = NULL;
+}
+Territory::Territory(string n, Player* player, int armies) {
+	name = n;
+	owner = player;
+	armyCount = armies;
+}
+Territory::Territory(const Territory& territory) {
+	name = territory.name;
+	owner = territory.owner;
+	armyCount = territory.armyCount;
+}
+
+string Territory::getName() {
+	return name;
+}
+
+Player* Territory::getOwner() {
+	return owner;
+}
+void Territory::setOwner(Player* player) {
+	owner = player;
+}
+
+int Territory::getArmyCount() {
+	return armyCount;
+}
+
+void Territory::setArmyCount(int armies) {
+	armyCount = armies;
+}
+map<Territory*,vector<Territory*>> Map::getTerritoryNeighbors( Player* caller)
+{
+	map<Territory*, vector<Territory*>>neighborsvec;
+	for(auto it:caller->getOwnedTerritories())
+	{
+		Territory* thisOne = it;
+		neighborsvec.insert({ thisOne,getTerritoryNeighbors(thisOne) });
+	}
+	return neighborsvec;
+}
+Territory& Territory::operator=(const Territory& t) {
+	name = t.name;
+	owner = t.owner;
+	armyCount = t.armyCount;
+
+	return *this;
+}
+
+ostream& operator <<(ostream& out, Territory& t) {
+	out << "Territory Name: " + t.name;
+	return out;
+}
+
 Map::Map(const Map& map) {
 	territories = map.territories;
 	territoryNeighbors = map.territoryNeighbors;
 	continents = map.continents;
+}
+
+Map::~Map() {
+	cout << "Destructing" << endl;
+	/*
+	for (auto territory : territories) {
+		delete territory;
+	}
+	*/
 }
 
 bool Map::validate() {
@@ -129,7 +195,7 @@ Territory Map::getTerritory(string territoryName) {
       }
     }
   } else {
-    return Territory("N/A");
+    return new Territory("N/A");
   }
 }
 
@@ -152,9 +218,9 @@ void Map::addTerritory(Territory& territory, vector<Territory> neighborList) {
 	territoryNeighbors[territory.getName()] = neighborList;
 }
 
-void Map::addTerritory(string continent, Territory& territory, vector<Territory> neighborList) {
+void Map::addTerritory(string continent, int bonusArmyCount, Territory* territory, vector<Territory*> neighborList) {
 	addTerritory(territory, neighborList);
-	registerWithContinent(continent, territory);
+	registerWithContinent(continent, bonusArmyCount, territory);
 }
 
 
@@ -166,7 +232,17 @@ unordered_map<string, vector<Territory>> Map::getTerritoryNeighborMap() {
 void Map::setTerritoryNeighborsMap(unordered_map<string, vector<Territory>> map) {
 	territoryNeighbors = map;
 }
-
+bool Territory::isNeighbor(Territory* t1, Territory* t2, int n)
+{
+	if (n == 1)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
 
 
 vector<string> Map::getContinents() {
@@ -181,13 +257,40 @@ unordered_map<string, vector<Territory>> Map::getContinentMap() {
 	return continents;
 }
 
-void Map::registerWithContinent(string continent, Territory& territory) {
+void Map::registerWithContinent(string continent, int bonusArmyCount, Territory* territory) {
 	continents[continent].push_back(territory);
+	continentArmies[continent] = bonusArmyCount;
 }
 
 
 
-bool Map::contains(vector<Territory> list, Territory& territory) {
+	Map* map = new Map();
+
+	vector<Territory*> list = {
+		b
+	};
+	map->addTerritory("1", 1, a, list);
+
+	list = {
+		c
+	};
+	map->addTerritory("1", 1, b, list);
+
+	list = {
+		b,d
+	};
+	map->addTerritory("2", 1, c, list);
+
+	list = {
+		c,
+		a
+	};
+	map->addTerritory("2", 1, d, list);
+
+	return map;
+}
+
+bool Map::contains(vector<Territory*> list, Territory* territory) {
 	for (auto i : list) {
 		if (i.getName() == territory.getName()) {
 			return true;
@@ -207,12 +310,53 @@ bool Map::hasDuplicates(vector<Territory> list) {
 	return false;
 }
 
+bool Map::checkContinentOwnership(Player* p, vector<Territory*> cont)
+{
+	bool flag = true;
+	for (auto it : cont)
+	{
+
+		if (it->getOwner() != p)
+		{
+			flag = false;
+		}
+	}
+	if (flag)
+	{
+		return true;
+	}
+	return false;
+}
+
 Map& Map::operator=(const Map& m) {
 	territories = m.territories;
 	territoryNeighbors = m.territoryNeighbors;
 	continents = m.continents;
-
 	return *this;
+}
+bool Map::checkWinner(vector<Player*> p)
+{
+	vector<Territory*> terlist = getTerritories();
+	bool flag = true;
+	for (auto player : p) {
+		
+		flag = true;
+		
+		for (auto it : terlist)
+		{
+			
+			if(it->getOwner()!=player)
+			{
+				flag = false;
+			}
+		}
+		if(flag)
+		{
+			winner = player;
+			return true;
+		}
+	}
+	return false;
 }
 
 ostream& operator <<(ostream& out, Map& m) {
