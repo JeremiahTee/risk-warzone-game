@@ -8,7 +8,7 @@
 #include <process.h>
 #include <iostream>
 #include <filesystem>
-#include <vector>
+#include <vector>;
 
 #include <algorithm>
 #include <random>
@@ -18,7 +18,18 @@ namespace fs = std::filesystem;
 using namespace std;
 
 GameEngine::GameEngine() {
-	validExecution = true;
+	cout << "Initializing game engine..." << endl;
+
+	//Create map from file.
+	//string fileName = queryDirectory("");
+	//Map* map = createMap(fileName);
+	map = Map::getTestMap();
+
+	//Create number of players from count.
+	int playerCount = queryPlayerCount();
+	vector<Player*> players = createPlayers(playerCount);
+
+	//Enable/Disable Observers HERE, ask JT when it is go time.
 }
 
 GameEngine::~GameEngine() {
@@ -28,73 +39,32 @@ GameEngine::~GameEngine() {
 	}
 }
 
-void GameEngine::gameStartPhase() {
-	cout << "Initializing game engine..." << endl;
-
-	string fileName = queryDirectory("maps");
-	cout << "Loading " + fileName + " from file..." << endl;
-	createMap("maps\\"+fileName);
-	//map = Map::getTestMap(); //UNCOMMENT ABOVE WHEN MAPLOADER IS FIXED.
-
-	cout << "Checking map validity..." << endl;
-	if (map->validate()) {
-		cout << "Map is valid!" << endl;
-	}
-	else {
-		cout << "Map is invalid, terminating..." << endl;
-		validExecution = false;
-	}
-
-	if (validExecution) {
-		cout << "Creating players...";
-		int playerCount = queryPlayerCount();
-		cout << "Creating players..." << endl;
-		players = createPlayers(playerCount);
-
-		deck = new Deck(10, 10, 10, 10, 10, 10);
-
-		//Enable/Disable Observers HERE, ask JT when it is go time.
-	}
-	cout << "\n";
-}
-
 void GameEngine::startupPhase() {
-	if (!validExecution) {
-		cout << "Execution invalid, cancelling startup phase..." << endl;
-	}
-	else {
+	cout << "Running startup phase..." << endl;
 
-		cout << "Running startup phase..." << endl;
-
-		//Shuffle elements in players.
-		cout << "Shuffling player list..." << endl;
-		auto rng = std::default_random_engine{};
-		std::shuffle(std::begin(players), std::end(players), rng);
-
-		//Assign all territories to players.
-		cout << "Assigning territories to players..." << endl;
-		vector<Territory*> toAssign = map->getTerritories();
-		assignTerritoriesToPlayers(players, toAssign);
-
-		//Assign initial army counts.
-		cout << "Assigning initial armies..." << endl;
-		assignInitialArmies(players);
-	}
+	//Shuffle elements in players.
+	auto rng = std::default_random_engine{};
+	std::shuffle(std::begin(players), std::end(players), rng);
+	
+	//Assign all territories to players.
+	vector<Territory*> toAssign = map->getTerritories();
+	assignTerritoriesToPlayers(players, toAssign);
 }
 
 string GameEngine::queryDirectory(string directory) {
 	vector<string> namelist;
-	cout << "Files names:" << endl;
+	cout << "Directories:" << endl;
 	try
 	{
 		for (const auto& entry : fs::directory_iterator(directory)) {
-			cout << entry.path().filename() << endl;
+			cout << entry.path() << endl;
 		}
 	}
 	catch (exception& e)
 	{
-		cout << "Unable to display file contents..." << endl;
+		cout << "Unable to display file contents." << endl;
 	}
+	
 
 	cout << "\n";
 
@@ -108,24 +78,23 @@ string GameEngine::queryDirectory(string directory) {
 	return path;
 }
 
-void GameEngine::createMap(string path) {
+Map* GameEngine::createMap(string path) {
 	MapLoader mapLoader = MapLoader();
-	
+
 	//Add continents
-	vector<Territory*> continentList = mapLoader.GetContinentList();
+	vector<Territory> continentList = mapLoader.GetContinentList();
 	continentList = mapLoader.ReadMapFile(path, continentList);
 
 	//Add territories
-	vector<Territory*> countryList = mapLoader.GetCountryList();
+	vector<Territory> countryList = mapLoader.GetCountryList();
 	countryList = mapLoader.ReadMapFileForCountries(path, countryList);
 
 	//Add borders
-	vector<vector<Territory*>> bordersList = mapLoader.GetBordersList();
+	vector<vector<Territory>> bordersList = mapLoader.GetBordersList();
 	bordersList = mapLoader.ReadMapFileForBorders(path, bordersList, countryList);
 
 	//Create the map
-
-	map = mapLoader.CombineInfos(continentList, countryList, bordersList);
+	return &mapLoader.CombineInfos(continentList, countryList, bordersList);
 }
 
 int GameEngine::queryPlayerCount() {
@@ -141,7 +110,6 @@ int GameEngine::queryPlayerCount() {
 	}
 	else if(count > 5){
 		cout << "Input too large, rounding player count down to 5." << endl;
-		count = 5;
 	}
 
 	return count;
@@ -190,9 +158,6 @@ void GameEngine::assignInitialArmies(vector<Player*> playerList) {
 	else if (playerList.size() >= 5) {
 		armyCount = 25;
 	}
-
-	cout << armyCount;
-	cout << " armies are being assigned to each player..." << endl;
 
 	for (auto player : playerList) {
 		Hand* playerHand = player->getHand();
