@@ -7,29 +7,30 @@
 
 class Player; //forward declaration
 
-class GameEngine //: public Observer
+// Part 1: Game start  ?? might not need a class for this
+class Startup
+{
+	
+};
+
+// Part 2: Game play (game startup phase)
+// Game inherits from Subject as it needs to be observed
+class Game : public Subject
 {
 public:
-	Map* map;
-	vector<Player*> players;
-	vector<Player*> playersIssuingOrders;
-	vector<Player*> playersExecutingOrders;
-	Deck* deck;
-	bool validExecution;
+	Game(int playerCount, std::string& map);
+	std::vector<Player>& getPlayerTurns();
 
-	GameEngine();
-	~GameEngine();
-
-	void gameStartPhase();
+private:
+	static Map map;
+	Deck gameDeck;
+	std::vector<Player> players;
+	static std::vector<Player> turns;
+	int phase;
+	int totalPlayers;
 	void startupPhase();
-	string queryDirectory(string directory);
-	void createMap(string path);
-	int queryPlayerCount();
-	vector<Player*> createPlayers(int playerCount);
-	void assignTerritoriesToPlayers(vector<Player*> playerList, vector<Territory*> territoryList);
-	void assignInitialArmies(vector<Player*> playerList);
-	void mainGameLoop();
-	void reinforcementPhase();
-	void orderIssuingPhase();
-	void orderExecutionPhase();
+	void setTurns();
+	void setArmies();
+	void setObservers();
+	void setMap();
 };

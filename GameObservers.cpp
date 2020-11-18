@@ -59,3 +59,6 @@ void Subject::setTerritoriesCount(int terrCount)
 {
 	this->territories = terrCount;
 }
+
+
+
