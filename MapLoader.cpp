@@ -68,7 +68,7 @@ vector<int> MapLoader::GetArmiesNb()
 }
 
 
-Map MapLoader::CombineInfos(vector<Territory>& _continentList, vector<Territory>& _countryList, vector<vector<Territory>>& _bordersList)
+Map* MapLoader::CombineInfos(vector<Territory>& _continentList, vector<Territory>& _countryList, vector<vector<Territory>>& _bordersList)
 {
 
 	Territory currentT;
@@ -98,7 +98,7 @@ Map MapLoader::CombineInfos(vector<Territory>& _continentList, vector<Territory>
 		cout << "\nMap is not valid" << endl;
 	}
 
-	return map;
+	return &map;
 }
 
 
@@ -179,7 +179,7 @@ vector<Territory> MapLoader::ReadMapFile(string _inputFileStream, vector<Territo
 				if (continentName == "[countries]")
 				{
 					break;
-				};
+				}
 				Territory continent = Territory(continentName);
 				armiesNb.push_back(armies);
 				_continentList.push_back(continent);
@@ -192,9 +192,8 @@ vector<Territory> MapLoader::ReadMapFile(string _inputFileStream, vector<Territo
 	}
 	else {
 		cout << "File is not open " << "\n";
+		exit(0);
 	}
-
-
 }
 
 vector<Territory> MapLoader::ReadMapFileForCountries(string _inputFileStream, vector<Territory>& _countryList) {
@@ -223,7 +222,7 @@ vector<Territory> MapLoader::ReadMapFileForCountries(string _inputFileStream, ve
 				if (territoryName == "[borders]" || territoryName == _countryList.at(_countryList.size() - 1).getName())
 				{
 					break;
-				};
+				}
 
 				Territory country = Territory(territoryName);
 				continentNb.push_back(continent);
@@ -234,9 +233,9 @@ vector<Territory> MapLoader::ReadMapFileForCountries(string _inputFileStream, ve
 		std::cout << "Country list size: " << _countryList.size() << endl;
 		return _countryList;
 	}
-	else {
-		cout << "File is not open " << "\n";
-	}
+
+	cout << "File is not open " << "\n";
+	exit(0);
 }
 
 
@@ -283,7 +282,7 @@ vector<vector<Territory>> MapLoader::ReadMapFileForBorders(string _inputFileStre
 				if (nList.at(nList.size() - 1).getName() == nList.at(nList.size() - 2).getName())
 				{
 					nList.pop_back();
-				};
+				}
 
 				_bordersList.push_back(nList);
 			}
@@ -293,8 +292,8 @@ vector<vector<Territory>> MapLoader::ReadMapFileForBorders(string _inputFileStre
 		std::cout << "Borders list size: " << _bordersList.size() << endl;
 		return _bordersList;
 	}
-	else {
-		std::cout << "File is not open " << "\n";
-	}
+
+	cout << "File is not open " << "\n";
+	exit(0);
 }
 

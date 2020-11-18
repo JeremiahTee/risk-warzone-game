@@ -3,19 +3,18 @@
 // Author      : Marjolaine Roy (40098364)
 // Description : Map Loader Driver c++ class.
 //============================================================================
-
+/*
 #include "MapLoader.h";
+#include "Map.h";
 #include <iostream>
 #include <iostream>
 #include <string>
-#include "../Assignment1/Map.h"
-#include "../Assignment1/Territory.h"
 
 using namespace std;
 
 bool main() {
 
-	Map map = Map();
+	Map* map = new Map();
 	MapLoader mapLoader = MapLoader();
 	string path = {};
 
@@ -50,4 +49,4 @@ bool main() {
 	}
 
 	return 0;
-}
+}*/

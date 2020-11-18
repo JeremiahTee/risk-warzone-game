@@ -183,7 +183,7 @@ Territory* Map::getTerritory(string territoryName) {
       }
     }
   } else {
-    return &Territory("N/A");
+    return new Territory("N/A");
   }
 }
 
