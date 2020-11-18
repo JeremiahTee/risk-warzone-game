@@ -82,9 +82,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="google.map">
-      <Filter>Source Files</Filter>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
 </Project>
