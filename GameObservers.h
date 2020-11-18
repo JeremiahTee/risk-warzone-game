@@ -3,7 +3,7 @@
 // Author      : Jeremiah Tiongson (40055477)
 // Description : Observer & Subject class declarations
 //============================================================================
-/*
+
 #pragma once
 #include <list>
 
@@ -34,4 +34,4 @@ private:
 	std::list<Observer*>* _observers;
 	int phase;
 	int territories;
-};*/
+};

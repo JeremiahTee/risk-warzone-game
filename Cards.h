@@ -23,7 +23,7 @@ public:
     Deck(int, int, int, int, int, int);
     int draw(Deck* d);
     int totalCards(Deck* d);
-    void addToDeck(int, Deck* d);
+    void addToDeck(int);
     int getSpy();
     void setSpy(int);
     int getBomb();
@@ -53,7 +53,7 @@ public:
     Hand() = default;
     Hand(const Hand& deck);
     Hand(int, int, int, int, int, int);
-    void play(int, Hand* h);
+    void play(int);
     void addToHand(int, Hand* h);
     int getSpy();
     void setSpy(int);

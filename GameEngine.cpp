@@ -195,7 +195,135 @@ void GameEngine::assignInitialArmies(vector<Player*> playerList) {
 	cout << " armies are being assigned to each player..." << endl;
 
 	for (auto player : playerList) {
+		player->mapPlayed = map;
 		Hand* playerHand = player->getHand();
-		playerHand->setReinforcement(armyCount);
+		player->numOfArmies = armyCount;
+	}
+	
+}
+
+void GameEngine::mainGameLoop()
+{
+	while (!map->checkWinner(players))
+	{
+		reinforcementPhase();
+		playersIssuingOrders = players;
+		orderIssuingPhase();
+		playersExecutingOrders = players;
+		orderExecutionPhase();
 	}
 }
+void GameEngine::reinforcementPhase()
+{
+	for (auto p : players) {
+		vector<Territory*> myvec = p->getTerritories2();
+		int count = 0;
+		p->numOfArmies = floor(myvec.size() / 3);
+		bool owns;
+		int continentbonus = 4;//need to get this property from map/maploader for each continent
+		for (auto it = map->getContinentMap().begin();it != map->getContinentMap().end();++it)
+		{
+			owns = map->checkContinentOwnership(p, it->second);
+			if (owns)
+			{
+				p->numOfArmies += continentbonus;
+			}
+		}
+		if (p->numOfArmies < 3)
+		{
+			p->numOfArmies = 3;
+		}
+	}
+}
+void GameEngine::orderIssuingPhase()
+{
+	
+	bool allDone = false;
+	while(!allDone)
+	{
+		allDone = true;
+		for(auto it:playersIssuingOrders)
+		{
+			if(it->doneIssue!=false)
+			{
+				it->issueOrder();
+				allDone = false;
+			}
+		}
+	}
+	for (auto it : players)
+	{
+		it->doneDefence = false;
+		it->doneAdvance = false;
+		it->doneAttack = false;
+		it->doneIssue = false;
+		it->roundwiseordercount = 0;
+		//TO DELETE PLAYER WHO HAS LOST
+		/**/
+	}
+}
+void GameEngine::orderExecutionPhase()
+{
+	bool allDone = false;
+	while (!allDone)
+	{
+		allDone = true;
+		for (auto it : players)
+		{
+			for(auto orderit:it->getOrderList()->getOrders())
+			{
+				if(orderit->name=="Deploy")
+				{
+					if (!orderit->executed)
+					{
+						orderit->execute();
+						allDone = false;
+						break;
+					}
+				}
+				else if(orderit->name=="Airlift")
+				{
+					if (!orderit->executed)
+					{
+						orderit->execute();
+						allDone = false;
+						break;
+					}
+				}
+				else if (orderit->name == "Blockade")
+				{
+					if (!orderit->executed)
+					{
+						orderit->execute();
+						allDone = false;
+						break;
+					}
+				}
+				else 
+				{
+					if (!orderit->executed)
+					{
+						orderit->execute();
+						allDone = false;
+						break;
+					}
+				}
+				
+			}
+		}
+	}
+	for (auto it : players)
+	{
+		if (it->getOwnedTerritories().size() == 0)
+		{
+			std::vector<Player*>::iterator position = std::find(players.begin(), players.end(), it);
+			if (position != players.end()) // == myVector.end() means the element was not found
+			{
+				players.erase(position);
+			}
+
+		}
+	}
+	
+}
+
