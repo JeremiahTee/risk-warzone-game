@@ -29,7 +29,7 @@ public:
 	Territory(const Territory& territory); //copy constructor.
 
 	string getName(); //Get territory name.
-
+	bool isNeighbor(Territory* t1, Territory* t2, int n);//Only till maploader fixed
 	Player* getOwner(); //Get owner of territory.
 	void setOwner(Player* player); //Set owner of territory.
 
@@ -63,7 +63,7 @@ public:
 	vector<Territory*> getTerritories(); //Get list of all territories.
 	vector<Territory*> getTerritoryNeighbors(Territory* territory); //Get neighbors of a given territory.
 	vector<Territory*> getTerritoryNeighbors(string territoryName); //Get neighbors of a given territory name.
-
+	
 	void addTerritory(Territory* territory, vector<Territory*> neighborList); //Add territory and its list of neighbors.
 	void addTerritory(string continent, Territory* territory, vector<Territory*> neighborList); //Add territory and its list of neighbors, whilst also assigning it a continent.
 
