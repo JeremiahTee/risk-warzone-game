@@ -46,6 +46,7 @@ private:
 	vector<Territory*> territories;
 	unordered_map<string, vector<Territory*>> territoryNeighbors;
 	unordered_map<string, vector<Territory*>> continents;
+	unordered_map<string, int> continentArmies;
 
 public:
 	Map() = default;
@@ -65,14 +66,14 @@ public:
 	vector<Territory*> getTerritoryNeighbors(string territoryName); //Get neighbors of a given territory name.
 	
 	void addTerritory(Territory* territory, vector<Territory*> neighborList); //Add territory and its list of neighbors.
-	void addTerritory(string continent, Territory* territory, vector<Territory*> neighborList); //Add territory and its list of neighbors, whilst also assigning it a continent.
+	void addTerritory(string continent, int bonusArmyCount, Territory* territory, vector<Territory*> neighborList); //Add territory and its list of neighbors, whilst also assigning it a continent.
 
 	unordered_map<string, vector<Territory*>> getTerritoryNeighborMap(); //Get territory name to neighbor vector map.
 	void setTerritoryNeighborsMap(unordered_map<string, vector<Territory*>> map); //Set territory name to neighbor vector map.
 
 	vector<string> getContinents(); //Get list of territory names.
 	unordered_map<string, vector<Territory*>> getContinentMap(); //Get continent map.
-	void registerWithContinent(string continent, Territory* territory); //Register a territory with a continent.
+	void registerWithContinent(string continent, int bonusArmyCount, Territory* territory); //Register a territory with a continent.
 
 	static void assignTerritory(Player* player, Territory* territory); //Makes a 2-way link between a Player/Territory pair.
 
