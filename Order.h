@@ -13,11 +13,11 @@ using namespace std;
 class Order
 {
 protected:
-	std::string name;
 	std::string description;
-	bool executed = false;
 	bool isvalid = false;
 public:
+	std::string name;
+	bool executed = false;
 	virtual bool validate() = 0;
 	virtual void execute() = 0;
 	//To print the orders in sequence, and index each order, this takes an int value to print the index of that order. This has been overloaded for all child classes.

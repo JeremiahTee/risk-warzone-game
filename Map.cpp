@@ -191,9 +191,8 @@ Territory* Map::getTerritory(string territoryName) {
         return i;
       }
     }
-  } else {
-    return new Territory("N/A");
   }
+	return new Territory("N/A");
 }
 
 vector<Territory*> Map::getTerritories() {
