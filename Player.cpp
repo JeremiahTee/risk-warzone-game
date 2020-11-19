@@ -107,16 +107,20 @@ void Player::issueOrder()
 {
 	toAttack();
 	toDefend();
-	if(numOfArmies<=4)
+	if((tempArmies<=4)&&(tempArmies>0))
 	{
 		orders->add(new Deploy(numOfArmies,defences.front(),this));
+		tempArmies = -1;
 		defences.pop_back();
+		cout << "Dep1" << endl;
 		roundwiseordercount++;
 	}
-	else if (numOfArmies != 0)
+	else if ((tempArmies != 0)&&(tempArmies>0))
 	{
 		orders->add(new Deploy(numOfArmies / 4, defences.back(), this));
+		tempArmies = tempArmies / 4;
 		defences.pop_back();
+		cout << "Dep2" << endl;
 		roundwiseordercount++;
 	}
 	else if(!(doneAdvance && doneAttack))
@@ -126,6 +130,7 @@ void Player::issueOrder()
 			orders->add(new Advance(getHighestArmyTerritory(), getLowestArmyTerritory(), getHighestArmyTerritory()->getArmyCount() / 2, this));
 			doneDefence = true;
 			roundwiseordercount++;
+			cout << "AdvDef" << endl;
 		}
 		else
 		{
@@ -133,6 +138,7 @@ void Player::issueOrder()
 			orders->add(new Advance(guarded, neighbourmap.at(guarded).front(), guarded->getArmyCount()/ 2, this));
 			doneAdvance = true;
 			roundwiseordercount++;
+			cout << "AdvAtt" << endl;
 		}
 		doneAdvance = true;
 	}

@@ -21,11 +21,12 @@ using std::string;
 class Player //: public Observer
 {
 private:
-	vector<Territory*> territories;
+	
 	Hand* hand;
 	OrderList* orders;
 
 public:
+	vector<Territory*> territories;
 	Player* neutral;
 	Deck* gameDeck;
 	int roundwiseordercount;
@@ -37,6 +38,7 @@ public:
 	bool isNegotiated(Player*, Player*);
 	string name; //left public intentionally just for testing purposes & to avoid setting up unnecessary getter
 	int playerId = 0;
+	int tempArmies;
 	bool conqueredOne;
 	Player() = default;
 	Map* mapPlayed;
