@@ -3,7 +3,6 @@
 #include "Map.h"
 
 class Player;
-class Subject;
 
 class GameEngine : public Subject
 {
@@ -23,12 +22,13 @@ public:
 	string queryDirectory(string directory);
 	void createMap(string path);
 	int queryPlayerCount();
-	vector<Player> createPlayers(int playerCount);
+	void createPlayers(int playerCount);
 	void assignTerritoriesToPlayers(vector<Player> playerList, vector<Territory*> territoryList);
 	void assignInitialArmies(vector<Player> playerList);
 	void mainGameLoop();
 	void reinforcementPhase();
 	void orderIssuingPhase();
 	void orderExecutionPhase();
+	void attachObservers(vector<Player> players);
 	void eraseLosers();
 };
