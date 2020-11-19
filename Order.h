@@ -35,6 +35,7 @@ class Deploy : public Order
 public:
 	bool validate();
 	void execute();
+	void print();
 	int numArmies; Territory* t; Player* p;
 	Deploy(int numArmies, Territory* t, Player* p);
 	Deploy(const Deploy& d);

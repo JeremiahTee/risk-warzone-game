@@ -65,7 +65,9 @@ bool Deploy::validate()
 		setValidity(true);
 		return true;
 	}
-	std::cout << "\nThe Deploy Order is invalid.";
+	
+	std::cout << "\nThe Deploy Order is invalid."<<endl;
+	print();
 	return false;
 };
 void Deploy::execute()
@@ -75,8 +77,14 @@ void Deploy::execute()
 		t->setArmyCount(t->getArmyCount() + numArmies);
 		p->numOfArmies = p->numOfArmies - numArmies;
 		executed = true;
+		print();
 	}
-};
+}
+void Deploy::print()
+{
+	std::cout<< "\n--- DEPLOY: Player" << p->getPlayerID() <<" deploys "<< numArmies<<" armies to "<< t->getName() <<" ---" << endl;
+}
+;
 Deploy* Deploy::getNew()
 {
 	return new Deploy(*this);
