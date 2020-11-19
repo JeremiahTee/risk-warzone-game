@@ -52,8 +52,8 @@ public:
 	OrderList* getOrderList();
 	vector<Territory*>& getOwnedTerritories();
 	void setOwnedTerritories(vector<Territory*> &list);
-	vector<Territory*> &toDefend();
-	vector<Territory*> &toAttack();
+	vector<Territory*> toDefend();
+	vector<Territory*> toAttack();
 	void issueOrder();
 	bool orderFlag = false;
 	//Player* operator = (Player& o);

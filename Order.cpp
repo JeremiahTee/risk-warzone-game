@@ -50,6 +50,7 @@ Deploy::Deploy(int numArmies1, Territory* t1, Player* p1) : Order("Deploy", "pla
 	numArmies = numArmies1;//Change name to numArmiesAllocated throughout
 	t = t1;
 	p = p1;
+	p->tempArmies -= numArmies1;
 };
 Deploy::Deploy(const Deploy& d) : Order((Order&)d)
 {
@@ -84,6 +85,10 @@ void Deploy::print()
 {
 	std::cout<< "\n--- DEPLOY: Player" << p->getPlayerID() <<" deploys "<< numArmies<<" armies to "<< t->getName() <<" ---" << endl;
 }
+void Advance::print()
+{
+	std::cout << "\n--- Advance: Player" << p->getPlayerID() << " advances " << numArmies << " armies to " << target->getName() << " ---" << endl;
+}
 ;
 Deploy* Deploy::getNew()
 {
@@ -92,16 +97,18 @@ Deploy* Deploy::getNew()
 
 //==================================================================================================================================================================
 
-Advance::Advance(Territory* source1, Territory* target1, int numArmies1, Player* p1, Deck* d1) //: Order("Advance", "move some armies from one of the current player's territories (source) to an adjacent territory (target).If the target territory belongs to the current player, the armies are moved to the target territory.If the target territory belongs to another player, an attack happens between the two territories. ")
+Advance::Advance(Territory* source1, Territory* target1, int numArmies1, Player* p1, Deck* d1) : Order("Advance", "move some armies from one of the current player's territories (source) to an adjacent territory (target).If the target territory belongs to the current player, the armies are moved to the target territory.If the target territory belongs to another player, an attack happens between the two territories. ")
 {
 	source = source1;
 	target = target1;
+	
 	numArmies = numArmies1;
 	p = p1;
 	d = d1;
 };
 bool Advance::validate()
 {
+	
 	if ((source->getArmyCount() < numArmies) || (source->getOwner() != p) || (source->isNeighbor(source, target, 2)) || (p->isNegotiated(p, target->getOwner())))//third condition is adjacency of source & neighbour
 	{
 		if (p->isNegotiated(p, target->getOwner()))
@@ -111,6 +118,7 @@ bool Advance::validate()
 		else 
 		{
 			std::cout << "\nThe Advance Order is invalid.";
+			print();
 		}
 		return false;
 	};
@@ -122,6 +130,7 @@ void Advance::execute()
 {
 	if (validate() == true)
 	{
+		print();
 		if ((target->getOwner() == p))
 		{
 			source->setArmyCount(source->getArmyCount() - numArmies);
@@ -191,6 +200,10 @@ void Advance::execute()
 				}
 			}
 		}
+		executed = true;
+	}
+	else
+	{
 		executed = true;
 	}
 };

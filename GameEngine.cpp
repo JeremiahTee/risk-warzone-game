@@ -219,6 +219,10 @@ void GameEngine::mainGameLoop()
 		for(auto it:players)
 		{
 			std::cout << it->getOwnedTerritories().size() << endl;
+			it->neighbourmap.clear();
+			it->attacks.clear();
+			it->defences.clear();
+			it->getOrderList()->getOrders().clear();
 		}
 	}
 }
@@ -230,7 +234,7 @@ void GameEngine::reinforcementPhase()
 	notifyPhase();
 	for (auto p : players) {
 		vector<Territory*> myvec = p->territories;
-		p->numOfArmies = floor(myvec.size() / 3);
+		p->numOfArmies += floor(myvec.size() / 3);
 		bool owns;
 		int continentbonus = 4;//need to get this property from map/maploader for each continent
 		
@@ -280,6 +284,7 @@ void GameEngine::orderIssuingPhase()
 		it->doneAttack = false;
 		it->doneIssue = false;
 		it->roundwiseordercount = 0;
+		it->tempArmies = it->numOfArmies;
 	}
 }
 

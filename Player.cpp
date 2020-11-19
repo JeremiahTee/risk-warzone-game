@@ -73,7 +73,7 @@ Player::~Player() {
 	return territories;
 }
 
-vector<Territory*> &Player::toAttack()
+vector<Territory*> Player::toAttack()//vector<Territory*> &Player::toAttack()
 {
 		neighbourmap = mapPlayed->getTerritoryNeighbors(this);
 		//map < Territory*, vector<Territory*>>::iterator mapit;
@@ -94,7 +94,7 @@ vector<Territory*> &Player::toAttack()
 	
 	return attacks;
 }
-vector<Territory*> &Player::toDefend()
+vector<Territory*> Player::toDefend()//&Player::toDefend()
 {
 	for (auto it : territories)
 	{
@@ -112,7 +112,7 @@ void Player::issueOrder()
 	toDefend();
 	if((tempArmies<=4)&&(tempArmies>0))
 	{
-		orders->add(new Deploy(numOfArmies,defences.front(),this));
+		orders->add(new Deploy(tempArmies,defences.front(),this));
 		tempArmies = -1;
 		defences.pop_back();
 		cout << "Dep1" << endl;
@@ -120,8 +120,8 @@ void Player::issueOrder()
 	}
 	else if ((tempArmies != 0)&&(tempArmies>0))
 	{
-		orders->add(new Deploy(numOfArmies / 4, defences.back(), this));
-		tempArmies = tempArmies / 4;
+		orders->add(new Deploy(tempArmies / 4, defences.back(), this));
+		
 		defences.pop_back();
 		cout << "Dep2" << endl;
 		roundwiseordercount++;
@@ -130,17 +130,24 @@ void Player::issueOrder()
 	{
 		if(!doneDefence)
 		{
-			
 				orders->add(new Advance(getHighestArmyTerritory(), getLowestArmyTerritory(), getHighestArmyTerritory()->getArmyCount() / 2, this, this->gameDeck));
 				doneDefence = true;
 				roundwiseordercount++;
 				cout << "AdvDef" << endl;
-			
 		}
 		else
 		{
 			Territory* guarded = getHighestArmyTerritory();
 			Territory* targ = neighbourmap.at(guarded).back();
+			if (targ == NULL)
+			{
+				cout << "Fuck C++ im out";
+			}
+			else
+			{
+				cout << guarded->getName()<<"   ->   "<<targ->getName();
+
+			}
 			orders->add(new Advance(guarded, targ, guarded->getArmyCount()/ 2, this ,this->gameDeck));
 			doneAdvance = true;
 			doneAttack = true;

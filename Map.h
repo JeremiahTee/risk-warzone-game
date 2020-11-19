@@ -54,7 +54,7 @@ public:
 	
 	Map() = default;
 	Map(const Map& map);
-	~Map();
+	//~Map();
 	Player* winner;
 	map<Territory*, vector<Territory*>> getTerritoryNeighbors( Player*);
 	bool checkWinner(vector<Player*> p);

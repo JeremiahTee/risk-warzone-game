@@ -48,6 +48,7 @@ public:
 	Territory* source; Territory* target; int numArmies; Player* p; Deck* d;
 	bool validate();
 	void execute();
+	void print();
 	Advance(Territory* source, Territory* target, int numArmies, Player* p, Deck* d);
 	Advance(const Advance& a);
 	Advance* getNew();

@@ -50,8 +50,10 @@ map <Territory*,vector<Territory*>> Map::getTerritoryNeighbors( Player* caller)
 	map<Territory*, vector<Territory*>>neighborsvec;
 	for(auto it:caller->getOwnedTerritories())
 	{
-		Territory* thisOne = it;
-		neighborsvec.insert({ thisOne,getTerritoryNeighbors(thisOne) });
+		if (it != nullptr) {
+			Territory* thisOne = it;
+			neighborsvec.insert({ thisOne,getTerritoryNeighbors(thisOne) });
+		}
 	}
 	return neighborsvec;
 }
@@ -74,11 +76,11 @@ Map::Map(const Map& map) {
 	continents = map.continents;
 }
 
-Map::~Map() {
+/*Map::~Map() {
 	for (auto territory : territories) {
 		delete territory;
 	}
-}
+}*/
 
 bool Map::validate() {
 	return validateTerritoryConnectivity() && validateContinentConnectivity() && validateContinentExclusivity();
