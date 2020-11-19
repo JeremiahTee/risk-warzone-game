@@ -55,6 +55,7 @@ public:
     Hand(int, int, int, int, int, int);
     void play(int);
     void addToHand(int, Hand* h);
+    int totalCards(Hand* h);
     int getSpy();
     void setSpy(int);
     int getBomb();
@@ -67,5 +68,5 @@ public:
     void setAirlift(int);
     int getDiplomacy();
     void setDiplomacy(int);
-    int getTotalCards() { return spy + bomb + reinforcement + blockade + airlift + diplomacy; }
+    //int getTotalCards() { return spy + bomb + reinforcement + blockade + airlift + diplomacy; }
 };

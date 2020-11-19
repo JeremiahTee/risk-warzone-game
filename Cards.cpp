@@ -365,3 +365,15 @@ void Hand::setDiplomacy(int nb)
 {
     diplomacy = nb;
 };
+
+int Hand::totalCards(Hand* h)
+{
+    int sum(0);
+    sum += h->getSpy();
+    sum += h->getBomb();
+    sum += h->getReinforcement();
+    sum += h->getBlockade();
+    sum += h->getAirlift();
+    sum += h->getDiplomacy();
+    return sum;
+}

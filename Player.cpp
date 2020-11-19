@@ -284,7 +284,7 @@ void Player::updatePhase(int phaseNumber)
 	// reinforcement
 	if (phaseNumber == 1) {
 		std::cout << "[Phase Observer: " << getPlayerID() << " stats]" << std::endl;
-		std::cout << "Armies: " << getNumberOfArmies() << ", Cards: " << getHand()->getTotalCards() << ", Countries Owned: " << getOwnedTerritories().size() << std::endl;
+		std::cout << "Armies: " << getNumberOfArmies() << ", Cards: " << getHand()->totalCards(getHand()) << ", Countries Owned: " << getOwnedTerritories().size() << std::endl;
 		std::cout << "\nCountries                          Armies" << std::endl;
 		std::cout << "-------------------------------------------" << std::endl;
 		for (int i = 0; i < getOwnedTerritories().size(); i++) {
