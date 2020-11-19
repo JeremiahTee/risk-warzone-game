@@ -8,7 +8,7 @@
 //	Marjolaine Roy      | 40098364 | roy.marjolaine@hotmail.com
 //============================================================================
 
-/*
+
 #include "Map.h"
 #include "Player.h"
 #include <ostream>
@@ -58,31 +58,31 @@ int main()
 	Player p1 = Player(t1, hand_one, rand() % 100);
 	Player p2 = Player(t2, hand_two, rand() % 100);
 
-	vector<Territory> p1_terr = p1.getTerritories();
-	vector<Territory> p2_terr = p2.getTerritories();
+	//vector<Territory> p1_terr = p1.getTerritories();
+	//vector<Territory> p2_terr = p2.getTerritories();
 
 	cout << "------------ GETTER: getTerritories() -------------- \n";
 	cout << "Player 1's territories:\n";
 	
-	for(auto it = p1_terr.begin(); it != p1_terr.end(); ++it)
-	{
-	cout << it->getName() << std::endl;
-	}
+	//for(auto it = p1_terr.begin(); it != p1_terr.end(); ++it)
+	//{
+	//cout << it->getName() << std::endl;
+	//}
 
-	cout << "\nPlayer 2's territories:\n";
+	//cout << "\nPlayer 2's territories:\n";
 
-	for (auto it = p2_terr.begin(); it != p2_terr.end(); ++it)
-	{
-		cout << it->getName() << std::endl;
-	}
+	//for (auto it = p2_terr.begin(); it != p2_terr.end(); ++it)
+	//{
+	//	cout << it->getName() << std::endl;
+	//}
 
-	vector<Territory> p1_terr_to_attack = p1.toAttack();
-	vector<Territory> p2_terr_to_defend = p2.toDefend();
+	//vector<Territory> p1_terr_to_attack = p1.toAttack();
+	//vector<Territory> p2_terr_to_defend = p2.toDefend();
 
 	cout << "\n------------ METHOD: toAttack() -------------- \n\n";
 	cout << "Player 1's territories to be attacked:\n";
 	
-	for (auto it = p1_terr_to_attack.begin(); it != p1_terr_to_attack.end(); ++it)
+	/*for (auto it = p1_terr_to_attack.begin(); it != p1_terr_to_attack.end(); ++it)
 	{
 		cout << it->getName() << std::endl;
 	}
@@ -93,7 +93,7 @@ int main()
 	for (auto it = p2_terr_to_defend.begin(); it != p2_terr_to_defend.end(); ++it)
 	{
 		cout << it->getName() << std::endl;
-	}
+	}*/
 
 	cout << "------------ METHOD: issueOrder() -------------- \n\n";
 	cout << "Player 1 has issued an order:\n";
@@ -120,11 +120,11 @@ int main()
 
 	cout << "\n------------ Printing out Deck in order to test ostream functionality -------------- \n";
 	
-	cout << *dp;
+	//cout << *dp;
 
 	cout << "\n------------ Printing out Hand in order to test ostream functionality -------------- \n";
 
-	cout << *hand_two;
+	//cout << *hand_two;
 
 	cout << "\n------------ Printing out Player 2 to show ostream functionality -------------- \n";
 
@@ -142,4 +142,4 @@ int main()
 	delete hand_two;
 	
 	return 0;
-}*/
+}

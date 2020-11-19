@@ -13,40 +13,40 @@ Observer::~Observer() {};
 
 Subject::Subject()
 {
-	_observers = new list<Observer*>;
+	observersList = new list<Observer*>;
 }
 Subject::~Subject()
 {
-	delete _observers;
-	_observers = nullptr;
+	delete observersList;
+	observersList = nullptr;
 }
 void Subject::attach(Observer* o)
 {
-	_observers->push_back(o);
+	observersList->push_back(o);
 }
 void Subject::detach(Observer* o)
 {
-	_observers->remove(o);
+	observersList->remove(o);
 }
 
-void Subject::updatePhase()
+void Subject::notifyPhase()
 {
-	std::list<Observer*>::iterator i = _observers->begin();
+	std::list<Observer*>::iterator i = observersList->begin();
 
-	for(; i != _observers->end(); ++i)
+	for(; i != observersList->end(); ++i)
 	{
-		(*i)->notifyPhase(phase);
+		(*i)->updatePhase(phase);
 	}
 }
 
-void Subject::updateGame()
+void Subject::notifyGame()
 {
-	std::list<Observer*>::iterator i = _observers->begin();
+	std::list<Observer*>::iterator i = observersList->begin();
 	std::cout << "Notifying game | Game Statistic Observer" << std::endl;
 
-	for(; i != _observers->end(); ++i)
+	for(; i != observersList->end(); ++i)
 	{
-		(*i)->notifyGame(territories);
+		(*i)->updateGame(totalTerritories);
 	}
 }
 
@@ -57,5 +57,5 @@ void Subject::setPhase(int& phase)
 
 void Subject::setTerritoriesCount(int terrCount)
 {
-	this->territories = terrCount;
+	this->totalTerritories = terrCount;
 }

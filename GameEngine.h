@@ -3,14 +3,15 @@
 #include "Map.h"
 
 class Player;
+class Subject;
 
-class GameEngine //: public Observer
+class GameEngine : public Subject
 {
 public:
 	Map* map;
-	vector<Player*> players;
-	vector<Player*> playersIssuingOrders;
-	vector<Player*> playersExecutingOrders;
+	vector<Player> players;
+	vector<Player> playersIssuingOrders;
+	vector<Player> playersExecutingOrders;
 	Deck* deck;
 	bool validExecution;
 
@@ -22,11 +23,12 @@ public:
 	string queryDirectory(string directory);
 	void createMap(string path);
 	int queryPlayerCount();
-	vector<Player*> createPlayers(int playerCount);
-	void assignTerritoriesToPlayers(vector<Player*> playerList, vector<Territory*> territoryList);
-	void assignInitialArmies(vector<Player*> playerList);
+	vector<Player> createPlayers(int playerCount);
+	void assignTerritoriesToPlayers(vector<Player> playerList, vector<Territory*> territoryList);
+	void assignInitialArmies(vector<Player> playerList);
 	void mainGameLoop();
 	void reinforcementPhase();
 	void orderIssuingPhase();
 	void orderExecutionPhase();
+	void eraseLosers();
 };

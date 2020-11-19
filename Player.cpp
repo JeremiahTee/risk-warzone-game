@@ -49,11 +49,11 @@ bool Player::isNegotiated(Player* p1, Player* p2)
 	return false;
 }
 
-//assignment operator overloading
-Player* Player:: operator = (Player& p)
-{
-	return p.getNew();
-}
+////assignment operator overloading
+//Player* Player:: operator = (Player& p)
+//{
+//	return p.getNew();
+//}
 
 Player::~Player() {
 	for (auto territory : territories) {
@@ -67,8 +67,6 @@ Player::~Player() {
 {
 	return territories;
 }
-
-
 
 vector<Territory*> Player::toAttack()
 {
@@ -206,20 +204,25 @@ Territory* Player::getHighestArmyTerritory()
 	}
 	return toReturn;
 }
+
 //Returns the hand if it has a valid pointer to it
 Hand* Player::getHand()
 {
-	return hand;
+	if (hand != nullptr)
+	{
+		return hand;
+	}
 }
 
 OrderList* Player::getOrderList() {
 	return orders;
 }
 
-Player* Player::getNew()
-{
-	return new Player(*this);
-}
+//
+//Player* Player::getNew()
+//{
+//	return new Player(*this);
+//}
 
 //ostream operator for Player prints number of territories and indicates whether the hand is valid or not
 std::ostream& operator <<(ostream& out, const Player& p)
@@ -276,19 +279,44 @@ void printPlayerTable(int phase)
 	}
 }
 
-/*void Player::notifyPhase(int phase)
+void Player::updatePhase(int phaseNumber)
 {
-	switch (phase)
-	{
-	case 1: std::cout << "Phase 1" << std::endl;
-		break;
-	case 2: std::cout << "Phase 2" << std::endl;
-		break;
-	case 3: std::cout << "Phase 3" << std::endl;
-		break;
+	// reinforcement
+	if (phaseNumber == 1) {
+		std::cout << "[Phase Observer: " << getPlayerID() << " stats]" << std::endl;
+		std::cout << "Armies: " << getNumberOfArmies() << ", Cards: " << getHand()->getTotalCards() << ", Countries Owned: " << getOwnedTerritories().size() << std::endl;
+		std::cout << "\nCountries                          Armies" << std::endl;
+		std::cout << "-------------------------------------------" << std::endl;
+		for (int i = 0; i < getOwnedTerritories().size(); i++) {
+			std::cout << std::left << std::setw(35) << std::setfill(' ') << getOwnedTerritories().at(i)->getName() << std::left << std::setw(35) << std::setfill(' ') << getOwnedTerritories().at(i)->getArmyCount() << std::endl;
+		}
+		std::cout << std::endl;
 	}
-}*/
 
+	// attack
+	else if (phaseNumber == 2) {
+		std::cout << "[Phase Observer: " << getPlayerID() << " stats]" << std::endl;
+		std::cout << "\nCountries                          Armies" << std::endl;
+		std::cout << "-------------------------------------------" << std::endl;
+		for (int i = 0; i < getOwnedTerritories().size(); i++) {
+			std::cout << std::left << std::setw(35) << std::setfill(' ') << getOwnedTerritories().at(i)->getName() << std::left << std::setw(35) << std::setfill(' ') << getOwnedTerritories().at(i)->getArmyCount() << std::endl;
+		}
+		std::cout << std::endl;
+	}
 
-//Setup Observer methods stuff here
-//Update Player driver logic -> when creating player, give it random int as playerID
+	// fortification
+	else {
+		std::cout << "[Phase Observer: " << getPlayerID() << " stats]" << std::endl;
+		std::cout << "\nCountries                          Armies" << std::endl;
+		std::cout << "-------------------------------------------" << std::endl;
+		for (int i = 0; i < getOwnedTerritories().size(); i++) {
+			std::cout << std::left << std::setw(35) << std::setfill(' ') << getOwnedTerritories().at(i)->getName() << std::left << std::setw(35) << std::setfill(' ') << getOwnedTerritories().at(i)->getArmyCount() << std::endl;
+		}
+		std::cout << std::endl;
+	}
+}
+
+void Player::updateGame(int totalTerritories)
+{
+	
+}

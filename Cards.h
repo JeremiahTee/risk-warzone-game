@@ -67,4 +67,5 @@ public:
     void setAirlift(int);
     int getDiplomacy();
     void setDiplomacy(int);
+    int getTotalCards() { return spy + bomb + reinforcement + blockade + airlift + diplomacy; }
 };

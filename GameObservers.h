@@ -12,11 +12,10 @@ using std::list;
 class Observer
 {
 public:
-	~Observer();
-	virtual void notifyPhase(int) = 0;
-	virtual void notifyGame(int) = 0;
-protected:
 	Observer();
+	~Observer();
+	virtual void updatePhase(int phaseInt) = 0;
+	virtual void updateGame(int totalTerritories) = 0;
 };
 
 class Subject
@@ -24,14 +23,14 @@ class Subject
 public:
 	virtual void attach(Observer* o);
 	virtual void detach(Observer* o);
-	virtual void updatePhase();
-	virtual void updateGame();
+	virtual void notifyPhase();
+	virtual void notifyGame();
 	virtual void setPhase(int& phase);
 	virtual void setTerritoriesCount(int totalTerr);
 	Subject();
 	~Subject();
 private:
-	std::list<Observer*>* _observers;
+	std::list<Observer*>* observersList;
 	int phase;
-	int territories;
+	int totalTerritories;
 };
