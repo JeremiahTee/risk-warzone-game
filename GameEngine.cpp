@@ -224,7 +224,6 @@ void GameEngine::mainGameLoop()
 }
 void GameEngine::reinforcementPhase()
 {
-	//std::cout << "Reinforcement Phase"<<endl;
 	phase = 1;
 	setPhase(phase);
 	notifyGame();
@@ -252,7 +251,6 @@ void GameEngine::reinforcementPhase()
 }
 void GameEngine::orderIssuingPhase()
 {
-	//std::cout << "Order Phase" << endl;
 	phase = 2;
 	setPhase(phase);
 	notifyGame();
@@ -309,7 +307,6 @@ void GameEngine::eraseLosers()
 
 void GameEngine::orderExecutionPhase()
 {
-	//std::cout << "Order Execution Phase" << endl;
 	phase = 3;
 	setPhase(phase);
 	notifyGame();

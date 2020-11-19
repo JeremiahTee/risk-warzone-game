@@ -260,7 +260,7 @@ void Player::setOwnedTerritories(vector<Territory*> &list) {
 void Player::updatePhase(int phaseNumber)
 {
 	if (phaseNumber == 1) {
-		cout << "[Player " << playerId << "at Phase 1 (Reinforcement)]" << endl;
+		cout << "[Player " << playerId << "at Reinforcement Phase (1)]" << endl;
 		cout << "Armies: " << getNumberOfArmies() << ", Cards: " << getHand()->totalCards(getHand()) << ", Countries Owned: " << getOwnedTerritories().size() << endl;
 		cout << "Territories\t\t\t\tArmies" << endl; //each tab is 8 characters of space, 8*4 = 32
 		cout << "********************************************************" << endl;
@@ -270,7 +270,7 @@ void Player::updatePhase(int phaseNumber)
 		cout << endl;
 	}
 	else if (phaseNumber == 2) {
-		std::cout << "[Player " << playerId << "at Phase 2 (Attack)]" << endl;
+		std::cout << "[Player " << playerId << "Order Phase (2)]" << endl;
 		cout << "Territories\t\t\t\tArmies" << endl;
 		cout << "********************************************************" << endl;
 		for (int i = 0; i < getOwnedTerritories().size(); i++) {
@@ -279,7 +279,7 @@ void Player::updatePhase(int phaseNumber)
 		cout << endl;
 	}
 	else{
-		cout << "[Player " << playerId << "at Phase 3 (Fortification)]" << endl;
+		cout << "[Player " << playerId << "at Order Execution Phase (3)]" << endl;
 		cout << "Territories\t\t\t\tArmies" << endl;
 		cout << "********************************************************" << endl;
 		for (int i = 0; i < getOwnedTerritories().size(); i++) {
