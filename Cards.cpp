@@ -1,4 +1,4 @@
-﻿//====================================================================================
+//====================================================================================
 // Name        : Cards.cpp
 // Author      : David Kim (27151543)
 // Description : Cards complation class.
@@ -7,6 +7,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <array>
+#include <ctime>
 #include "Cards.h"
 using namespace std;
 
@@ -52,6 +53,7 @@ int Deck::draw(Deck* d)
     int randomNumber(0);
     int cardArray[6];
     int cardType(0);
+    srand(time(0));
 
     nbOfCards = d->totalCards(d);
     randomNumber = rand() % nbOfCards + 1;

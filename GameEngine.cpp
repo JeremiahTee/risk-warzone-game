@@ -158,7 +158,7 @@ void GameEngine::assignTerritoriesToPlayers(vector<Player> playerList, vector<Te
 
 
 	if (playerList.size() > 0) {
-		while (territoryIndex >= territoryList.size()) {
+		while (territoryIndex < territoryList.size()) {
 			Map::assignTerritory(playerList.at(playerIndex), territoryList.at(territoryIndex));
 
 			territoryIndex++;
@@ -202,26 +202,33 @@ void GameEngine::mainGameLoop()
 {
 	while (!map->checkWinner(players))
 	{
+		
 		reinforcementPhase();
+		
 		playersIssuingOrders = players;
 		orderIssuingPhase();
 		playersExecutingOrders = players;
 		orderExecutionPhase();
+		for(auto it:players)
+		{
+			std::cout << it->getOwnedTerritories().size() << endl;
+			
+		}
 	}
 }
 void GameEngine::reinforcementPhase()
 {
+	std::cout << "Reinforcement"<<endl;
 	for (auto p : players) {
-		vector<Territory*> myvec = p.getTerritories2();
-		int count = 0;
-		p.numOfArmies = floor(myvec.size() / 3);
+		vector<Territory*> myvec = p->territories;
+		p->numOfArmies = floor(myvec.size() / 3);
 		bool owns;
 		int continentbonus = 4;//need to get this property from map/maploader for each continent
-		std::cout << "HI";
+		
 		for (auto& it  :map->getContinentMap())
 		{
-			std::cout << "HI2";
-			owns = map->checkContinentOwnership(&p, it.second);
+			
+			owns = map->checkContinentOwnership(p, it.second);
 			if (owns)
 			{
 				p.numOfArmies += continentbonus;
@@ -229,12 +236,14 @@ void GameEngine::reinforcementPhase()
 		}
 		if (p.numOfArmies < 3)
 		{
-			p.numOfArmies = 3;
+			p->numOfArmies +=3;
 		}
+		p->tempArmies = p->numOfArmies;
 	}
 }
 void GameEngine::orderIssuingPhase()
 {
+	std::cout << "Order" << endl;
 	
 	bool allDone = false;
 	while(!allDone)
@@ -242,12 +251,14 @@ void GameEngine::orderIssuingPhase()
 		allDone = true;
 		for(auto it:playersIssuingOrders)
 		{
-			if(it.doneIssue!=false)
+			if(it->doneIssue==false)
 			{
-				it.issueOrder();
+				it->issueOrder();
+				it->doneIssue = true;//This is sketchy, probs allows only one turn.
 				allDone = false;
 			}
 		}
+		
 	}
 	for (auto it : players)
 	{
@@ -282,25 +293,29 @@ void GameEngine::eraseLosers()
 
 void GameEngine::orderExecutionPhase()
 {
+	std::cout << "OE" << endl;
 	bool allDone = false;
 	while (!allDone)
 	{
+		std::cout << players.back()->getTerritories2().size() << endl;
+		
 		allDone = true;
 		for (auto it : players)
 		{
 			for (auto orderit : it.getOrderList()->getOrders())
 			{
-				if (orderit->name == "Deploy")
+				
+				if((orderit->name=="Deploy")&&!(orderit->executed))
 				{
 					if (!orderit->executed)
 					{
 						orderit->execute();
 						allDone = false;
-
+						std::cout << "Deploy Executed" << endl;
 						break;
 					}
 				}
-				else if (orderit->name == "Airlift")
+				else if((orderit->name=="Airlift") && !(orderit->executed))
 				{
 					if (!orderit->executed)
 					{
@@ -309,7 +324,7 @@ void GameEngine::orderExecutionPhase()
 						break;
 					}
 				}
-				else if (orderit->name == "Blockade")
+				else if ((orderit->name == "Blockade") && (!orderit->executed))
 				{
 					if (!orderit->executed)
 					{
@@ -331,6 +346,16 @@ void GameEngine::orderExecutionPhase()
 			}
 		}
 	}
+	for (auto it : players)
+	{
+		
+		if (it->getOwnedTerritories().size() == 0)
+		{
+			std::vector<Player*>::iterator position = std::find(players.begin(), players.end(), it);
+			if (position != players.end()) // == myVector.end() means the element was not found
+			{
+				players.erase(position);
+			}
 
 	eraseLosers();
 }
