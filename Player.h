@@ -25,7 +25,6 @@ private:
 	
 	Hand* hand;
 	OrderList* orders;
-	int playerId = 0;
 
 public:
 	vector<Territory*> territories;
@@ -51,10 +50,10 @@ public:
 	//virtual Player* getNew();
 	Hand* getHand();
 	OrderList* getOrderList();
-	vector<Territory*> getOwnedTerritories();
-	void setOwnedTerritories(vector<Territory*> list);
-	vector<Territory*> toDefend();
-	vector<Territory*> toAttack();
+	vector<Territory*>& getOwnedTerritories();
+	void setOwnedTerritories(vector<Territory*> &list);
+	vector<Territory*> &toDefend();
+	vector<Territory*> &toAttack();
 	void issueOrder();
 	bool orderFlag = false;
 	//Player* operator = (Player& o);
