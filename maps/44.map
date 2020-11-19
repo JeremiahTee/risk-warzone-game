@@ -1,0 +1,32 @@
+; map: 44.map
+; Made with yura.net Domination 1.2.3
+; OS: Windows 10 10.0  (64bit) on amd64
+
+[files]
+pic 44_pic.png
+map 44_map.gif
+crd 44.cards
+
+[continents]
+East_Europe 4 magenta
+South_Europe 5 green
+
+[countries]
+1 Germany 1 261 149
+2 Poland 1 346 141
+3 Czech_Rep 1 308 173
+4 Slovakia 1 356 190
+5 Hungary 2 347 220
+6 Austria 2 306 210
+7 Switzerland 2 233 217
+8 Italy 2 264 249
+
+[borders]
+1 7 6 3 2
+2 4 3 1
+3 6 4 1 2
+4 6 5 2 3
+5 6 4
+6 8 7 5 1 3 4
+7 8 6 1
+8 7 6
