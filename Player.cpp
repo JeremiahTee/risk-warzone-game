@@ -221,10 +221,7 @@ Territory* Player::getHighestArmyTerritory()
 //Returns the hand if it has a valid pointer to it
 Hand* Player::getHand()
 {
-	if (hand != nullptr)
-	{
-		return hand;
-	}
+	return hand;
 }
 
 OrderList* Player::getOrderList() {
@@ -263,7 +260,7 @@ void Player::setOwnedTerritories(vector<Territory*> &list) {
 void Player::updatePhase(int phaseNumber)
 {
 	if (phaseNumber == 1) {
-		cout << "[Player << " << playerId << "at Phase 1 (Reinforncement)]" << endl;
+		cout << "[Player " << playerId << "at Phase 1 (Reinforcement)]" << endl;
 		cout << "Armies: " << getNumberOfArmies() << ", Cards: " << getHand()->totalCards(getHand()) << ", Countries Owned: " << getOwnedTerritories().size() << endl;
 		cout << "Territories\t\t\t\tArmies" << endl; //each tab is 8 characters of space, 8*4 = 32
 		cout << "********************************************************" << endl;
@@ -273,7 +270,7 @@ void Player::updatePhase(int phaseNumber)
 		cout << endl;
 	}
 	else if (phaseNumber == 2) {
-		std::cout << "[Player << " << playerId << "at Phase 2 (Attack)]" << endl;
+		std::cout << "[Player " << playerId << "at Phase 2 (Attack)]" << endl;
 		cout << "Territories\t\t\t\tArmies" << endl;
 		cout << "********************************************************" << endl;
 		for (int i = 0; i < getOwnedTerritories().size(); i++) {
@@ -282,7 +279,7 @@ void Player::updatePhase(int phaseNumber)
 		cout << endl;
 	}
 	else{
-		cout << "[Player << " << playerId << "at Phase 3 (Fortification)]" << endl;
+		cout << "[Player " << playerId << "at Phase 3 (Fortification)]" << endl;
 		cout << "Territories\t\t\t\tArmies" << endl;
 		cout << "********************************************************" << endl;
 		for (int i = 0; i < getOwnedTerritories().size(); i++) {
@@ -302,7 +299,7 @@ void Player::updateGame(int totalTerritories)
 		percent = (static_cast<double>(currentTerritories) / totalTerritories) * 100;
 	}
 
-	if (percent == 80.0)
+	if (percent > 80.0)
 	{
 		std::cout << "Watch out! Player " << playerId << " owns " << percent << "% of the territories" << std::endl;
 	}else if(percent == 100.0){
