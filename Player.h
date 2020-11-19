@@ -39,7 +39,7 @@ public:
 	string name; //left public intentionally just for testing purposes & to avoid setting up unnecessary getter
 	int playerId = 0;
 	int tempArmies;
-	bool conqueredOne;
+	bool conqueredOne = false;
 	Player() = default;
 	Map* mapPlayed;
 	 vector <Territory*>& getTerritories2();
