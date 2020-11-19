@@ -60,7 +60,7 @@ public:
 	friend ostream& operator << (ostream& out, const Player& p);
 	Territory* getLowestArmyTerritory();
 	Territory* getHighestArmyTerritory();
-	map<Territory*, vector<Territory*>>neighbourmap;
+	map<Territory*, vector<Territory*>> neighbourmap;
 	bool doneDefence;
 	bool doneAttack;
 	bool doneAdvance;

@@ -45,7 +45,7 @@ int Territory::getArmyCount() {
 void Territory::setArmyCount(int armies) {
 	armyCount = armies;
 }
-map<Territory*,vector<Territory*>> Map::getTerritoryNeighbors( Player* caller)
+map <Territory*,vector<Territory*>> Map::getTerritoryNeighbors( Player* caller)
 {
 	map<Territory*, vector<Territory*>>neighborsvec;
 	for(auto it:caller->getOwnedTerritories())

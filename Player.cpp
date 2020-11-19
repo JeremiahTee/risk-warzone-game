@@ -33,6 +33,8 @@ Player::Player(const Player& p)
 {
 	territories = p.territories;
 	hand = p.hand;
+	neighbourmap = p.neighbourmap;
+	
 }
 bool Player::isNegotiated(Player* p1, Player* p2)
 {
@@ -138,7 +140,8 @@ void Player::issueOrder()
 		else
 		{
 			Territory* guarded = getHighestArmyTerritory();
-			orders->add(new Advance(guarded, neighbourmap.at(guarded).front(), guarded->getArmyCount()/ 2, this, this->gameDeck));
+			Territory* targ = neighbourmap.at(guarded).back();
+			orders->add(new Advance(guarded, targ, guarded->getArmyCount()/ 2, this ,this->gameDeck));
 			doneAdvance = true;
 			doneAttack = true;
 			roundwiseordercount++;
@@ -190,7 +193,7 @@ Territory* Player::getLowestArmyTerritory()
 	for(auto it:territories)
 	{
 		thiscount = it->getArmyCount();
-		if(thiscount<lowcount)
+		if(thiscount<=lowcount)
 		{
 			lowcount = thiscount;
 			toReturn = it;
