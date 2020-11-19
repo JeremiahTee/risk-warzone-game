@@ -490,3 +490,9 @@ ostream& operator << (ostream& os, OrderList& olist)
 	return os;
 };
 
+std::list<Order*> OrderList::getOrders()
+{
+	return orders;
+}
+
+

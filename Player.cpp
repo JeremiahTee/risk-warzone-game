@@ -5,9 +5,7 @@
 //============================================================================
 
 #include "Player.h"
-
 #include <iomanip>
-
 #include "Order.h"
 #include <ostream>
 #include <vector>
@@ -127,7 +125,7 @@ void Player::issueOrder()
 	{
 		if(!doneDefence)
 		{
-			orders->add(new Advance(getHighestArmyTerritory(), getLowestArmyTerritory(), getHighestArmyTerritory()->getArmyCount() / 2, this));
+			orders->add(new Advance(getHighestArmyTerritory(), getLowestArmyTerritory(), getHighestArmyTerritory()->getArmyCount() / 2, this, this->gameDeck));
 			doneDefence = true;
 			roundwiseordercount++;
 			cout << "AdvDef" << endl;
@@ -135,7 +133,7 @@ void Player::issueOrder()
 		else
 		{
 			Territory* guarded = getHighestArmyTerritory();
-			orders->add(new Advance(guarded, neighbourmap.at(guarded).front(), guarded->getArmyCount()/ 2, this));
+			orders->add(new Advance(guarded, neighbourmap.at(guarded).front(), guarded->getArmyCount()/ 2, this, this->gameDeck));
 			doneAdvance = true;
 			roundwiseordercount++;
 			cout << "AdvAtt" << endl;
@@ -177,8 +175,6 @@ void Player::issueOrder()
 	{
 		doneIssue = true;
 	}
-	
-	
 }
 Territory* Player::getLowestArmyTerritory()
 {

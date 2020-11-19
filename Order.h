@@ -113,5 +113,6 @@ public:
 	OrderList(const OrderList& ol);//Copy constructor of OrderList returning deep copy of the OrderList.
 	friend ostream& operator<<(ostream& os, OrderList& olist);//Prints out all the orders in the list
 	OrderList& operator=(OrderList& olist);//Returns a pointer to a deep copy of the order on the R.H.S of the = sign.
+	std::list<Order*> getOrders();
 };
 
