@@ -13,6 +13,7 @@ public:
 	vector<Player*> playersExecutingOrders;
 	Deck* deck;
 	bool validExecution;
+	int phase;
 
 	GameEngine();
 	~GameEngine();
