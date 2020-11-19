@@ -4,6 +4,7 @@
 // Description : Map Loader Driver c++ class.
 //============================================================================
 
+/*
 #include "MapLoader.h";
 #include <iostream>
 #include <iostream>
@@ -50,4 +51,4 @@ bool main() {
 	}
 
 	return 0;
-}
+}*/

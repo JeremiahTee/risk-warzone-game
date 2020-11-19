@@ -111,7 +111,7 @@ void GameEngine::createMap(string path) {
 	MapLoader mapLoader = MapLoader();
 	
 	//Add continents
-	vector<Territory*> continentList = mapLoader.GetContinentList();
+	vector<string> continentList = mapLoader.GetContinentList();
 	continentList = mapLoader.ReadMapFile(path, continentList);
 
 	//Add territories
