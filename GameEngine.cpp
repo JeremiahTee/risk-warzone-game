@@ -31,7 +31,6 @@ void GameEngine::gameStartPhase() {
 	string fileName = queryDirectory("maps");
 	cout << "Loading " + fileName + " from file..." << endl;
 	createMap("maps\\"+fileName);
-	//map = Map::getTestMap(); //UNCOMMENT ABOVE WHEN MAPLOADER IS FIXED.
 
 	cout << "Checking map validity..." << endl;
 	if (map->validate()) {
@@ -109,7 +108,7 @@ void GameEngine::createMap(string path) {
 	MapLoader mapLoader = MapLoader();
 	
 	//Add continents
-	vector<Territory*> continentList = mapLoader.GetContinentList();
+	vector<string> continentList = mapLoader.GetContinentList();
 	continentList = mapLoader.ReadMapFile(path, continentList);
 
 	//Add territories

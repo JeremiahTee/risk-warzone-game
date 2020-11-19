@@ -75,12 +75,9 @@ Map::Map(const Map& map) {
 }
 
 Map::~Map() {
-	cout << "Destructing" << endl;
-	/*
 	for (auto territory : territories) {
 		delete territory;
 	}
-	*/
 }
 
 bool Map::validate() {

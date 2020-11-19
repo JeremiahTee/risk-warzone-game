@@ -4,6 +4,7 @@
 // Description : Map Loader c++ class.
 //============================================================================
 
+#include "Map.h"
 #include "MapLoader.h";
 #include <fstream>
 #include <iostream>
@@ -25,24 +26,24 @@ void MapLoader::ShowBorders(vector<vector<Territory*>> _bordersList) {
 		for (int j = 0; j < bL.at(i).size(); j++)
 		{
 			singularBorder = currentBorders.at(j);
-			std::cout << singularBorder->getName() << " - " ;
+			std::cout << singularBorder->getName() << " - ";
 		}
 		std::cout << endl;
 	}
 }
 
-void MapLoader::ShowContinents(vector<Territory*> _continentList) {
+void MapLoader::ShowContinents(vector<string> _continentList) {
 
-	Territory* currentContinent;
-	vector<Territory*> cL = _continentList;
+	string currentContinent;
+	vector<string> cL = _continentList;
 
 	for (int i = 0; i < cL.size(); i++) {
 		currentContinent = cL.at(i);
-		std::cout << currentContinent->getName() << "\n";
+		std::cout << currentContinent << "\n";
 	}
 }
 
-vector<Territory*> MapLoader::GetContinentList()
+vector<string> MapLoader::GetContinentList()
 {
 	return continentList;
 }
@@ -68,7 +69,7 @@ vector<int> MapLoader::GetArmiesNb()
 }
 
 
-Map* MapLoader::CombineInfos(vector<Territory*> _continentList, vector<Territory*> _countryList, vector<vector<Territory*>> _bordersList)
+Map* MapLoader::CombineInfos(vector<string> _continentList, vector<Territory*> _countryList, vector<vector<Territory*>> _bordersList)
 {
 	Map* map = new Map();
 	int currContinentNb;
@@ -77,10 +78,10 @@ Map* MapLoader::CombineInfos(vector<Territory*> _continentList, vector<Territory
 	{
 		map->addTerritory(_countryList[i], _bordersList[i]);
 		currContinentNb = continentNb[i] - 1;
-		map->registerWithContinent(_continentList[currContinentNb]->getName(), _countryList[i]->getArmyCount(), _countryList[i]); //This can be changed to something else.
+		map->registerWithContinent(_continentList[currContinentNb], armiesNb[currContinentNb], _countryList[i]);
 	}
-
-	cout << "!" << endl;
+	cout << "\n";
+	cout << "\n";
 	return map;
 }
 
@@ -122,7 +123,7 @@ bool MapLoader::CheckValidity(string _inputFileStream) {
 			hasBorders = true;
 		}
 
-	
+
 	}
 
 	inputFileStream.close();
@@ -137,7 +138,7 @@ bool MapLoader::CheckValidity(string _inputFileStream) {
 	return isValid;
 }
 
-vector<Territory*> MapLoader::ReadMapFile(string _inputFileStream, vector<Territory*> _continentList) {
+vector<string> MapLoader::ReadMapFile(string _inputFileStream, vector<string> _continentList) {
 	cout << "\nREGISTERING CONTINENTS" << endl;
 	string line;
 	ifstream inputFileStream(_inputFileStream);
@@ -153,34 +154,34 @@ vector<Territory*> MapLoader::ReadMapFile(string _inputFileStream, vector<Territ
 		while (getline(inputFileStream, line) && line != "[continents]") {
 		};
 
-			//first line
+		//first line
+		inputFileStream >> continentName >> armies >> color;
+		string continent = string(continentName);
+		armiesNb.push_back(armies);
+		_continentList.push_back(continent);
+
+		while (getline(inputFileStream, line) && line != "[continents]") {
 			inputFileStream >> continentName >> armies >> color;
-			Territory* continent = new Territory(continentName);
+
+			if (continentName == "[countries]")
+			{
+				break;
+			};
+			string continent = string(continentName);
 			armiesNb.push_back(armies);
 			_continentList.push_back(continent);
-
-			while (getline(inputFileStream, line) && line != "[continents]") {
-				inputFileStream >> continentName >> armies >> color;
-				
-				if (continentName == "[countries]")
-				{
-					break;
-				};
-				Territory* continent = new Territory(continentName);
-				armiesNb.push_back(armies);
-				_continentList.push_back(continent);
- 			}
+		}
 
 		inputFileStream.close();
-		inputFileStream.clear();
 
 		std::cout << "Continents list size: " << _continentList.size() << endl;
 		return _continentList;
 	}
 	else {
 		cout << "File is not open " << "\n";
-		exit(0);
 	}
+
+
 }
 
 vector<Territory*> MapLoader::ReadMapFileForCountries(string _inputFileStream, vector<Territory*> _countryList) {
@@ -197,24 +198,24 @@ vector<Territory*> MapLoader::ReadMapFileForCountries(string _inputFileStream, v
 
 		while (getline(inputFileStream, line) && line != "[countries]") {};
 
-			//first line
+		//first line
+		inputFileStream >> index >> territoryName >> continent >> x >> y;
+		Territory* country = new Territory(territoryName);
+		continentNb.push_back(continent);
+		_countryList.push_back(country);
+
+		while (getline(inputFileStream, line) && line != "[countries]") {
+
 			inputFileStream >> index >> territoryName >> continent >> x >> y;
+			if (territoryName == "[borders]" || territoryName == _countryList.at(_countryList.size() - 1)->getName())
+			{
+				break;
+			}
+
 			Territory* country = new Territory(territoryName);
 			continentNb.push_back(continent);
 			_countryList.push_back(country);
-
-			while (getline(inputFileStream, line) && line != "[countries]" ) {
-
-				inputFileStream >> index >> territoryName >> continent >> x >> y;
-				if (territoryName == "[borders]" || territoryName == _countryList.at(_countryList.size() - 1)->getName())
-				{
-					break;
-				}
-
-				Territory* country = new Territory(territoryName);
-				continentNb.push_back(continent);
-				_countryList.push_back(country);
-			}
+		}
 
 		inputFileStream.close();
 		inputFileStream.clear();
@@ -254,26 +255,26 @@ vector<vector<Territory*>> MapLoader::ReadMapFileForBorders(string _inputFileStr
 		nList.push_back(current);
 
 
-			while (getline(inputFileStream, line) && line.find("[borders]") == std::string::npos) {
-				nList = {};
-				istringstream iss(line);
+		while (getline(inputFileStream, line) && line.find("[borders]") == std::string::npos) {
+			nList = {};
+			istringstream iss(line);
 
-				do {
-					iss >> subs;
-					i_subs = stoi(subs, &sz);
-					Territory* current = _countryList[i_subs-1];
-					nList.push_back(current);
+			do {
+				iss >> subs;
+				i_subs = stoi(subs, &sz);
+				Territory* current = _countryList[i_subs - 1];
+				nList.push_back(current);
 
-				} while (iss);
+			} while (iss);
 
 
-				if (nList.at(nList.size() - 1)->getName() == nList.at(nList.size() - 2)->getName())
-				{
-					nList.pop_back();
-				}
-
-				_bordersList.push_back(nList);
+			if (nList.at(nList.size() - 1)->getName() == nList.at(nList.size() - 2)->getName())
+			{
+				nList.pop_back();
 			}
+
+			_bordersList.push_back(nList);
+		}
 
 		inputFileStream.close();
 		inputFileStream.clear();
