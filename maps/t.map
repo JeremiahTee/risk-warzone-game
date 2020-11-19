@@ -1,0 +1,42 @@
+; map: t.map
+; Made with yura.net Domination 1.2.3
+; OS: Windows 10 10.0  (64bit) on amd64
+
+[files]
+pic t_pic.png
+map t_map.gif
+crd t.cards
+
+[continents]
+North_Europe 5 red
+East_Europe 4 magenta
+South_Europe 5 green
+West_Europe 3 blue
+
+[countries]
+1 England 1 164 126
+2 Wales 1 141 109
+3 Belgum 1 213 153
+4 Netherlands 1 226 128
+5 Germany 2 261 149
+6 Czech_Rep 2 308 173
+7 Slovakia 2 356 190
+8 Hungary 3 347 220
+9 Austria 3 306 210
+10 Switzerland 3 233 217
+11 France 4 176 202
+12 Luxembourg 4 227 172
+
+[borders]
+1 11 3 4 2
+2 1
+3 5 11 12 4 1
+4 5 3 1
+5 10 9 6 4 3 12
+6 9 7 5
+7 9 8 6
+8 9 7
+9 10 8 5 6 7
+10 9 5 11
+11 10 12 3 1
+12 5 11 3
