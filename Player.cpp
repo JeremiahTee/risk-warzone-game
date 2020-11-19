@@ -13,6 +13,11 @@
 
 using std::string;
 using std::vector;
+using std::cout;
+using std::endl;
+using std::left;
+using std::setw;
+using std::setfill;
 
 //fully parametrized constructor
 Player::Player(vector<Territory*> playerTerritories, Hand* playerHand, int id)
@@ -58,15 +63,15 @@ Player::~Player() {
 		territory->setOwner(NULL);
 	}
 	
-	delete hand;
-	delete orders;
+	//delete hand;
+	//delete orders;
 }
  vector<Territory*> &Player::getTerritories2()
 {
 	return territories;
 }
 
-vector<Territory*> Player::toAttack()
+vector<Territory*> &Player::toAttack()
 {
 		neighbourmap = mapPlayed->getTerritoryNeighbors(this);
 		//map < Territory*, vector<Territory*>>::iterator mapit;
@@ -87,7 +92,7 @@ vector<Territory*> Player::toAttack()
 	
 	return attacks;
 }
-vector<Territory*> Player::toDefend()
+vector<Territory*> &Player::toDefend()
 {
 	for (auto it : territories)
 	{
@@ -241,84 +246,64 @@ std::ostream& operator <<(ostream& out, const Player& p)
 	return out;
 }
 
-vector<Territory*> Player::getOwnedTerritories() {
+vector<Territory*> &Player::getOwnedTerritories() {
 	return territories;
 }
 
-void Player::setOwnedTerritories(vector<Territory*> list) {
+void Player::setOwnedTerritories(vector<Territory*> &list) {
 	territories = list;
-}
-
-/*void Player::notifyGame(int totalCountries)
-{
-	int currentTerritories = getOwnedTerritories().size();
-	double percentage = 0.0;
-	if (totalCountries > 0)
-	{
-		percentage = (static_cast<double>(currentTerritories) / totalCountries) * 100;
-	}
-
-	if (percentage == 100.0)
-	{
-		std::cout << "Congratulations! Player " << playerId << " has " << percentage << "owns all territories." << std::endl;
-	}
-	else
-	{
-		std::cout << "Player " << playerId << " has " << percentage << "% of territories owned." << std::endl;
-	}
-
-}*/
-
-void printPlayerTable(int phase)
-{
-	if (phase == 1) //Reinforcement phase
-	{
-
-	}
-	else
-	{
-
-	}
 }
 
 void Player::updatePhase(int phaseNumber)
 {
-	// reinforcement
 	if (phaseNumber == 1) {
-		std::cout << "[Phase Observer: " << getPlayerID() << " stats]" << std::endl;
-		std::cout << "Armies: " << getNumberOfArmies() << ", Cards: " << getHand()->totalCards(getHand()) << ", Countries Owned: " << getOwnedTerritories().size() << std::endl;
-		std::cout << "\nCountries                          Armies" << std::endl;
-		std::cout << "-------------------------------------------" << std::endl;
+		cout << "[Player << " << playerId << "at Phase 1 (Reinforncement)]" << endl;
+		cout << "Armies: " << getNumberOfArmies() << ", Cards: " << getHand()->totalCards(getHand()) << ", Countries Owned: " << getOwnedTerritories().size() << endl;
+		cout << "Territories\t\t\t\tArmies" << endl; //each tab is 8 characters of space, 8*4 = 32
+		cout << "********************************************************" << endl;
 		for (int i = 0; i < getOwnedTerritories().size(); i++) {
-			std::cout << std::left << std::setw(35) << std::setfill(' ') << getOwnedTerritories().at(i)->getName() << std::left << std::setw(35) << std::setfill(' ') << getOwnedTerritories().at(i)->getArmyCount() << std::endl;
+			cout << left << setw(32) << setfill(' ') << getOwnedTerritories().at(i)->getName() << left << setw(32) << setfill(' ') << getOwnedTerritories().at(i)->getArmyCount() << endl;
 		}
-		std::cout << std::endl;
+		cout << endl;
 	}
-
-	// attack
 	else if (phaseNumber == 2) {
-		std::cout << "[Phase Observer: " << getPlayerID() << " stats]" << std::endl;
-		std::cout << "\nCountries                          Armies" << std::endl;
-		std::cout << "-------------------------------------------" << std::endl;
+		std::cout << "[Player << " << playerId << "at Phase 2 (Attack)]" << endl;
+		cout << "Territories\t\t\t\tArmies" << endl;
+		cout << "********************************************************" << endl;
 		for (int i = 0; i < getOwnedTerritories().size(); i++) {
-			std::cout << std::left << std::setw(35) << std::setfill(' ') << getOwnedTerritories().at(i)->getName() << std::left << std::setw(35) << std::setfill(' ') << getOwnedTerritories().at(i)->getArmyCount() << std::endl;
+			std::cout << std::left << setw(32) << setfill(' ') << getOwnedTerritories().at(i)->getName() << left << setw(32) << setfill(' ') << getOwnedTerritories().at(i)->getArmyCount() << endl;
 		}
-		std::cout << std::endl;
+		cout << endl;
 	}
-
-	// fortification
-	else {
-		std::cout << "[Phase Observer: " << getPlayerID() << " stats]" << std::endl;
-		std::cout << "\nCountries                          Armies" << std::endl;
-		std::cout << "-------------------------------------------" << std::endl;
+	else{
+		cout << "[Player << " << playerId << "at Phase 3 (Fortification)]" << endl;
+		cout << "Territories\t\t\t\tArmies" << endl;
+		cout << "********************************************************" << endl;
 		for (int i = 0; i < getOwnedTerritories().size(); i++) {
-			std::cout << std::left << std::setw(35) << std::setfill(' ') << getOwnedTerritories().at(i)->getName() << std::left << std::setw(35) << std::setfill(' ') << getOwnedTerritories().at(i)->getArmyCount() << std::endl;
+			cout << left << setw(32) << setfill(' ') << getOwnedTerritories().at(i)->getName() << left << setw(32) << setfill(' ') << getOwnedTerritories().at(i)->getArmyCount() << endl;
 		}
-		std::cout << std::endl;
+		cout << endl;
 	}
 }
 
+//Outputs the statistics of the game 
 void Player::updateGame(int totalTerritories)
 {
-	
+	int currentTerritories = getOwnedTerritories().size();
+	double percent = 0.0;
+	if (totalTerritories > 0)
+	{
+		percent = (static_cast<double>(currentTerritories) / totalTerritories) * 100;
+	}
+
+	if (percent == 80.0)
+	{
+		std::cout << "Watch out! Player " << playerId << " owns " << percent << "% of the territories" << std::endl;
+	}else if(percent == 100.0){
+		std::cout << "Winner winner, chicken dinner ~ Player " << playerId << "has won the game by owning all territories." << std::endl;
+	}
+	else
+	{
+		std::cout << "Player " << playerId << " owns " << percent << "% of the territories" << std::endl;
+	}
 }
