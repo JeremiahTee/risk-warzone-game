@@ -154,7 +154,7 @@ int GameEngine::queryPlayerCount() {
 }
 
 void GameEngine::createPlayers(int playerCount) {
-	for (int i = 0; i < playerCount; i++) {
+	for (int i = 1; i < playerCount + 1; i++) {
 		vector<Territory*> list;
 		players.push_back(new Player(list, new Hand(0, 0, 0, 0, 0, 0), i));
 	}
@@ -224,7 +224,11 @@ void GameEngine::mainGameLoop()
 }
 void GameEngine::reinforcementPhase()
 {
-	std::cout << "Reinforcement"<<endl;
+	//std::cout << "Reinforcement Phase"<<endl;
+	phase = 1;
+	setPhase(phase);
+	notifyGame();
+	notifyPhase();
 	for (auto p : players) {
 		vector<Territory*> myvec = p->territories;
 		p->numOfArmies = floor(myvec.size() / 3);
@@ -233,7 +237,6 @@ void GameEngine::reinforcementPhase()
 		
 		for (auto& it  :map->getContinentMap())
 		{
-			
 			owns = map->checkContinentOwnership(p, it.second);
 			if (owns)
 			{
@@ -249,7 +252,11 @@ void GameEngine::reinforcementPhase()
 }
 void GameEngine::orderIssuingPhase()
 {
-	std::cout << "Order" << endl;
+	//std::cout << "Order Phase" << endl;
+	phase = 2;
+	setPhase(phase);
+	notifyGame();
+	notifyPhase();
 	orderattempts = 0;
 	bool allDone = false;
 	while((!allDone)&&(orderattempts<100))
@@ -302,7 +309,11 @@ void GameEngine::eraseLosers()
 
 void GameEngine::orderExecutionPhase()
 {
-	std::cout << "OE" << endl;
+	//std::cout << "Order Execution Phase" << endl;
+	phase = 3;
+	setPhase(phase);
+	notifyGame();
+	notifyPhase();
 	bool allDone = false;
 	while (!allDone)
 	{
