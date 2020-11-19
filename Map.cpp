@@ -258,11 +258,11 @@ void Map::registerWithContinent(string continent, int bonusArmyCount, Territory*
 	continentArmies[continent] = bonusArmyCount;
 }
 
-void Map::assignTerritory(Player player, Territory* territory) {
-	territory->setOwner(&player);
-	vector<Territory*> list = player.getOwnedTerritories();
+void Map::assignTerritory(Player* player, Territory* territory) {
+	territory->setOwner(player);
+	vector<Territory*> list = player->getOwnedTerritories();
 	list.push_back(territory);
-	player.setOwnedTerritories(list);
+	player->setOwnedTerritories(list);
 }
 
 Map* Map::getTestMap() {
@@ -341,7 +341,7 @@ Map& Map::operator=(const Map& m) {
 	continents = m.continents;
 	return *this;
 }
-bool Map::checkWinner(vector<Player> p)
+bool Map::checkWinner(vector<Player*> p)
 {
 	vector<Territory*> terlist = getTerritories();
 	bool flag = true;
@@ -352,14 +352,14 @@ bool Map::checkWinner(vector<Player> p)
 		for (auto it : terlist)
 		{
 			
-			if(it->getOwner()!=&player)
+			if(it->getOwner()!=player)
 			{
 				flag = false;
 			}
 		}
 		if(flag)
 		{
-			winner = &player;
+			winner = player;
 			return true;
 		}
 	}

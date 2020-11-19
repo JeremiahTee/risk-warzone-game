@@ -124,26 +124,29 @@ void Player::issueOrder()
 		cout << "Dep2" << endl;
 		roundwiseordercount++;
 	}
-	else if(!(doneAdvance && doneAttack))
+	else if(!(doneAdvance && doneAttack) && (getHighestArmyTerritory()->getArmyCount() != 0))
 	{
 		if(!doneDefence)
 		{
-			orders->add(new Advance(getHighestArmyTerritory(), getLowestArmyTerritory(), getHighestArmyTerritory()->getArmyCount() / 2, this, this->gameDeck));
-			doneDefence = true;
-			roundwiseordercount++;
-			cout << "AdvDef" << endl;
+			
+				orders->add(new Advance(getHighestArmyTerritory(), getLowestArmyTerritory(), getHighestArmyTerritory()->getArmyCount() / 2, this, this->gameDeck));
+				doneDefence = true;
+				roundwiseordercount++;
+				cout << "AdvDef" << endl;
+			
 		}
 		else
 		{
 			Territory* guarded = getHighestArmyTerritory();
 			orders->add(new Advance(guarded, neighbourmap.at(guarded).front(), guarded->getArmyCount()/ 2, this, this->gameDeck));
 			doneAdvance = true;
+			doneAttack = true;
 			roundwiseordercount++;
 			cout << "AdvAtt" << endl;
 		}
 		doneAdvance = true;
 	}
-	else if(roundwiseordercount<10)
+	else if(roundwiseordercount<10 && (getHighestArmyTerritory()->getArmyCount() != 0))
 	{
 		if (hand->getAirlift() >3 )
 		{
@@ -203,7 +206,7 @@ Territory* Player::getHighestArmyTerritory()
 	for (auto it : territories)
 	{
 		thiscount = it->getArmyCount();
-		if (thiscount > highcount)
+		if (thiscount >= highcount)
 		{
 			highcount = thiscount;
 			toReturn = it;

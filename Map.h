@@ -57,7 +57,7 @@ public:
 	~Map();
 	Player* winner;
 	map<Territory*, vector<Territory*>> getTerritoryNeighbors( Player*);
-	bool checkWinner(vector<Player> p);
+	bool checkWinner(vector<Player*> p);
 	bool validate(); //Validates the three map conditions.
 	bool validateTerritoryConnectivity(); //Validates territory connectivity.
 	bool validateNodeConnectivity(Territory* startingNode); //Validates node connectivity given starting node.
@@ -82,7 +82,7 @@ public:
 	unordered_map<string, vector<Territory*>> getContinentMap(); //Get continent map.
 	void registerWithContinent(string continent, int bonusArmyCount, Territory* territory); //Register a territory with a continent.
 
-	static void assignTerritory(Player player, Territory* territory); //Makes a 2-way link between a Player/Territory pair.
+	static void assignTerritory(Player* player, Territory* territory); //Makes a 2-way link between a Player/Territory pair.
 	
 	static Map* getTestMap(); //Creates a test map for testing purposes.
 
