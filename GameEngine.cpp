@@ -159,10 +159,15 @@ void GameEngine::assignTerritoriesToPlayers(vector<Player*> playerList, vector<T
 	int playerIndex = 0;
 	int territoryIndex = 0;
 
-
 	if (playerList.size() > 0) {
-		while (territoryIndex >= territoryList.size()) {
+		while (territoryIndex < territoryList.size()) {
 			Map::assignTerritory(playerList.at(playerIndex), territoryList.at(territoryIndex));
+
+			cout << "Territory (";
+			cout << territoryIndex;
+			cout << ") being assigned to Player (";
+			cout << playerIndex;
+			cout << ")." << endl;
 
 			territoryIndex++;
 			playerIndex++;
@@ -172,6 +177,7 @@ void GameEngine::assignTerritoriesToPlayers(vector<Player*> playerList, vector<T
 			}
 		}
 	}
+	cout << "\n";
 }
 
 void GameEngine::assignInitialArmies(vector<Player*> playerList) {
