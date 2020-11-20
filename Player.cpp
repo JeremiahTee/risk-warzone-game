@@ -85,8 +85,10 @@ vector<Territory*> Player::toAttack()//vector<Territory*> &Player::toAttack()
 			{
 				if (it->getOwner()!=this)
 				{
-					theseEnemyNeighbors.push_back(it);
-					attacks.push_back(it);
+						if (std::find(attacks.begin(), attacks.end(), it) == attacks.end()) {
+							attacks.push_back(it);
+							theseEnemyNeighbors.push_back(it);
+						}
 				}
 			}
 			mapit.second = theseEnemyNeighbors;
@@ -98,9 +100,11 @@ vector<Territory*> Player::toDefend()//&Player::toDefend()
 {
 	for (auto it : territories)
 	{
-		if(it->getArmyCount()<=it->getOwner()->numOfArmies/2)
+		if((it->getArmyCount()<4))
 		{
-			defences.push_back(it);
+			if (std::find(defences.begin(),defences.end(),it)==defences.end()) {
+				defences.push_back(it);
+			}
 		}
 	}
 	return defences;
