@@ -73,10 +73,9 @@ Player::~Player() {
 	return territories;
 }
 
-vector<Territory*> Player::toAttack()//vector<Territory*> &Player::toAttack()
+vector<Territory*> Player::toAttack()
 {
 		neighbourmap = mapPlayed->getTerritoryNeighbors(this);
-		//map < Territory*, vector<Territory*>>::iterator mapit;
 		for (auto mapit : neighbourmap)
 		{
 			vector <Territory*> theseNeighbors = mapit.second;
@@ -98,7 +97,7 @@ vector<Territory*> Player::toAttack()//vector<Territory*> &Player::toAttack()
 	
 	return attacks;
 }
-vector<Territory*> Player::toDefend()//&Player::toDefend()
+vector<Territory*> Player::toDefend()
 {
 	for (auto it : territories)
 	{
@@ -120,16 +119,14 @@ void Player::issueOrder()
 	{
 		orders->add(new Deploy(tempArmies,defences.back(),this));
 		tempArmies = -1;
-		//defences.pop_back();
-		cout << "Dep1" << endl;
+		cout << "Deployment 1..." << endl;
 		roundwiseordercount++;
 	}
 	else if ((tempArmies != 0)&&(tempArmies>0))
 	{
 		orders->add(new Deploy(tempArmies / 4, defences.front(), this));
 		
-		//defences.pop_back();
-		cout << "Dep2" << endl;
+		cout << "Deployment 2..." << endl;
 		roundwiseordercount++;
 	}
 	else if(!(doneAdvance && doneAttack) && (getHighestArmyTerritory()->getArmyCount() != 0))
@@ -140,13 +137,13 @@ void Player::issueOrder()
 				orders->add(new Advance(getHighestArmyTerritory(), getLowestArmyTerritory(), getHighestArmyTerritory()->getArmyCount() / 2, this, this->gameDeck));
 				doneDefence = true;
 				roundwiseordercount++;
-				cout << "AdvDef" << endl;
+				cout << "Advance Transfer..." << endl;
 		}
 		else
 		{
 			Territory* guarded = getHighestArmyTerritory();
 			Territory* targ=nullptr;
-			//Territory* targ = neighbourmap.at(guarded).back();
+			
 			if (!enemyneighbourmap.at(guarded).empty()) {
 				targ = enemyneighbourmap.at(guarded).back();
 			}
@@ -253,12 +250,6 @@ OrderList* Player::getOrderList() {
 	return orders;
 }
 
-//
-//Player* Player::getNew()
-//{
-//	return new Player(*this);
-//}
-
 //ostream operator for Player prints number of territories and indicates whether the hand is valid or not
 std::ostream& operator <<(ostream& out, const Player& p)
 {
@@ -315,23 +306,31 @@ void Player::updatePhase(int phaseNumber)
 }
 
 //Outputs the statistics of the game 
-void Player::updateGame(int totalTerritories)
+void Player::updateGame(int totalTerritories, bool isPlayerBeingRemoved)
 {
-	int currentTerritories = getOwnedTerritories().size();
-	double percent = 0.0;
-	if (totalTerritories > 0)
+	//First check is a player has been removed
+	if (!isPlayerBeingRemoved)
 	{
-		percent = (static_cast<double>(currentTerritories) / totalTerritories) * 100;
-	}
+		int currentTerritories = getOwnedTerritories().size();
+		double percent = 0.0;
+		if (totalTerritories > 0)
+		{
+			percent = (static_cast<double>(currentTerritories) / totalTerritories) * 100;
+		}
 
-	if (percent > 80.0)
+		if (percent > 80.0)
+		{
+			cout << "Watch out! Player " << playerId << " owns " << percent << "% of the territories" << endl;
+		}
+		else if (percent == 100.0) { //Announce when a player has won
+			cout << "Winner winner, chicken dinner ~ Player " << playerId << "has won the game by owning all territories." << endl;
+		}
+		else
+		{
+			cout << "Player " << playerId << " owns " << percent << "% of the territories" << endl;
+		}
+	}else //Announce when a player has been removed 
 	{
-		std::cout << "Watch out! Player " << playerId << " owns " << percent << "% of the territories" << std::endl;
-	}else if(percent == 100.0){
-		std::cout << "Winner winner, chicken dinner ~ Player " << playerId << "has won the game by owning all territories." << std::endl;
-	}
-	else
-	{
-		std::cout << "Player " << playerId << " owns " << percent << "% of the territories" << std::endl;
+		cout << "Player " << playerId << " has been removed.";
 	}
 }
