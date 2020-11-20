@@ -61,6 +61,7 @@ public:
 	Territory* target; Player* p;
 	bool validate();
 	void execute();
+	void print();
 	Bomb(Territory* target, Player* p);
 	Bomb(const Bomb& b);
 	Bomb* getNew();
@@ -72,6 +73,7 @@ public:
 	Territory* target; Player* p; Player* neutral;
 	bool validate();
 	void execute();
+	void print();
 	Blockade(Territory* target, Player* p, Player* neutral);
 	Blockade(const Blockade& bl);
 	Blockade* getNew();
@@ -83,6 +85,7 @@ public:
 	Territory* source; Territory* target; int numArmies; Player* p;
 	bool validate();
 	void execute();
+	void print();
 	Airlift(Territory* source, Territory* target, int numArmies, Player* p);
 	Airlift(const Airlift& a);
 	Airlift* getNew();

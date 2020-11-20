@@ -157,6 +157,8 @@ void GameEngine::createPlayers(int playerCount) {
 		vector<Territory*> list;
 		players.push_back(new Player(list, new Hand(0, 0, 0, 0, 0, 0), i));
 	}
+	vector<Territory*> nullist;
+	neutral = new Player(nullist, new Hand(0, 0, 0, 0, 0, 0), -1);
 }
 
 void GameEngine::assignTerritoriesToPlayers(vector<Player*> playerList, vector<Territory*> territoryList) {
@@ -207,6 +209,7 @@ void GameEngine::assignInitialArmies(vector<Player*> playerList) {
 		Hand* playerHand = player->getHand();
 		player->numOfArmies = armyCount;
 		player->gameDeck = deck;
+		player->neutral = neutral;
 	}
 }
 
@@ -225,8 +228,10 @@ void GameEngine::mainGameLoop()
 		{
 			std::cout << it->getOwnedTerritories().size() << endl;
 			it->neighbourmap.clear();
+			it->enemyneighbourmap.clear();
 			it->attacks.clear();
 			it->getOrderList()->orders.clear();
+			it->conqueredOne = false;
 		}
 	}
 }
@@ -265,7 +270,7 @@ void GameEngine::orderIssuingPhase()
 	notifyPhase();
 	orderattempts = 0;
 	bool allDone = false;
-	while((!allDone)&&(orderattempts<100))
+	while((!allDone)&&(orderattempts<100))//breqaks here
 	{
 		
 		allDone = true;
@@ -286,6 +291,7 @@ void GameEngine::orderIssuingPhase()
 		it->doneDefence = false;
 		it->doneAdvance = false;
 		it->doneAttack = false;
+		it->donecard = false;
 		it->doneIssue = false;
 		it->roundwiseordercount = 0;
 		it->tempArmies = it->numOfArmies;
@@ -311,8 +317,9 @@ void GameEngine::eraseLosers()
 	//Erase the players without territories from the player list
 	for(int j: loserPlayerIndex)
 	{
+		
+		detach(players[j]); //detach the observer as well
 		players.erase(players.begin() + j);
-		notifyGame();
 		detach(players[j]); //detach the observer as well
 	}
 

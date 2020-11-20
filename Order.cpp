@@ -190,16 +190,16 @@ void Advance::execute()
 					count++;
 				};
 
-				defender->getTerritories2().erase(looper);
+				defender->territories.erase(looper);
 				target->setOwner(p);
-				p->getTerritories2().push_back(target);
+				p->territories.push_back(target);
 				std::cout << "\nAttacker Wins. ";
 				if (p->conqueredOne == false) 
 				{
 					int cardType(0);
 					Hand* h = p->getHand();
 					cardType = d->draw(d);
-					h->addToHand(cardType, h);
+					p->getHand()->addToHand(cardType, h);//h.addtohand
 					p->conqueredOne = true;
 				}
 			}
@@ -243,17 +243,22 @@ bool Bomb::validate()
 	{
 		std::cout << "Attack invalid due to active negotiate card.";
 	}
-	else 
-	{
-		std::cout << "\nThe Bomb Order is invalid.";
-	}
+	
 	return false;
 };
+void Bomb::print()
+{
+	std::cout << "\n--- Bomb: Player" << p->getPlayerID() << " bombs " << target->getName() << " ----get rekt" << endl;
+}
 void Bomb::execute()
 {
 	if (validate() == true)
 	{
 		target->setArmyCount(target->getArmyCount() / 2);
+		executed = true;
+	}
+	else
+	{
 		executed = true;
 	}
 };
@@ -309,6 +314,10 @@ void Blockade::execute()
 
 		neutral->getTerritories2().push_back(target);
 	}
+	else
+	{
+		executed = true;
+	}
 };
 Blockade::Blockade(const Blockade& bl) : Order((Order&)bl)
 {
@@ -346,9 +355,19 @@ void Airlift::execute()
 	{
 		source->setArmyCount(source->getArmyCount() - numArmies);
 		target->setArmyCount(target->getArmyCount() + numArmies);
+		print();
+		executed = true;
+	}
+	else
+	{
+		cout << " invalid airlift " << endl;
 		executed = true;
 	}
 };
+void Airlift::print()
+{
+	std::cout << "\n--- Airlift: Player" << p->getPlayerID() << " airlifts " << numArmies << " armies from " << source->getName() <<" to " << target->getName() << endl;
+}
 Airlift::Airlift(const Airlift& a) : Order((Order&)a)
 {
 	source = a.source;
@@ -390,6 +409,10 @@ void Negotiate::execute()
 	{
 		source->negotiated.push_back(target);
 		target->negotiated.push_back(source);
+		executed = true;
+	}
+	else
+	{
 		executed = true;
 	}
 };

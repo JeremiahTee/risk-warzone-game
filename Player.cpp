@@ -160,6 +160,8 @@ void Player::issueOrder()
 				}
 				if(targ==nullptr)
 				{
+					/*doneAdvance = true;
+					doneAttack = true;*/
 					return;
 				}
 			}
@@ -171,23 +173,25 @@ void Player::issueOrder()
 		}
 		doneAdvance = true;
 	}
-	else if(roundwiseordercount<10 && (getHighestArmyTerritory()->getArmyCount() != 0))
+	else if((roundwiseordercount<10) && (getHighestArmyTerritory()->getArmyCount() != 0))
 	{
-		if (hand->getAirlift() >3 )
+		if (hand->getAirlift() >0 )
 		{
 			hand->play(4);//to add back to deck
 			orders->add(new Airlift(getHighestArmyTerritory(),getLowestArmyTerritory(),getHighestArmyTerritory()->getArmyCount()/2,this));
 			roundwiseordercount++;
 			gameDeck->addToDeck(4);
+			donecard = true;
 		}
-		else if (hand->getBlockade() >3)
+		else if (hand->getBlockade() >0)
 		{
 			hand->play(3);
 			orders->add(new Blockade(getLowestArmyTerritory(),this,neutral));
 			roundwiseordercount++;
 			gameDeck->addToDeck(3);
+			donecard = true;
 		}
-		else if (hand->getBomb() >3)
+		else if (hand->getBomb() >0)
 		{
 			hand->play(1);
 			Territory* neighOfBomb = getLowestArmyTerritory();
@@ -195,6 +199,7 @@ void Player::issueOrder()
 			orders->add(new Bomb(toBomb, this));
 			roundwiseordercount++;
 			gameDeck->addToDeck(1);
+			donecard = true;
 		}
 		else if (false)//hand->getAirlift() >3    //NEED TO ADD NEGOTIATE BEHAVIOUR
 		{

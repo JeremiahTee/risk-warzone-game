@@ -63,6 +63,7 @@ public:
 	bool doneDefence;
 	bool doneAttack;
 	bool doneAdvance;
+	bool donecard;
 	//Implements the Observer notify methods
 	virtual void updatePhase(int phaseNumber);
 	virtual void updateGame(int totalTerritories, bool isPlayerBeingRemoved);

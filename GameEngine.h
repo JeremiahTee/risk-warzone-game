@@ -14,7 +14,7 @@ public:
 	Deck* deck;
 	bool validExecution;
 	int phase;
-
+	Player* neutral;
 	GameEngine();
 	~GameEngine();
 	int orderattempts=0;
