@@ -9,7 +9,6 @@
 #include <iostream>
 #include <filesystem>
 #include <vector>
-
 #include <algorithm>
 #include <random>
 #include <exception>
@@ -168,6 +167,12 @@ void GameEngine::assignTerritoriesToPlayers(vector<Player*> playerList, vector<T
 		while (territoryIndex < territoryList.size()) {
 			Map::assignTerritory(playerList.at(playerIndex), territoryList.at(territoryIndex));
 
+			cout << "Territory (";
+			cout << territoryIndex;
+			cout << ") being assigned to Player (";
+			cout << playerList.at(playerIndex)->getPlayerID();
+			cout << ")." << endl;
+
 			territoryIndex++;
 			playerIndex++;
 
@@ -235,16 +240,16 @@ void GameEngine::reinforcementPhase()
 		vector<Territory*> myvec = p->territories;
 		p->numOfArmies += floor(myvec.size() / 3);
 		bool owns;
-		int continentbonus = 4;//need to get this property from map/maploader for each continent
-		
-		for (auto& it  :map->getContinentMap())
+
+		for (auto& it : map->getContinentMap())
 		{
 			owns = map->checkContinentOwnership(p, it.second);
 			if (owns)
 			{
-				p->numOfArmies += continentbonus;
+				p->numOfArmies += map->getContinentArmies().at(it.first);
 			}
 		}
+
 		if (p->numOfArmies < 3)
 		{
 			p->numOfArmies +=3;
