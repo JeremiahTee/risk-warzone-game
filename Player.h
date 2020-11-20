@@ -61,6 +61,7 @@ public:
 	Territory* getLowestArmyTerritory();
 	Territory* getHighestArmyTerritory();
 	map<Territory*, vector<Territory*>> neighbourmap;
+	map<Territory*, vector<Territory*>> enemyneighbourmap;
 	bool doneDefence;
 	bool doneAttack;
 	bool doneAdvance;

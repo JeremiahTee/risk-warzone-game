@@ -88,9 +88,11 @@ vector<Territory*> Player::toAttack()//vector<Territory*> &Player::toAttack()
 						if (std::find(attacks.begin(), attacks.end(), it) == attacks.end()) {
 							attacks.push_back(it);
 							theseEnemyNeighbors.push_back(it);
+							
 						}
 				}
 			}
+			enemyneighbourmap.insert({ mapit.first, theseEnemyNeighbors});
 			mapit.second = theseEnemyNeighbors;
 		}
 	
@@ -124,9 +126,9 @@ void Player::issueOrder()
 	}
 	else if ((tempArmies != 0)&&(tempArmies>0))
 	{
-		orders->add(new Deploy(tempArmies / 4, defences.back(), this));
+		orders->add(new Deploy(tempArmies / 4, defences.front(), this));
 		
-		defences.pop_back();
+		//defences.pop_back();
 		cout << "Dep2" << endl;
 		roundwiseordercount++;
 	}
@@ -143,9 +145,27 @@ void Player::issueOrder()
 		else
 		{
 			Territory* guarded = getHighestArmyTerritory();
-			
-			Territory* targ = neighbourmap.at(guarded).back();
-			
+			Territory* targ=nullptr;
+			//Territory* targ = neighbourmap.at(guarded).back();
+			if (!enemyneighbourmap.at(guarded).empty()) {
+				targ = enemyneighbourmap.at(guarded).back();
+			}
+			else
+			{
+				for(auto it:territories)
+				{
+					if(!enemyneighbourmap.at(it).empty())
+					{
+						guarded = it;
+						targ = enemyneighbourmap.at(it).back();
+						break;
+					}
+				}
+				if(targ==nullptr)
+				{
+					return;
+				}
+			}
 			orders->add(new Advance(guarded, targ, guarded->getArmyCount()/ 2, this ,this->gameDeck));
 			doneAdvance = true;
 			doneAttack = true;

@@ -275,7 +275,7 @@ void GameEngine::orderIssuingPhase()
 				allDone = false;
 			}
 		}
-		cout << orderattempts<<endl;
+		
 		orderattempts++;
 	}
 	for (auto it : players)
