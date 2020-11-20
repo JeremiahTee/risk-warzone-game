@@ -116,9 +116,9 @@ void Player::issueOrder()
 	toDefend();
 	if((tempArmies<=4)&&(tempArmies>0))
 	{
-		orders->add(new Deploy(tempArmies,defences.front(),this));
+		orders->add(new Deploy(tempArmies,defences.back(),this));
 		tempArmies = -1;
-		defences.pop_back();
+		//defences.pop_back();
 		cout << "Dep1" << endl;
 		roundwiseordercount++;
 	}
@@ -134,6 +134,7 @@ void Player::issueOrder()
 	{
 		if(!doneDefence)
 		{
+			
 				orders->add(new Advance(getHighestArmyTerritory(), getLowestArmyTerritory(), getHighestArmyTerritory()->getArmyCount() / 2, this, this->gameDeck));
 				doneDefence = true;
 				roundwiseordercount++;
