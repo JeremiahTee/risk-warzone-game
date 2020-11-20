@@ -143,16 +143,9 @@ void Player::issueOrder()
 		else
 		{
 			Territory* guarded = getHighestArmyTerritory();
+			
 			Territory* targ = neighbourmap.at(guarded).back();
-			if (targ == NULL)
-			{
-				cout << "Fuck C++ im out";
-			}
-			else
-			{
-				cout << guarded->getName()<<"   ->   "<<targ->getName();
-
-			}
+			
 			orders->add(new Advance(guarded, targ, guarded->getArmyCount()/ 2, this ,this->gameDeck));
 			doneAdvance = true;
 			doneAttack = true;
@@ -199,7 +192,7 @@ void Player::issueOrder()
 }
 Territory* Player::getLowestArmyTerritory()
 {
-	int lowcount = 0;
+	int lowcount = 100000000000;
 	int thiscount;
 	Territory* toReturn=nullptr;
 	for(auto it:territories)
