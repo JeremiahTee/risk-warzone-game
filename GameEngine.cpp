@@ -221,8 +221,8 @@ void GameEngine::mainGameLoop()
 			std::cout << it->getOwnedTerritories().size() << endl;
 			it->neighbourmap.clear();
 			it->attacks.clear();
-			it->defences.clear();
-			it->getOrderList()->getOrders().clear();
+			//it->defences.clear();
+			it->getOrderList()->orders.clear();
 		}
 	}
 }
@@ -275,6 +275,7 @@ void GameEngine::orderIssuingPhase()
 				allDone = false;
 			}
 		}
+		cout << orderattempts<<endl;
 		orderattempts++;
 	}
 	for (auto it : players)

@@ -102,9 +102,10 @@ public:
 class OrderList
 {
 private:
-	std::list <Order*> orders;//This is the core of the class, the list of Orders being stored.
+	//This is the core of the class, the list of Orders being stored.
 public:
 	OrderList(std::list<Order*>);
+	std::list <Order*> orders;
 	OrderList();
 	~OrderList();
 	void move(int movefrom, int moveto); //Moves the order at the movefrom position, and places it in the position of the moveto position

@@ -80,6 +80,10 @@ void Deploy::execute()
 		executed = true;
 		print();
 	}
+	else
+	{
+		executed = true;
+	}
 }
 void Deploy::print()
 {

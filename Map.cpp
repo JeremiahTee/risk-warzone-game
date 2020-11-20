@@ -50,7 +50,7 @@ map <Territory*,vector<Territory*>> Map::getTerritoryNeighbors( Player* caller)
 	map<Territory*, vector<Territory*>>neighborsvec;
 	for(auto it:caller->getOwnedTerritories())
 	{
-		if (it != nullptr) {
+		if (it->getOwner() != nullptr) {
 			Territory* thisOne = it;
 			neighborsvec.insert({ thisOne,getTerritoryNeighbors(thisOne) });
 		}
