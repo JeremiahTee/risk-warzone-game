@@ -5,6 +5,7 @@ int main() { //This is the main driver
 
 	g->gameStartPhase();
 	g->startupPhase();
+	g->mainGameLoop();
 
 	delete g;
 	return 0;

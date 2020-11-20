@@ -317,10 +317,8 @@ void GameEngine::eraseLosers()
 	//Erase the players without territories from the player list
 	for(int j: loserPlayerIndex)
 	{
-		
 		detach(players[j]); //detach the observer as well
 		players.erase(players.begin() + j);
-		detach(players[j]); //detach the observer as well
 	}
 
 	setIsPlayerBeingRemoved(false);
