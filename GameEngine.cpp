@@ -33,8 +33,8 @@ void GameEngine::attachObservers(vector<Player*> players)
 	}
 
 	setTerritoriesCount(map->getTerritories().size());
+	setIsPlayerBeingRemoved(false);
 }
-
 
 void GameEngine::gameStartPhase() {
 	cout << "Initializing game engine..." << endl;
@@ -221,7 +221,6 @@ void GameEngine::mainGameLoop()
 			std::cout << it->getOwnedTerritories().size() << endl;
 			it->neighbourmap.clear();
 			it->attacks.clear();
-			//it->defences.clear();
 			it->getOrderList()->orders.clear();
 		}
 	}
@@ -271,7 +270,6 @@ void GameEngine::orderIssuingPhase()
 			if(it->doneIssue==false)
 			{
 				it->issueOrder();
-				//it->doneIssue = true;//This is sketchy, probs allows only one turn.
 				allDone = false;
 			}
 		}
@@ -303,12 +301,17 @@ void GameEngine::eraseLosers()
 		}
 	}
 
+	setIsPlayerBeingRemoved(true);
+
 	//Erase the players without territories from the player list
 	for(int j: loserPlayerIndex)
 	{
 		players.erase(players.begin() + j);
+		notifyGame();
 		detach(players[j]); //detach the observer as well
 	}
+
+	setIsPlayerBeingRemoved(false);
 }
 
 void GameEngine::orderExecutionPhase()
@@ -365,7 +368,6 @@ void GameEngine::orderExecutionPhase()
 						break;
 					}
 				}
-
 			}
 		}
 	}

@@ -47,7 +47,6 @@ public:
 	Player(vector<Territory*> territories, Hand* hand, int id);
 	Player(const Player& o);
 	~Player();
-	//virtual Player* getNew();
 	Hand* getHand();
 	OrderList* getOrderList();
 	vector<Territory*>& getOwnedTerritories();
@@ -56,7 +55,6 @@ public:
 	vector<Territory*> toAttack();
 	void issueOrder();
 	bool orderFlag = false;
-	//Player* operator = (Player& o);
 	friend ostream& operator << (ostream& out, const Player& p);
 	Territory* getLowestArmyTerritory();
 	Territory* getHighestArmyTerritory();
@@ -67,7 +65,7 @@ public:
 	bool doneAdvance;
 	//Implements the Observer notify methods
 	virtual void updatePhase(int phaseNumber);
-	virtual void updateGame(int totalTerritories);
+	virtual void updateGame(int totalTerritories, bool isPlayerBeingRemoved);
 	int getPlayerID() { return playerId; };
 	int getNumberOfArmies() { return numOfArmies; };
 };

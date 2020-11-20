@@ -46,7 +46,7 @@ void Subject::notifyGame()
 
 	for(; i != observersList->end(); ++i)
 	{
-		(*i)->updateGame(totalTerritories);
+		(*i)->updateGame(totalTerritories, isPlayerBeingRemoved);
 	}
 }
 
@@ -58,4 +58,9 @@ void Subject::setPhase(int& phase)
 void Subject::setTerritoriesCount(int terrCount)
 {
 	this->totalTerritories = terrCount;
+}
+
+void Subject::setIsPlayerBeingRemoved(bool isPlayerBeingRemoved)
+{
+	this->isPlayerBeingRemoved = isPlayerBeingRemoved;
 }
