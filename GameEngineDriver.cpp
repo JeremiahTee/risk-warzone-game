@@ -1,4 +1,4 @@
-#include "GameEngine.h"
+/*#include "GameEngine.h"
 int main()
 {
 	GameEngine g = GameEngine();
@@ -6,4 +6,4 @@ int main()
 	g.gameStartPhase();
 	g.startupPhase();
 	g.mainGameLoop();
-}
+}*/

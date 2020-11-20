@@ -251,6 +251,15 @@ vector<string> Map::getContinents() {
 	return toReturn;
 }
 
+string Map::getContinent(Territory* territory) {
+	for (auto& it : continents) {
+		if (contains(it.second, territory)) {
+			return it.first;
+		}
+	}
+	return "";
+}
+
 unordered_map<string, vector<Territory*>> Map::getContinentMap() {
 	return continents;
 }
@@ -258,6 +267,10 @@ unordered_map<string, vector<Territory*>> Map::getContinentMap() {
 void Map::registerWithContinent(string continent, int bonusArmyCount, Territory* territory) {
 	continents[continent].push_back(territory);
 	continentArmies[continent] = bonusArmyCount;
+}
+
+unordered_map<string, int> Map::getContinentArmies() {
+	return continentArmies;
 }
 
 void Map::assignTerritory(Player* player, Territory* territory) {

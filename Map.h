@@ -78,9 +78,11 @@ public:
 
 	vector<string> getContinents(); //Get list of territory names.
 
-	
+	string getContinent(Territory* territory);
 	unordered_map<string, vector<Territory*>> getContinentMap(); //Get continent map.
 	void registerWithContinent(string continent, int bonusArmyCount, Territory* territory); //Register a territory with a continent.
+
+	unordered_map<string, int> getContinentArmies();
 
 	static void assignTerritory(Player* player, Territory* territory); //Makes a 2-way link between a Player/Territory pair.
 	
