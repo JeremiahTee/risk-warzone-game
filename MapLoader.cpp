@@ -168,6 +168,7 @@ vector<string> MapLoader::ReadMapFile(string _inputFileStream, vector<string> _c
 		}
 
 		inputFileStream.close();
+		inputFileStream.clear();
 
 		std::cout << "Continents list size: " << _continentList.size() << endl;
 		return _continentList;
