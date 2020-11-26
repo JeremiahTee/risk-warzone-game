@@ -303,12 +303,14 @@ vector<Territory*> ConquestFileReaderAdapter::ReadMapFileForCountries(string _in
 //Conquest File Read methods
 bool ConquestFileReader::CheckValidityConquest(string _inputFileStream)
 {
+	//Add Conquest validity related check
 	cout << "Checking validity" << endl;
 	return false;
 }
 
 vector<string> ConquestFileReader::ReadMapFileConquest(string _inputFileStream, vector<string> _continentList)
 {
+	//Add Conquest map file parsing
 	vector<string> continent = { "Alabama" };
 	cout << "Reading map conquest" << endl;
 	return continent;
@@ -316,6 +318,7 @@ vector<string> ConquestFileReader::ReadMapFileConquest(string _inputFileStream, 
 
 vector<Territory*> ConquestFileReader::ReadMapFileForCountriesConquest(string _inputFileStream, vector<Territory*> _countryList)
 {
+	//Add Conquest map countries parsing
 	vector<Territory*> countries;
 	cout << "Reading countries conquest" << endl;
 	return countries;
@@ -323,6 +326,7 @@ vector<Territory*> ConquestFileReader::ReadMapFileForCountriesConquest(string _i
 
 vector<vector<Territory*>> ConquestFileReader::ReadMapFileForBordersConquest(string _inputFileStream, vector<vector<Territory*>> _bordersList, vector<Territory*> _countryList)
 {
+	//Add Conquest map neighbors parsing
 	vector<vector<Territory*>> neighbors;
 	cout << "Reading neighbors conquest" << endl;
 	return neighbors;
