@@ -274,7 +274,6 @@ vector<vector<Territory*>> MapLoader::ReadMapFileForBorders(string _inputFileStr
 }
 
 //Adapter code
-
 ConquestFileReaderAdapter::ConquestFileReaderAdapter(ConquestFileReader map)
 {
 	file_reader_ = map;
@@ -282,43 +281,48 @@ ConquestFileReaderAdapter::ConquestFileReaderAdapter(ConquestFileReader map)
 
 bool ConquestFileReaderAdapter::CheckValidity(string _inputFileStream)
 {
-	file_reader_.CheckValidityConquest(_inputFileStream);
+	return file_reader_.CheckValidityConquest(_inputFileStream);
 }
 
 vector<string> ConquestFileReaderAdapter::ReadMapFile(string _inputFileStream, vector<string> _continentList)
 {
-	file_reader_.ReadMapFileConquest(_inputFileStream, _continentList);
+	return file_reader_.ReadMapFileConquest(_inputFileStream, _continentList);
 }
 
 vector<vector<Territory*>> ConquestFileReaderAdapter::ReadMapFileForBorders(string _inputFileStream, vector<vector<Territory*>> _bordersList, vector<Territory*> _countryList)
 {
-	file_reader_.ReadMapFileForBordersConquest(_inputFileStream, _bordersList, _countryList);
+	return file_reader_.ReadMapFileForBordersConquest(_inputFileStream, _bordersList, _countryList);
 }
 
 vector<Territory*> ConquestFileReaderAdapter::ReadMapFileForCountries(string _inputFileStream, vector<Territory*> _countryList)
 {
-	file_reader_.ReadMapFileForCountriesConquest(_inputFileStream, _countryList);
+	return file_reader_.ReadMapFileForCountriesConquest(_inputFileStream, _countryList);
 }
 
 //Conquest File Read methods
-
 bool ConquestFileReader::CheckValidityConquest(string _inputFileStream)
 {
 	cout << "Checking validity" << endl;
+	return false;
 }
 
 vector<string> ConquestFileReader::ReadMapFileConquest(string _inputFileStream, vector<string> _continentList)
 {
+	vector<string> continent = { "Alabama" };
 	cout << "Reading map conquest" << endl;
+	return continent;
 }
 
 vector<Territory*> ConquestFileReader::ReadMapFileForCountriesConquest(string _inputFileStream, vector<Territory*> _countryList)
 {
+	vector<Territory*> countries;
 	cout << "Reading countries conquest" << endl;
+	return countries;
 }
 
 vector<vector<Territory*>> ConquestFileReader::ReadMapFileForBordersConquest(string _inputFileStream, vector<vector<Territory*>> _bordersList, vector<Territory*> _countryList)
 {
+	vector<vector<Territory*>> neighbors;
 	cout << "Reading neighbors conquest" << endl;
+	return neighbors;
 }
-
