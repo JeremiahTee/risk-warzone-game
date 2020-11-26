@@ -13,12 +13,12 @@
 //}
 
 int main() { //This is the main driver
-	GameEngine* g = new GameEngine();
+	ConquestFileReader *reader = new ConquestFileReader();
+	ConquestFileReaderAdapter* adapter = new ConquestFileReaderAdapter(*reader);
 
-	g->gameStartPhase();
-	g->startupPhase();
-	g->mainGameLoop();
+	adapter->CheckValidity("test");
 
-	delete g;
+	delete adapter;
+	delete reader;
 	return 0;
 }
