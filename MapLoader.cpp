@@ -67,7 +67,6 @@ vector<int> MapLoader::GetArmiesNb()
 	return armiesNb;
 }
 
-
 Map* MapLoader::CombineInfos(vector<string> _continentList, vector<Territory*> _countryList, vector<vector<Territory*>> _bordersList)
 {
 	Map* map = new Map();
@@ -273,3 +272,53 @@ vector<vector<Territory*>> MapLoader::ReadMapFileForBorders(string _inputFileStr
 	cout << "File is not open " << "\n";
 	exit(0);
 }
+
+//Adapter code
+
+ConquestFileReaderAdapter::ConquestFileReaderAdapter(ConquestFileReader map)
+{
+	file_reader_ = map;
+}
+
+bool ConquestFileReaderAdapter::CheckValidity(string _inputFileStream)
+{
+	file_reader_.CheckValidityConquest(_inputFileStream);
+}
+
+vector<string> ConquestFileReaderAdapter::ReadMapFile(string _inputFileStream, vector<string> _continentList)
+{
+	file_reader_.ReadMapFileConquest(_inputFileStream, _continentList);
+}
+
+vector<vector<Territory*>> ConquestFileReaderAdapter::ReadMapFileForBorders(string _inputFileStream, vector<vector<Territory*>> _bordersList, vector<Territory*> _countryList)
+{
+	file_reader_.ReadMapFileForBordersConquest(_inputFileStream, _bordersList, _countryList);
+}
+
+vector<Territory*> ConquestFileReaderAdapter::ReadMapFileForCountries(string _inputFileStream, vector<Territory*> _countryList)
+{
+	file_reader_.ReadMapFileForCountriesConquest(_inputFileStream, _countryList);
+}
+
+//Conquest File Read methods
+
+bool ConquestFileReader::CheckValidityConquest(string _inputFileStream)
+{
+	cout << "Checking validity" << endl;
+}
+
+vector<string> ConquestFileReader::ReadMapFileConquest(string _inputFileStream, vector<string> _continentList)
+{
+	cout << "Reading map conquest" << endl;
+}
+
+vector<Territory*> ConquestFileReader::ReadMapFileForCountriesConquest(string _inputFileStream, vector<Territory*> _countryList)
+{
+	cout << "Reading countries conquest" << endl;
+}
+
+vector<vector<Territory*>> ConquestFileReader::ReadMapFileForBordersConquest(string _inputFileStream, vector<vector<Territory*>> _bordersList, vector<Territory*> _countryList)
+{
+	cout << "Reading neighbors conquest" << endl;
+}
+
