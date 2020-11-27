@@ -123,7 +123,6 @@ bool Map::validateNodeConnectivity(Territory* startingNode) {
 		}
 	}
 
-
 	//Checks if all territories have been processed, if not there is a missing connection somewhere.
 	for (auto i : territoryList) {
 		if (!contains(processed, i)) {
@@ -236,10 +235,8 @@ bool Territory::isNeighbor(Territory* t1, Territory* t2, int n)
 	{
 		return true;
 	}
-	else
-	{
-		return false;
-	}
+
+	return false;
 }
 
 

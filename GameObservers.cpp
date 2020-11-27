@@ -11,29 +11,53 @@ Observer::Observer() {};
 
 Observer::~Observer() {};
 
+GamePhaseObserver::GamePhaseObserver() {};
+
+GamePhaseObserver::~GamePhaseObserver() {};
+
+GameStatisticsObserver::GameStatisticsObserver() {};
+
+GameStatisticsObserver::~GameStatisticsObserver() {};
+
 Subject::Subject()
 {
-	observersList = new list<Observer*>;
+	gamePhaseObsList = new list<GamePhaseObserver*>;
+	gameStatsObsList = new list<GameStatisticsObserver*>;
 }
+
 Subject::~Subject()
 {
-	delete observersList;
-	observersList = nullptr;
+	delete gamePhaseObsList;
+	gamePhaseObsList = nullptr;
+	delete gameStatsObsList;
+	gameStatsObsList = nullptr;
 }
-void Subject::attach(Observer* o)
+
+void Subject::attachGamePhase(GamePhaseObserver* o)
 {
-	observersList->push_back(o);
+	gamePhaseObsList->push_back(o);
 }
-void Subject::detach(Observer* o)
+
+void Subject::detachGamePhase(GamePhaseObserver* o)
 {
-	observersList->remove(o);
+	gamePhaseObsList->remove(o);
+}
+
+void Subject::attachGameStats(GameStatisticsObserver* o)
+{
+	gameStatsObsList->push_back(o);
+}
+
+void Subject::detachGameStats(GameStatisticsObserver* o)
+{
+	gameStatsObsList->remove(o);
 }
 
 void Subject::notifyPhase()
 {
-	std::list<Observer*>::iterator i = observersList->begin();
+	std::list<GamePhaseObserver*>::iterator i = gamePhaseObsList->begin();
 
-	for(; i != observersList->end(); ++i)
+	for(; i != gamePhaseObsList->end(); ++i)
 	{
 		(*i)->updatePhase(phase);
 	}
@@ -41,10 +65,10 @@ void Subject::notifyPhase()
 
 void Subject::notifyGame()
 {
-	std::list<Observer*>::iterator i = observersList->begin();
-	std::cout << "Notifying game | Game Statistic Observer" << std::endl;
+	std::list<GameStatisticsObserver*>::iterator i = gameStatsObsList->begin();
+	std::cout << "Notifying game | Game Statistics Observer" << std::endl;
 
-	for(; i != observersList->end(); ++i)
+	for(; i != gameStatsObsList->end(); ++i)
 	{
 		(*i)->updateGame(totalTerritories, isPlayerBeingRemoved);
 	}

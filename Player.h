@@ -19,7 +19,7 @@ class OrderList;
 using std::vector;
 using std::string;
 
-class Player : public Observer
+class Player: public GamePhaseObserver, public GameStatisticsObserver
 {
 private:
 	
@@ -64,9 +64,9 @@ public:
 	bool doneAttack;
 	bool doneAdvance;
 	bool donecard;
-	//Implements the Observer notify methods
-	virtual void updatePhase(int phaseNumber);
+	////Implements the Observer notify methods
 	virtual void updateGame(int totalTerritories, bool isPlayerBeingRemoved);
+	virtual void updatePhase(int phaseNumber);
 	int getPlayerID() { return playerId; };
 	int getNumberOfArmies() { return numOfArmies; };
 };

@@ -24,15 +24,40 @@ GameEngine::~GameEngine() {
 	delete map;
 }
 
-void GameEngine::attachObservers(vector<Player*> players)
+void GameEngine::enableGamePhaseObservers()
 {
 	for (auto player : players)
 	{
-		attach(player);
+		attachGamePhase(player);
 	}
+}
 
+void GameEngine::disableGamePhaseObservers()
+{
+	for (auto player : players)
+	{
+		detachGamePhase(player);
+	}
+}
+
+
+void GameEngine::enableGameStatsObservers()
+{
+	for(auto player: players)
+	{
+		attachGameStats(player);
+	}
+	
 	setTerritoriesCount(map->getTerritories().size());
 	setIsPlayerBeingRemoved(false);
+}
+
+void GameEngine::disableGameStatsObservers()
+{
+	for (auto player : players)
+	{
+		detachGameStats(player);
+	}
 }
 
 void GameEngine::gameStartPhase() {
@@ -59,7 +84,8 @@ void GameEngine::gameStartPhase() {
 
 		deck = new Deck(10, 10, 10, 10, 10, 10);
 
-		attachObservers(players);
+		enableGamePhaseObservers();
+		enableGameStatsObservers();
 	}
 	cout << "\n";
 }
@@ -234,6 +260,9 @@ void GameEngine::mainGameLoop()
 			it->conqueredOne = false;
 		}
 	}
+	//At this point there is a winner
+	notifyGame();
+	
 }
 void GameEngine::reinforcementPhase()
 {
@@ -313,11 +342,13 @@ void GameEngine::eraseLosers()
 	}
 
 	setIsPlayerBeingRemoved(true);
+	notifyGame(); //Call this method to print the fact that a player has been removed
 
 	//Erase the players without territories from the player list
 	for(int j: loserPlayerIndex)
 	{
-		detach(players[j]); //detach the observer as well
+		detachGamePhase(players[j]); //detach the observer as well
+		detachGameStats(players[j]);
 		players.erase(players.begin() + j);
 	}
 

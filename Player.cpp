@@ -310,10 +310,9 @@ void Player::updatePhase(int phaseNumber)
 	}
 }
 
-//Outputs the statistics of the game 
 void Player::updateGame(int totalTerritories, bool isPlayerBeingRemoved)
 {
-	//First check is a player has been removed
+	//First check if a player has been removed
 	if (!isPlayerBeingRemoved)
 	{
 		int currentTerritories = getOwnedTerritories().size();
@@ -334,7 +333,8 @@ void Player::updateGame(int totalTerritories, bool isPlayerBeingRemoved)
 		{
 			cout << "Player " << playerId << " owns " << percent << "% of the territories" << endl;
 		}
-	}else //Announce when a player has been removed 
+	}
+	else //Announce when a player has been removed 
 	{
 		cout << "Player " << playerId << " has been removed.";
 	}

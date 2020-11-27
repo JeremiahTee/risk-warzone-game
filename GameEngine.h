@@ -30,6 +30,10 @@ public:
 	void reinforcementPhase();
 	void orderIssuingPhase();
 	void orderExecutionPhase();
-	void attachObservers(vector<Player*> players);
 	void eraseLosers();
+	//Observer methods
+	void enableGamePhaseObservers();
+	void enableGameStatsObservers();
+	void disableGamePhaseObservers();
+	void disableGameStatsObservers();
 };

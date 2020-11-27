@@ -18,11 +18,29 @@ public:
 	virtual void updateGame(int totalTerritories, bool isPlayerBeingRemoved) = 0;
 };
 
+class GamePhaseObserver
+{
+public:
+	GamePhaseObserver();
+	~GamePhaseObserver();
+	virtual void updatePhase(int phaseInt) = 0;
+};
+
+class GameStatisticsObserver
+{
+public:
+	GameStatisticsObserver();
+	~GameStatisticsObserver();
+	virtual void updateGame(int totalTerritories, bool isPlayerBeingRemoved) = 0;
+};
+
 class Subject
 {
 public:
-	virtual void attach(Observer* o);
-	virtual void detach(Observer* o);
+	virtual void attachGamePhase(GamePhaseObserver* o);
+	virtual void detachGamePhase(GamePhaseObserver* o);
+	virtual void attachGameStats(GameStatisticsObserver* o);
+	virtual void detachGameStats(GameStatisticsObserver* o);
 	virtual void notifyPhase();
 	virtual void notifyGame();
 	virtual void setPhase(int& phase);
@@ -31,7 +49,8 @@ public:
 	Subject();
 	~Subject();
 private:
-	std::list<Observer*>* observersList;
+	std::list<GamePhaseObserver*> *gamePhaseObsList;
+	std::list<GameStatisticsObserver*> *gameStatsObsList;
 	int phase;
 	int totalTerritories;
 	bool isPlayerBeingRemoved;
