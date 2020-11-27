@@ -10,50 +10,59 @@
 #include <iostream>
 #include <string>
 
-using namespace std;
+using std::cout;
+using std::endl;
 
 bool main() {
 
+	Map map = Map();
 	ConquestFileReader* reader = new ConquestFileReader();
 	ConquestFileReaderAdapter* adapter = new ConquestFileReaderAdapter(*reader);
 
-	adapter->CheckValidity("test");
-	
 	string path = {};
 
 	cout << "Enter a file" << endl;
 	cin >> path;
 
 	//Check validity
-	bool isValid = adapter->CheckValidity(path);
+	adapter->CheckValidity(path);
 
-	if (isValid) {
-		std::cout << "Map file is valid." << endl;
+	//Add continents
+	vector<string> continentList = {};
+	continentList = adapter->ReadMapFile(path, continentList);
 
-		//Add continents
-		vector<string> continentList = {};
-		continentList = adapter->ReadMapFile(path, continentList);
+	cout << "Printing out continentList" << endl;
 
-		//Add countries
-		vector<Territory*> countryList = {};
-		countryList = adapter->ReadMapFileForCountries(path, countryList);
-
-		//Add borders
-		vector<vector<Territory*>> bordersList = {};
-		bordersList = adapter->ReadMapFileForBorders(path, bordersList, countryList);
-
-		//Create the map
-		if (!continentList.empty() && !countryList.empty() && !bordersList.empty()) {
-		//	map = mapLoader.CombineInfos(continentList, countryList, bordersList);
-		}
+	for(auto continent: continentList)
+	{
+		cout << continent << endl;
 	}
-	else {
-		cout << "\nMap file is invalid. Cannot create map." << endl;
-	}
+	
+	//Add countries
+	vector<Territory*> countryList = {};
+	countryList = adapter->ReadMapFileForCountries(path, countryList);
 
+	for(int i = 0; i < countryList.size(); i++)
+	{
+		cout << countryList[i]->getName() <<  endl;
+	}
+	
+	//Add borders
+	vector<vector<Territory*>> bordersList = {};
+	bordersList = adapter->ReadMapFileForBorders(path, bordersList, countryList);
+
+	for (int i = 0; i < bordersList.size(); i++)
+	{
+		cout << "Country at [" << i << "] has " << bordersList[i].size() << " neighbors." << endl;
+	}
+	
+	//Create the map
+	if (!continentList.empty() && !countryList.empty() && !bordersList.empty()) {
+		map = *adapter->CombineInfos(continentList, countryList, bordersList);
+	}
 
 	delete adapter;
 	delete reader;
-	
+
 	return 0;
 }

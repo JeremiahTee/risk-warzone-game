@@ -83,5 +83,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Africa.map">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="Alabama.map">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
