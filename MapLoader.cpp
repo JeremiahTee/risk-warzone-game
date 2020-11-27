@@ -69,6 +69,7 @@ vector<int> MapLoader::GetContinentNb()
 vector<int> MapLoader::SetArmiesNb(vector<int> *bonusControlList)
 {
 	armiesNb = *bonusControlList;
+	return armiesNb;
 }
 
 vector<int> MapLoader::GetArmiesNb()
@@ -359,7 +360,7 @@ vector<string> ConquestFileReader::ReadMapFileConquest(string _inputFileStream, 
 		const int equals_index = currentLine.find('=');
 		auto continent = currentLine.substr(0, equals_index);
 		auto control_bonus = stoi(currentLine.substr(equals_index + 1));
-		controlBonusList.push_back(control_bonus);
+		armiesNbConquest.push_back(control_bonus);
 		_continentList.push_back(continent);
 	}
 	std::cout << "Continents list size: " << _continentList.size() << endl;
@@ -394,9 +395,95 @@ vector<vector<Territory*>> ConquestFileReader::ReadMapFileForBordersConquest(str
 	return neighbors;
 }
 
-vector<int> ConquestFileReader::getControlBonusList()
+//Conquest other methods
+void ConquestFileReader::ShowBordersC(vector<vector<Territory*>> _bordersList) 
 {
-	return controlBonusList;
-}
+	Territory* singularBorder;
+	vector<Territory*> currentBorders;
+	vector<vector<Territory*>> bL = _bordersList;
 
+	for (int i = 0; i < bL.size(); i++) {
+		currentBorders = bL.at(i);
+
+		for (int j = 0; j < bL.at(i).size(); j++)
+		{
+			singularBorder = currentBorders.at(j);
+			cout << singularBorder->getName() << " - ";
+		}
+		cout << endl;
+	}
+};
+
+void ConquestFileReader::ShowTerritoriesC(vector<Territory*> _countryList)
+{
+	vector<Territory*> ts;
+	Territory* current;
+	ts = _countryList;
+
+	for (int i = 0; i < ts.size(); i++) {
+		current = ts.at(i);
+		cout << current->getName() << "\n";
+	}
+};
+
+void ConquestFileReader::ShowContinentsC(vector<string> _continentList)
+{
+	string currentContinent;
+	vector<string> cL = _continentList;
+
+	for (int i = 0; i < cL.size(); i++) {
+		currentContinent = cL.at(i);
+		cout << currentContinent << "\n";
+	}
+};
+
+vector<string> ConquestFileReader::GetContinentListC()
+{
+	return continentListConquest;
+};
+
+vector<Territory*> ConquestFileReader::GetCountryListC()
+{
+	return countryListConquest;
+};
+
+vector<vector<Territory*>> ConquestFileReader::GetBordersListC()
+{
+	return borderListConquest;
+};
+
+vector<string> ConquestFileReader::GetContinentNameC()
+{
+	return continentName;
+};
+
+vector<int> ConquestFileReader::SetArmiesNbC(vector<int>* bonusControlList)
+{
+	armiesNbConquest = *bonusControlList;
+	return armiesNbConquest;
+};
+
+vector<int> ConquestFileReader::GetArmiesNbC()
+{
+	return armiesNbConquest;
+};
+
+//TO FIX
+/*
+Map* ConquestFileReader::CombineInfos(vector<string> _continentList, vector<Territory*> _countryList, vector<vector<Territory*>> _bordersList) 
+{
+	Map* map = new Map();
+	std::string currContinentNb;
+
+	for (int i = 0; i < _countryList.size(); i++)
+	{
+		map->addTerritory(_countryList[i], _bordersList[i]);
+		currContinentNb = continentName[i] - 1;
+		map->registerWithContinent(_continentList[currContinentNb], armiesNbConquest[currContinentNb], _countryList[i]);
+	}
+	cout << "\n";
+	cout << "\n";
+	return map;
+};
+*/
 

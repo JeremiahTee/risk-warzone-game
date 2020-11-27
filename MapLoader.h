@@ -43,13 +43,29 @@ class MapLoader {
 class ConquestFileReader
 {
 private:
-	vector<int> controlBonusList;
+	vector<string> continentListConquest; //new continentList
+	vector<Territory*> countryListConquest; //new countryList
+	vector<vector<Territory*>> borderListConquest; //new borderListConquest
+	vector<string> continentName; //new continentNb
+	vector<int> armiesNbConquest; //new armiesNb
+	bool foundCountriesConquest;
 public:
-	vector<int> getControlBonusList();
 	bool CheckValidityConquest(string _inputFileStream);
 	vector<string> ReadMapFileConquest(string _inputFileStream, vector<string> _continentList); //reads file & return list of continents from a ConquestMap
 	vector<vector<Territory*>> ReadMapFileForBordersConquest(string _inputFileStream, vector<vector<Territory*>> _bordersList, vector<Territory*> _countryList); //reads file & return list of borders for each country from a ConquestMap
 	vector<Territory*> ReadMapFileForCountriesConquest(string _inputFileStream, vector<Territory*> _countryList); //reads file & return list of countries from a ConquestMap
+
+	void ShowBordersC(vector<vector<Territory*>> _bordersList); //shows all the borders stored in bordersList, used mainly to debug
+	void ShowTerritoriesC(vector<Territory*> _countryList); //shows all countries stored in countryList, used mainly to debug
+	void ShowContinentsC(vector<string> _continentList); //shows all continents stored in continentList, used mainly to debug
+	vector<string> GetContinentListC();
+	vector<Territory*> GetCountryListC();
+	vector<vector<Territory*>> GetBordersListC();
+	vector<string> GetContinentNameC();
+	vector<int> SetArmiesNbC(vector<int>* bonusControlList);
+	vector<int> GetArmiesNbC();
+
+	Map* CombineInfos(vector<string> _continentList, vector<Territory*> _countryList, vector<vector<Territory*>> _bordersList); //stores all information into map
 };
 
 /*Adapter */
