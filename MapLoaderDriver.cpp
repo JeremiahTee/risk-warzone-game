@@ -4,13 +4,12 @@
 // Description : Map Loader Driver c++ class.
 //============================================================================
 
-/*
+
 #include "MapLoader.h";
 #include <iostream>
 #include <iostream>
 #include <string>
-#include "../Assignment1/Map.h"
-#include "../Assignment1/Territory.h"
+#include "Map.h"
 
 using namespace std;
 
@@ -34,21 +33,21 @@ bool main() {
 		continentList = mapLoader.ReadMapFile(path, continentList);
 
 		//Add countries
-		vector<Territory> countryList = {};
+		vector<Territory*> countryList = {};
 		countryList = mapLoader.ReadMapFileForCountries(path, countryList);
 
 		//Add borders
-		vector<vector<Territory>> bordersList = {};
+		vector<vector<Territory*>> bordersList = {};
 		bordersList = mapLoader.ReadMapFileForBorders(path, bordersList, countryList);
 
-		//Create the map
-		if (!continentList.empty() && !countryList.empty() && !bordersList.empty() ) {
-			map = mapLoader.CombineInfos(continentList, countryList, bordersList);
-		}
+		////Create the map
+		//if (!continentList.empty() && !countryList.empty() && !bordersList.empty() ) {
+		//	map = mapLoader.CombineInfos(continentList, countryList, bordersList);
+		//}
 	}
 	else {
 		cout << "\nMap file is invalid. Cannot create map." << endl;
 	}
 
 	return 0;
-}*/
+}
