@@ -33,6 +33,7 @@ using std::string;
 using std::ifstream;
 using std::stringstream;
 using std::stoi; //conversion string to integer
+using std::distance;
 using helperMethods::splitByDelimiter;
 
 void MapLoader::ShowBorders(vector<vector<Territory*>> _bordersList) {
@@ -94,7 +95,8 @@ vector<int> MapLoader::GetArmiesNb()
 	return armiesNb;
 }
 
-Map* MapLoader::CombineInfos(vector<string> _continentList, vector<Territory*> _countryList, vector<vector<Territory*>> _bordersList)
+Map* MapLoader::
+(vector<string> _continentList, vector<Territory*> _countryList, vector<vector<Territory*>> _bordersList)
 {
 	Map* map = new Map();
 	int currContinentNb;
@@ -378,7 +380,7 @@ vector<string> ConquestFileReader::ReadMapFileConquest(string _inputFileStream, 
 		//While current line isn't equal to [Continents] skip 
 	}
 	//Read until empty line
-	while (getline(ifs, currentLine) && currentLine.empty())
+	while (getline(ifs, currentLine) && !currentLine.empty())
 	{
 		const int equals_index = currentLine.find('=');
 		auto continent = currentLine.substr(0, equals_index);
@@ -399,7 +401,7 @@ vector<Territory*> ConquestFileReader::ReadMapFileForCountriesConquest(string _i
 		//Read until you reach [Territories]
 	}
 	//Read until empty line
-	while (getline(ifs, currentLine) && currentLine.empty())
+	while (getline(ifs, currentLine) && !currentLine.empty())
 	{
 		const int comma_index = currentLine.find(',');
 		auto territoryName = currentLine.substr(0, comma_index);
@@ -421,16 +423,17 @@ vector<vector<Territory*>> ConquestFileReader::ReadMapFileForBordersConquest(str
 		//Read until you reach [Territories]
 	}
 	//Read until empty line
-	while (getline(ifs, currentLine) && currentLine.empty())
+	while (getline(ifs, currentLine) && !currentLine.empty())
 	{
+		neighbors.clear();
 		const int first_comma_index = currentLine.find(',');
 		auto territoryName = currentLine.substr(0, first_comma_index);
-		const int second_comma_index = currentLine.find(',', first_comma_index);
-		const int third_comma_index = currentLine.find(',', second_comma_index);
-		const int fourth_comma_index = currentLine.find(',', third_comma_index);
+		const int second_comma_index = currentLine.find(',', first_comma_index + 1);
+		const int third_comma_index = currentLine.find(',', second_comma_index + 1);
+		const int fourth_comma_index = currentLine.find(',', third_comma_index + 1);
 		//Get the continent name in between the 3rd comma and 4rth comma
-		auto continentName = currentLine.substr(third_comma_index, fourth_comma_index); 
-		auto neighborsLine = currentLine.substr(fourth_comma_index);
+		auto continentName = currentLine.substr(third_comma_index + 1, fourth_comma_index - third_comma_index - 1); 
+		auto neighborsLine = currentLine.substr(fourth_comma_index + 1);
 
 		continentNameList.push_back(continentName);
 		
@@ -439,13 +442,13 @@ vector<vector<Territory*>> ConquestFileReader::ReadMapFileForBordersConquest(str
 		//Split neighborsLine by the delimiter ","
 		vector<string> neighborsName = splitByDelimiter(neighborsLine, ',');
 
-		for(auto territory_name: neighborsName)
+		for(string territory_name: neighborsName)
 		{
 			neighbors.push_back(new Territory(territory_name));
 		}
-	}
 
-	_bordersList.push_back(neighbors);
+		_bordersList.push_back(neighbors);
+	}
 
 	return _bordersList;
 }

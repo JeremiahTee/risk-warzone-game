@@ -31,7 +31,7 @@ bool main() {
 	vector<string> continentList = {};
 	continentList = adapter->ReadMapFile(path, continentList);
 
-	cout << "Printing out continentList" << endl;
+	cout << "Printing out continents: \n" << endl;
 
 	for(auto continent: continentList)
 	{
@@ -42,6 +42,8 @@ bool main() {
 	vector<Territory*> countryList = {};
 	countryList = adapter->ReadMapFileForCountries(path, countryList);
 
+	cout << "Printing out territories: \n" << endl;
+	
 	for(int i = 0; i < countryList.size(); i++)
 	{
 		cout << countryList[i]->getName() <<  endl;
@@ -51,10 +53,10 @@ bool main() {
 	vector<vector<Territory*>> bordersList = {};
 	bordersList = adapter->ReadMapFileForBorders(path, bordersList, countryList);
 
-	for (int i = 0; i < bordersList.size(); i++)
-	{
-		cout << "Country at [" << i << "] has " << bordersList[i].size() << " neighbors." << endl;
-	}
+	//for (int i = 0; i < bordersList.size(); i++)
+	//{
+	//	cout << "\nCountry at [" << i << "] has " << bordersList[i].size() << " neighbors." << endl;
+	//}
 	
 	//Create the map
 	if (!continentList.empty() && !countryList.empty() && !bordersList.empty()) {
