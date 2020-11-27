@@ -12,11 +12,28 @@
 #include <vector>
 #include <sstream>
 
+namespace helperMethods
+{
+	vector<string> splitByDelimiter(const string& input, char delimiter) {
+		stringstream stream(input);
+		string elements;
+		vector<string> elements_list;
+		while (getline(stream, elements, delimiter)) {
+			elements_list.push_back(elements);
+		}
+		return elements_list;
+	}
+}
+
 using std::cout;
 using std::endl;
+using std::vector;
+using std::getline;
 using std::string;
 using std::ifstream;
+using std::stringstream;
 using std::stoi; //conversion string to integer
+using helperMethods::splitByDelimiter;
 
 void MapLoader::ShowBorders(vector<vector<Territory*>> _bordersList) {
 	Territory* singularBorder;
@@ -248,7 +265,7 @@ vector<vector<Territory*>> MapLoader::ReadMapFileForBorders(string _inputFileStr
 		//first number
 		inputFileStream >> line;
 		i_subs = stoi(line, &sz);
-		Territory* current = _countryList[static_cast<std::vector<Territory *, std::allocator<Territory *>>::size_type>(i_subs) - 1];
+		Territory* current = _countryList[i_subs - 1];
 		nList.push_back(current);
 
 
@@ -259,7 +276,7 @@ vector<vector<Territory*>> MapLoader::ReadMapFileForBorders(string _inputFileStr
 			do {
 				iss >> subs;
 				i_subs = stoi(subs, &sz);
-				Territory* current = _countryList[static_cast<std::vector<Territory*, std::allocator<Territory*>>::size_type>(i_subs) - 1];
+				Territory* current = _countryList[i_subs - 1];
 				nList.push_back(current);
 
 			} while (iss);
@@ -388,15 +405,40 @@ vector<Territory*> ConquestFileReader::ReadMapFileForCountriesConquest(string _i
 
 vector<vector<Territory*>> ConquestFileReader::ReadMapFileForBordersConquest(string _inputFileStream, vector<vector<Territory*>> _bordersList, vector<Territory*> _countryList)
 {
-	//Add Conquest map neighbors parsing
-	vector<vector<Territory*>> neighbors;
-	cout << "Reading neighbors conquest" << endl;
-	return neighbors;
+	ifstream ifs(_inputFileStream);
+	string currentLine;
+	vector<Territory*> neighbors;
+	
+	while (getline(ifs, currentLine) && currentLine != "[Territories]")
+	{
+		//Read until you reach [Territories]
+	}
+	//Read until empty line
+	while (getline(ifs, currentLine) && currentLine.empty())
+	{
+		const int first_comma_index = currentLine.find(',');
+		auto territoryName = currentLine.substr(0, first_comma_index);
+		const int second_comma_index = currentLine.find(',', first_comma_index);
+		const int third_comma_index = currentLine.find(',', second_comma_index);
+		auto neighborsLine = currentLine.substr(third_comma_index);
+
+		Territory* country = new Territory(territoryName);
+		
+		//Split neighborsLine by the delimiter ","
+		vector<string> neighborsName = splitByDelimiter(neighborsLine, ',');
+
+
+		for(auto territory_name: neighborsName)
+		{
+			neighbors.push_back(new Territory(territory_name));
+		}
+	}
+
+	_bordersList.push_back(neighbors);
 }
 
 vector<int> ConquestFileReader::getControlBonusList()
 {
 	return controlBonusList;
 }
-
 
