@@ -5,8 +5,6 @@
 //============================================================================
 
 #pragma once
-#include <fstream>
-#include <iostream>
 #include <vector>
 #include "Map.h"
 
@@ -36,6 +34,7 @@ class MapLoader {
 		vector<Territory*> GetCountryList();
 		vector<vector<Territory*>> GetBordersList();
 		vector<int> GetContinentNb();
+		vector<int> SetArmiesNb(vector<int> *bonusControlList);
 		vector<int> GetArmiesNb();
 
 		Map* CombineInfos(vector<string> _continentList, vector<Territory*> _countryList, vector<vector<Territory*>> _bordersList); //stores all information into map
@@ -43,7 +42,10 @@ class MapLoader {
 
 class ConquestFileReader
 {
+private:
+	vector<int> controlBonusList;
 public:
+	vector<int> getControlBonusList();
 	bool CheckValidityConquest(string _inputFileStream);
 	vector<string> ReadMapFileConquest(string _inputFileStream, vector<string> _continentList); //reads file & return list of continents from a ConquestMap
 	vector<vector<Territory*>> ReadMapFileForBordersConquest(string _inputFileStream, vector<vector<Territory*>> _bordersList, vector<Territory*> _countryList); //reads file & return list of borders for each country from a ConquestMap
@@ -56,7 +58,7 @@ class ConquestFileReaderAdapter: MapLoader
 private:
 	ConquestFileReader file_reader_;
 public:
-	ConquestFileReaderAdapter(ConquestFileReader map);
+	ConquestFileReaderAdapter(ConquestFileReader fileReader);
 	bool CheckValidity(string _inputFileStream);
 	vector<string> ReadMapFile(string _inputFileStream, vector<string> _continentList);
 	vector<Territory*> ReadMapFileForCountries(string _inputFileStream, vector<Territory*> _countryList);

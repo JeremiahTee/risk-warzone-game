@@ -12,7 +12,11 @@
 #include <vector>
 #include <sstream>
 
-using namespace std;
+using std::cout;
+using std::endl;
+using std::string;
+using std::ifstream;
+using std::stoi; //conversion string to integer
 
 void MapLoader::ShowBorders(vector<vector<Territory*>> _bordersList) {
 	Territory* singularBorder;
@@ -25,9 +29,9 @@ void MapLoader::ShowBorders(vector<vector<Territory*>> _bordersList) {
 		for (int j = 0; j < bL.at(i).size(); j++)
 		{
 			singularBorder = currentBorders.at(j);
-			std::cout << singularBorder->getName() << " - ";
+			cout << singularBorder->getName() << " - ";
 		}
-		std::cout << endl;
+		cout << endl;
 	}
 }
 
@@ -38,7 +42,7 @@ void MapLoader::ShowContinents(vector<string> _continentList) {
 
 	for (int i = 0; i < cL.size(); i++) {
 		currentContinent = cL.at(i);
-		std::cout << currentContinent << "\n";
+		cout << currentContinent << "\n";
 	}
 }
 
@@ -60,6 +64,11 @@ vector<vector<Territory*>> MapLoader::GetBordersList()
 vector<int> MapLoader::GetContinentNb()
 {
 	return continentNb;
+}
+
+vector<int> MapLoader::SetArmiesNb(vector<int> *bonusControlList)
+{
+	armiesNb = *bonusControlList;
 }
 
 vector<int> MapLoader::GetArmiesNb()
@@ -170,7 +179,7 @@ vector<string> MapLoader::ReadMapFile(string _inputFileStream, vector<string> _c
 		inputFileStream.close();
 		inputFileStream.clear();
 
-		std::cout << "Continents list size: " << _continentList.size() << endl;
+		cout << "Continents list size: " << _continentList.size() << endl;
 		return _continentList;
 	}
 
@@ -210,7 +219,7 @@ vector<Territory*> MapLoader::ReadMapFileForCountries(string _inputFileStream, v
 
 		inputFileStream.close();
 		inputFileStream.clear();
-		std::cout << "Country list size: " << _countryList.size() << endl;
+		cout << "Country list size: " << _countryList.size() << endl;
 		return _countryList;
 	}
 
@@ -226,7 +235,7 @@ vector<vector<Territory*>> MapLoader::ReadMapFileForBorders(string _inputFileStr
 
 	vector<Territory*> nList;
 	int i_subs;
-	std::string::size_type sz;
+	string::size_type sz;
 	string subs;
 
 	if (inputFileStream.is_open()) {
@@ -266,7 +275,7 @@ vector<vector<Territory*>> MapLoader::ReadMapFileForBorders(string _inputFileStr
 		inputFileStream.close();
 		inputFileStream.clear();
 
-		std::cout << "Borders list size: " << _bordersList.size() << endl;
+		cout << "Borders list size: " << _bordersList.size() << endl;
 		return _bordersList;
 	}
 
@@ -275,9 +284,9 @@ vector<vector<Territory*>> MapLoader::ReadMapFileForBorders(string _inputFileStr
 }
 
 //Adapter code
-ConquestFileReaderAdapter::ConquestFileReaderAdapter(ConquestFileReader map)
+ConquestFileReaderAdapter::ConquestFileReaderAdapter(ConquestFileReader fileReader)
 {
-	file_reader_ = map;
+	file_reader_ = fileReader;
 }
 
 bool ConquestFileReaderAdapter::CheckValidity(string _inputFileStream)
@@ -303,25 +312,78 @@ vector<Territory*> ConquestFileReaderAdapter::ReadMapFileForCountries(string _in
 //Conquest File Read methods
 bool ConquestFileReader::CheckValidityConquest(string _inputFileStream)
 {
-	//Add Conquest validity related check
-	cout << "Checking validity" << endl;
-	return false;
+	cout << "Checking VALIDITY of CONQUEST map...\n" << endl;
+
+	string line;
+	ifstream ifs(_inputFileStream);
+
+	bool hasCountries = false;
+	bool hasContinents = false;
+	bool isValid;
+
+	while (getline(ifs, line)) {
+		if (line == "[Continents]") {
+			hasContinents = true;
+		}
+		if (line == "[Territories]") {
+			hasCountries = true;
+		}
+	}
+
+	ifs.close();
+	ifs.clear();
+
+	if (hasContinents && hasCountries)
+	{
+		isValid = true;
+	}else
+	{
+		cout << "Invalid map file. Make sure the [Continents] and [Territories] lines are present." << endl;
+		isValid = false;
+	}
+
+	return isValid;
 }
 
 vector<string> ConquestFileReader::ReadMapFileConquest(string _inputFileStream, vector<string> _continentList)
 {
-	//Add Conquest map file parsing
-	vector<string> continent = { "Alabama" };
-	cout << "Reading map conquest" << endl;
-	return continent;
+	ifstream ifs(_inputFileStream);
+	string currentLine;
+	while (getline(ifs, currentLine) && currentLine != "[Continents]")
+	{
+		//While current line isn't equal to [Continents] skip 
+	}
+	//Read until empty line
+	while (getline(ifs, currentLine) && currentLine.empty())
+	{
+		const int equals_index = currentLine.find('=');
+		auto continent = currentLine.substr(0, equals_index);
+		auto control_bonus = stoi(currentLine.substr(equals_index + 1));
+		controlBonusList.push_back(control_bonus);
+		_continentList.push_back(continent);
+	}
+	std::cout << "Continents list size: " << _continentList.size() << endl;
+	return _continentList;
 }
 
 vector<Territory*> ConquestFileReader::ReadMapFileForCountriesConquest(string _inputFileStream, vector<Territory*> _countryList)
 {
-	//Add Conquest map countries parsing
-	vector<Territory*> countries;
-	cout << "Reading countries conquest" << endl;
-	return countries;
+	ifstream ifs(_inputFileStream);
+	string currentLine;
+	while (getline(ifs, currentLine) && currentLine != "[Territories]")
+	{
+		//Read until you reach [Territories]
+	}
+	//Read until empty line
+	while (getline(ifs, currentLine) && currentLine.empty())
+	{
+		const int comma_index = currentLine.find(',');
+		auto territoryName = currentLine.substr(0, comma_index);
+		Territory* country = new Territory(territoryName);
+		_countryList.push_back(country);
+	}
+	
+	return _countryList;
 }
 
 vector<vector<Territory*>> ConquestFileReader::ReadMapFileForBordersConquest(string _inputFileStream, vector<vector<Territory*>> _bordersList, vector<Territory*> _countryList)
@@ -331,3 +393,10 @@ vector<vector<Territory*>> ConquestFileReader::ReadMapFileForBordersConquest(str
 	cout << "Reading neighbors conquest" << endl;
 	return neighbors;
 }
+
+vector<int> ConquestFileReader::getControlBonusList()
+{
+	return controlBonusList;
+}
+
+
