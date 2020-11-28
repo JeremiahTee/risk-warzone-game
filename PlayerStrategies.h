@@ -8,6 +8,8 @@
 class Territory;
 class Player;
 
+using namespace std;
+
 class PlayerStrategy {
 
 private:
@@ -29,9 +31,10 @@ public:
 	HumanPlayerStrategy(Player* player);
 
 	void issueOrder();
-	//vector<Territory*> toDefend();
-	//vector<Territory*> toAttack();
+	vector<Territory*> toDefend();
+	vector<Territory*> toAttack();
 };
+
 
 class AggressivePlayerStrategy : public PlayerStrategy {
 private:
@@ -41,9 +44,10 @@ public:
 	AggressivePlayerStrategy(Player* player);
 
 	void issueOrder();
-	//vector<Territory*> toDefend();
+	vector<Territory*> toDefend();
 	vector<Territory*> toAttack();
 };
+
 
 class BenevolentPlayerStrategy : public PlayerStrategy {
 public:
@@ -51,8 +55,8 @@ public:
 	BenevolentPlayerStrategy(Player* player);
 
 	void issueOrder();
-	//vector<Territory*> toDefend();
-	//vector<Territory*> toAttack();
+	vector<Territory*> toDefend();
+	vector<Territory*> toAttack();
 };
 
 class NeutralPlayerStrategy : public PlayerStrategy {
@@ -61,6 +65,6 @@ public:
 	NeutralPlayerStrategy(Player* player);
 
 	void issueOrder();
-	//vector<Territory*> toDefend();
-	//vector<Territory*> toAttack();
+	vector<Territory*> toDefend();
+	vector<Territory*> toAttack();
 };
