@@ -129,7 +129,7 @@ vector<Territory*> AggressivePlayerStrategy::toAttack() {
 }
 void AggressivePlayerStrategy::reset() {}
 
-
+//Testcomment
 BenevolentPlayerStrategy::BenevolentPlayerStrategy(Player* player) : PlayerStrategy(player) {}
 void BenevolentPlayerStrategy::issueOrder() {
 	vector<Territory*> defendList = toDefend();
