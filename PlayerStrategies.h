@@ -23,6 +23,12 @@ public:
 	virtual vector<Territory*> toDefend() = 0;
 	virtual vector<Territory*> toAttack() = 0;
 
+	virtual void reset() = 0;
+
+	vector<Territory*> sortTerritories(vector<Territory*> list);
+	Territory* getWeakestTerritory(vector<Territory*> list);
+	vector<Territory*> getEnemyNeighbors(Territory* territory);
+	bool hasEnemyNeighbor(Territory* territory);
 };
 
 class HumanPlayerStrategy : public PlayerStrategy{
@@ -33,6 +39,7 @@ public:
 	void issueOrder();
 	vector<Territory*> toDefend();
 	vector<Territory*> toAttack();
+	void reset();
 };
 
 
@@ -46,10 +53,13 @@ public:
 	void issueOrder();
 	vector<Territory*> toDefend();
 	vector<Territory*> toAttack();
+	void reset();
 };
 
 
 class BenevolentPlayerStrategy : public PlayerStrategy {
+private:
+	int benevolentIndex;
 public:
 	BenevolentPlayerStrategy() = default;
 	BenevolentPlayerStrategy(Player* player);
@@ -57,6 +67,7 @@ public:
 	void issueOrder();
 	vector<Territory*> toDefend();
 	vector<Territory*> toAttack();
+	void reset();
 };
 
 class NeutralPlayerStrategy : public PlayerStrategy {
@@ -67,4 +78,5 @@ public:
 	void issueOrder();
 	vector<Territory*> toDefend();
 	vector<Territory*> toAttack();
+	void reset();
 };
