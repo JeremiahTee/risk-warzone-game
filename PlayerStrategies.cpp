@@ -223,8 +223,19 @@ void HumanPlayerStrategy::issueOrder() {
 			}
 			else if (cardtype == "negotiate")
 			{
-				cout << "showing player names:" << endl;
 				
+				cout << "showing player names:" << endl;
+				for(auto it:gameplayers)
+				{
+					cout << it->getPlayerID();
+				}
+				cout << "enter the target player ID:" << endl;
+				int playerid;
+				cin >> playerid;
+				if(playerid<=gameplayers.size())
+				{
+					player->getOrderList()->add(new Negotiate(player, gameplayers[playerid]));
+				}
 			}
 			else 
 			{
