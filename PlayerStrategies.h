@@ -5,6 +5,8 @@
 
 #include <vector>;
 
+#include <iostream>;
+
 class Territory;
 class Player;
 
@@ -34,7 +36,7 @@ public:
 class HumanPlayerStrategy : public PlayerStrategy{
 public:
 	HumanPlayerStrategy() = default;
-	HumanPlayerStrategy(Player* player);
+	HumanPlayerStrategy(Player* player,vector<Player>* playerlist);
 
 	void issueOrder();
 	vector<Territory*> toDefend();

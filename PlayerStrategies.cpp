@@ -1,5 +1,7 @@
+
 #include "PlayerStrategies.h"
 
+using namespace std;
 PlayerStrategy::PlayerStrategy(Player* player) {
 	this->player = player;
 }
@@ -60,9 +62,186 @@ bool PlayerStrategy::hasEnemyNeighbor(Territory* territory) {
 	return false;
 }
 
-HumanPlayerStrategy::HumanPlayerStrategy(Player* player) : PlayerStrategy(player) {}
+HumanPlayerStrategy::HumanPlayerStrategy(Player* player,vector<Player*>players) : PlayerStrategy(player) {}
 void HumanPlayerStrategy::issueOrder() {
 
+	if(player->tempArmies>0)
+	{
+		cout << "You have still got armies left to deploy. You have " << player->tempArmies<< " armies left. Deploy them before you can issue other orders.\nYour Territories:"<< endl;
+		for(auto it: player->getOwnedTerritories())
+		{
+			cout << it->getName() << "\tArmies on this territory: " << it->getArmyCount() << endl;
+		}
+		cout << "How many armies?" << endl;
+		int numarmies;
+		std::cin >> numarmies;
+		cout << "And on which territories?" << endl;
+		string name;
+		cin >> name;
+		bool flag = false;
+		for (auto it : player->getOwnedTerritories())
+		{
+			if (it->getName()==name)
+			{
+				player->getOrderList()->add(new Deploy(numarmies, it, player));
+				flag = true;
+			}
+		}
+		if(!flag)
+		{
+			cout << "You entered an incorrect name." << endl;
+		}
+	}
+	else 
+	{
+		cout << "What type of order do you want to issue. If you're done enter \"done\" Options are: Advance orders (type \"advance\") or Cards (type \"cards\")."<<endl;
+		string choice;
+		cin >> choice;
+		if(choice=="done")
+		{
+			player->doneIssue = true;
+			return;
+		}
+		else if (choice=="advance")
+		{
+			cout << "You have chosen Advance. Your territories are ordered below and you can move armies from here to any other territory that own or to an enemy neighbours territory." << endl;
+			cout << "To see a neighbour of your territories enter the name or press skip if you're ready to place the order." << endl;
+			string neighbourname;
+			cin >> neighbourname;
+			if (neighbourname=="skip")
+			{
+				cout << "You chose to skip";
+			}
+			else {
+				/*for(auto it:player->getOwnedTerritories())
+				{
+					if(it->getName()==neighbourname)
+					{
+						for(auto name2 : player->mapPlayed->getTerritoryNeighbors(it))
+						{
+							
+						}
+					}
+				}*/
+				Territory* thisterr=player->mapPlayed->getTerritory(neighbourname);
+				if (thisterr->getName()!="N/A")
+				{
+					cout << "Displaying names of neighbours: "<<endl;
+					for (auto it:player->mapPlayed->getTerritoryNeighbors(neighbourname))
+					{
+						cout << it->getName()<<"\t"<<it->getArmyCount()<<endl;
+					}
+				}
+				else
+				{
+					cout << "Wrong name entered";
+				}
+			}
+			cout << "Enter the source then press enter then target then press enter then number of armies then enter.";
+			string source, target;
+			int num;
+			cin >> source;
+			cin >> target;
+			cin >> num;
+			Territory* sourcet;
+			Territory* targett;
+			sourcet = player->mapPlayed->getTerritory(source);
+			targett = player->mapPlayed->getTerritory(target);
+			if(sourcet->getName()==("N/A")||targett->getName()=="N/A")
+			{
+				cout << "You have entered a wrong territory name. Try again next turn haha";
+			}
+			else
+			{
+				player->getOrderList()->add(new Advance(sourcet, targett, num,player,player->gameDeck));
+			}
+		}
+		else if(choice == "cards")
+		{
+			cout << "Here is your hand of cards" << endl;
+			cout << "Airlift\t" << player->getHand()->getAirlift() << endl;
+			cout << "Bomb\t" << player->getHand()->getBomb() << endl;
+			cout << "Blockade\t" << player->getHand()->getBlockade() << endl;
+			cout << "Negotiate\t" << player->getHand()->getDiplomacy() << endl;
+			cout << "Which card do you wanna play?" << endl;
+			string cardtype;
+			cin >> cardtype;
+			if(cardtype=="airlift")
+			{
+				//Territory* source; Territory* target; int numArmies; Player* p;
+				cout << "enter source followed by target followed by number of armies";
+				string source, target;
+				int num;
+				cin >> source;
+				cin >> target;
+				cin >> num;
+				Territory* sourcet;
+				Territory* targett;
+				sourcet = player->mapPlayed->getTerritory(source);
+				targett = player->mapPlayed->getTerritory(target);
+				if (sourcet->getName() == ("N/A") || targett->getName() == "N/A")
+				{
+					cout << "You have entered a wrong territory name. Try again next turn haha";
+				}
+				else
+				{
+					player->getOrderList()->add(new Airlift(sourcet, targett, num, player));
+				}
+			}
+			else if (cardtype == "bomb")
+			{
+				cout << "enter target territory";
+				string  target;
+				cin >> target;
+				Territory* sourcet;
+				Territory* targett;
+				targett = player->mapPlayed->getTerritory(target);
+				if ( targett->getName() == "N/A")
+				{
+					cout << "You have entered a wrong territory name. Try again next turn haha";
+				}
+				else
+				{
+					player->getOrderList()->add(new Bomb(targett,player));
+				}
+			}
+			else if (cardtype == "blockade")
+			{
+				cout << "enter target territory";
+				string  target;
+				cin >> target;
+				Territory* targett;
+				targett = player->mapPlayed->getTerritory(target);
+				if (targett->getName() == "N/A")
+				{
+					cout << "You have entered a wrong territory name. Try again next turn haha";
+				}
+				else
+				{
+					player->getOrderList()->add(new Blockade(targett, player, player->neutral));
+				}
+			}
+			else if (cardtype == "negotiate")
+			{
+				cout << "showing player names:" << endl;
+				for(auto it :)
+				{
+					
+				}
+			}
+			else 
+			{
+				cout << "invalid input try again next turn and maybe read properly";
+			}
+		}
+		else
+		{
+			cout << "Wrong entry, try again next turn ;)";
+		}
+		
+	}
+	
+	
 }
 vector<Territory*> HumanPlayerStrategy::toDefend() {
 	vector<Territory*> list;
