@@ -1,7 +1,7 @@
-
 #include "PlayerStrategies.h"
 
 using namespace std;
+
 PlayerStrategy::PlayerStrategy(Player* player) {
 	this->player = player;
 }
@@ -77,7 +77,7 @@ void HumanPlayerStrategy::issueOrder() {
 		std::cin >> numarmies;
 		cout << "And on which territories?" << endl;
 		string name;
-		cin >> name;
+		std::cin >> name;
 		bool flag = false;
 		for (auto it : player->getOwnedTerritories())
 		{
@@ -96,7 +96,7 @@ void HumanPlayerStrategy::issueOrder() {
 	{
 		cout << "What type of order do you want to issue. If you're done enter \"done\" Options are: Advance orders (type \"advance\") or Cards (type \"cards\")."<<endl;
 		string choice;
-		cin >> choice;
+		std::cin >> choice;
 		if(choice=="done")
 		{
 			player->doneIssue = true;
@@ -107,7 +107,7 @@ void HumanPlayerStrategy::issueOrder() {
 			cout << "You have chosen Advance. Your territories are ordered below and you can move armies from here to any other territory that own or to an enemy neighbours territory." << endl;
 			cout << "To see a neighbour of your territories enter the name or press skip if you're ready to place the order." << endl;
 			string neighbourname;
-			cin >> neighbourname;
+			std::cin >> neighbourname;
 			if (neighbourname=="skip")
 			{
 				cout << "You chose to skip";
@@ -140,9 +140,9 @@ void HumanPlayerStrategy::issueOrder() {
 			cout << "Enter the source then press enter then target then press enter then number of armies then enter.";
 			string source, target;
 			int num;
-			cin >> source;
-			cin >> target;
-			cin >> num;
+			std::cin >> source;
+			std::cin >> target;
+			std::cin >> num;
 			Territory* sourcet;
 			Territory* targett;
 			sourcet = player->mapPlayed->getTerritory(source);

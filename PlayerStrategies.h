@@ -4,7 +4,6 @@
 #include "Player.h";
 
 #include <vector>;
-
 #include <iostream>;
 
 class Territory;
@@ -34,6 +33,8 @@ public:
 };
 
 class HumanPlayerStrategy : public PlayerStrategy{
+private:
+	vector<Player*> players;
 public:
 	HumanPlayerStrategy() = default;
 	vector<Player*> gameplayers;
