@@ -53,10 +53,10 @@ bool main() {
 	vector<vector<Territory*>> bordersList = {};
 	bordersList = adapter->ReadMapFileForBorders(path, bordersList, countryList);
 
-	//for (int i = 0; i < bordersList.size(); i++)
-	//{
-	//	cout << "\nCountry at [" << i << "] has " << bordersList[i].size() << " neighbors." << endl;
-	//}
+	for (int i = 0; i < bordersList.size(); i++)
+	{
+		cout << "\nCountry at [" << i << "] has " << bordersList[i].size() << " neighbors." << endl;
+	}
 	
 	//Create the map
 	if (!continentList.empty() && !countryList.empty() && !bordersList.empty()) {

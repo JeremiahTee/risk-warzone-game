@@ -454,13 +454,14 @@ vector<vector<Territory*>> ConquestFileReader::ReadMapFileForBordersConquest(str
 Map* ConquestFileReader::CombineInfosConquest(vector<string> _continentList, vector<Territory*> _countryList, vector<vector<Territory*>> _bordersList)
 {
 	Map* map = new Map();
-
-	for (int i = 0; i < _countryList.size(); i++)
+	
+	for (int i = 0; i < _countryList.size() - 1; i++)
 	{
+		//map->addTerritory(_countryList[i], _bordersList[i]);
 		map->addTerritory(_countryList[i], _bordersList[i]);
 		//Because of the 1-1 mapping between countryList and continentName list, this is possible
 		//Continent name list contains each continent name corresponding to each country
-		map->registerWithContinent(continentNameList[i], armiesNbConquestList[i], _countryList[i]);
+		map->registerWithContinent(_continentList[i], armiesNbConquestList[i], _countryList[i]);
 	}
 	cout << "SUCCESS! Combined info from Conquest Map." << endl;
 	cout << "\n";
