@@ -62,7 +62,7 @@ bool PlayerStrategy::hasEnemyNeighbor(Territory* territory) {
 	return false;
 }
 
-HumanPlayerStrategy::HumanPlayerStrategy(Player* player,vector<Player*>players) : PlayerStrategy(player) {}
+HumanPlayerStrategy::HumanPlayerStrategy(Player* player, vector<Player*>players) : PlayerStrategy(player) { gameplayers = players; };
 void HumanPlayerStrategy::issueOrder() {
 
 	if(player->tempArmies>0)
@@ -224,10 +224,7 @@ void HumanPlayerStrategy::issueOrder() {
 			else if (cardtype == "negotiate")
 			{
 				cout << "showing player names:" << endl;
-				for(auto it :)
-				{
-					
-				}
+				
 			}
 			else 
 			{

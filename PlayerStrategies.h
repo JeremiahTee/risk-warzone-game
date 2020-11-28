@@ -36,8 +36,8 @@ public:
 class HumanPlayerStrategy : public PlayerStrategy{
 public:
 	HumanPlayerStrategy() = default;
-	HumanPlayerStrategy(Player* player,vector<Player>* playerlist);
-
+	vector<Player*> gameplayers;
+	HumanPlayerStrategy(Player* player, vector<Player*> players);
 	void issueOrder();
 	vector<Territory*> toDefend();
 	vector<Territory*> toAttack();
