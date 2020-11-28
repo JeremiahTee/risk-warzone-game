@@ -66,6 +66,7 @@ void HumanPlayerStrategy::issueOrder() {
 }
 vector<Territory*> HumanPlayerStrategy::toDefend() {
 	vector<Territory*> list;
+
 	return list;
 }
 vector<Territory*> HumanPlayerStrategy::toAttack() {
@@ -166,7 +167,8 @@ void BenevolentPlayerStrategy::reset() {
 
 NeutralPlayerStrategy::NeutralPlayerStrategy(Player* player) : PlayerStrategy(player) {}
 void NeutralPlayerStrategy::issueOrder() {
-
+	//This does nothing.
+	player->doneIssue = true;
 }
 vector<Territory*> NeutralPlayerStrategy::toDefend() {
 	vector<Territory*> list;
