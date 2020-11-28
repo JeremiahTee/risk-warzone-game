@@ -95,8 +95,7 @@ vector<int> MapLoader::GetArmiesNb()
 	return armiesNb;
 }
 
-Map* MapLoader::
-(vector<string> _continentList, vector<Territory*> _countryList, vector<vector<Territory*>> _bordersList)
+Map* MapLoader::CombineInfos(vector<string> _continentList, vector<Territory*> _countryList, vector<vector<Territory*>> _bordersList)
 {
 	Map* map = new Map();
 	int currContinentNb;
@@ -111,7 +110,6 @@ Map* MapLoader::
 	cout << "\n";
 	return map;
 }
-
 
 void MapLoader::ShowTerritories(vector<Territory*> _countryList) {
 
