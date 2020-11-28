@@ -219,7 +219,10 @@ void GameEngine::mainGameLoop()
 	{
 		
 		reinforcementPhase();
-		
+		for (auto p : players) {
+			p->attackArmies = p->numOfArmies;
+		}
+
 		playersIssuingOrders = players;
 		orderIssuingPhase();
 		playersExecutingOrders = players;
@@ -333,7 +336,7 @@ void GameEngine::orderExecutionPhase()
 	bool allDone = false;
 	while (!allDone)
 	{
-		std::cout << players.back()->getTerritories2().size() << endl;
+		std::cout << players.back()->getOwnedTerritories().size() << endl;
 
 		allDone = true;
 		for (auto it : players)

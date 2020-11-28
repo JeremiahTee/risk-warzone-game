@@ -68,10 +68,6 @@ Player::~Player() {
 	//delete hand;
 	//delete orders;
 }
- vector<Territory*> &Player::getTerritories2()
-{
-	return territories;
-}
 
 vector<Territory*> Player::toAttack()
 {

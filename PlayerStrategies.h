@@ -12,7 +12,7 @@ using namespace std;
 
 class PlayerStrategy {
 
-private:
+protected:
 	Player* player;
 
 public:
