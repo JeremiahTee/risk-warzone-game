@@ -6,18 +6,22 @@
 
 #pragma once
 #include "GameObservers.h"
-
-class Observer;
-class Territory; //forward declaration to avoid compilation errors
-class OrderList;
+#include "PlayerStrategies.h"
 #include "Map.h"
 #include "Order.h"
 #include "Cards.h"
+
 #include <vector>
 #include <ostream>
 
 using std::vector;
 using std::string;
+
+class Observer;
+class Territory; //forward declaration to avoid compilation errors
+class OrderList;
+class PlayerStrategy;
+
 
 class Player : public Observer
 {
@@ -25,6 +29,7 @@ private:
 	
 	Hand* hand;
 	OrderList* orders;
+	PlayerStrategy* playerStrategy;
 
 public:
 	vector<Territory*> territories;
