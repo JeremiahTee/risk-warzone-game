@@ -69,9 +69,6 @@ public:
 	Hand* getHand();
 	OrderList* getOrderList();
 
-	Territory* getLowestArmyTerritory();
-	Territory* getHighestArmyTerritory();
-
 	int getPlayerID() { return playerId; };
 	int getNumberOfArmies() { return numOfArmies; };
 

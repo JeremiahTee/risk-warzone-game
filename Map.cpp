@@ -381,10 +381,10 @@ bool Map::checkWinner(vector<Player*> p)
 	return false;
 }
 
-/*
+
 ostream& operator <<(ostream& out, Map& m) {
 	for (auto c : m.getContinents()) {
 		out << c;
 	}
 	return out;
-}*/
+}

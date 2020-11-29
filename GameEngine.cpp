@@ -242,9 +242,9 @@ void GameEngine::mainGameLoop()
 		}
 
 		playersIssuingOrders = players;
-		orderIssuingPhase();
+		issueOrdersPhase();
 		playersExecutingOrders = players;
-		orderExecutionPhase();
+		executeOrdersPhase();
 		for(auto it:players)
 		{
 			std::cout << it->getOwnedTerritories().size() << endl;
@@ -284,7 +284,7 @@ void GameEngine::reinforcementPhase()
 		p->tempArmies = p->numOfArmies;
 	}
 }
-void GameEngine::orderIssuingPhase()
+void GameEngine::issueOrdersPhase()
 {
 	phase = 2;
 	setPhase(phase);
@@ -348,7 +348,7 @@ void GameEngine::eraseLosers()
 	setIsPlayerBeingRemoved(false);
 }
 
-void GameEngine::orderExecutionPhase()
+void GameEngine::executeOrdersPhase()
 {
 	phase = 3;
 	setPhase(phase);
@@ -407,4 +407,9 @@ void GameEngine::orderExecutionPhase()
 	}
 	
 	eraseLosers();
+}
+
+ostream& operator <<(ostream& out, GameEngine& m) {
+	out << "This is a game engine.";
+	return out;
 }

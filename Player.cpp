@@ -54,12 +54,6 @@ bool Player::isNegotiated(Player* p1, Player* p2)
 	return false;
 }
 
-////assignment operator overloading
-//Player* Player:: operator = (Player& p)
-//{
-//	return p.getNew();
-//}
-
 Player::~Player() {
 	for (auto territory : territories) {
 		territory->setOwner(NULL);

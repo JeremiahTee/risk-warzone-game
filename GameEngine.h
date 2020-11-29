@@ -28,8 +28,9 @@ public:
 	void assignInitialArmies(vector<Player*> playerList);
 	void mainGameLoop();
 	void reinforcementPhase();
-	void orderIssuingPhase();
-	void orderExecutionPhase();
+	void issueOrdersPhase();
+	void executeOrdersPhase();
 	void attachObservers(vector<Player*> players);
 	void eraseLosers();
+	friend ostream& operator <<(ostream& out, GameEngine& m);
 };
