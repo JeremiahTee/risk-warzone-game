@@ -1,6 +1,6 @@
 //============================================================================
 // Name        : MapLoader.cpp
-// Author      : Marjolaine Roy (40098364)
+// Author      : Marjolaine, David, Jeremiah
 // Description : Map Loader c++ class.
 //============================================================================
 
@@ -472,69 +472,6 @@ Map* ConquestFileReader::CombineInfosConquest(vector<string> _continentList, vec
 	cout << "\n";
 	return map;
 }
-
-//
-////Conquest other methods
-//void ConquestFileReader::ShowBordersC(vector<vector<Territory*>> _bordersList)
-//{
-//	Territory* singularBorder;
-//	vector<Territory*> currentBorders;
-//	vector<vector<Territory*>> bL = _bordersList;
-//
-//	for (int i = 0; i < bL.size(); i++) {
-//		currentBorders = bL.at(i);
-//
-//		for (int j = 0; j < bL.at(i).size(); j++)
-//		{
-//			singularBorder = currentBorders.at(j);
-//			cout << singularBorder->getName() << " - ";
-//		}
-//		cout << endl;
-//	}
-//};
-//
-//void ConquestFileReader::ShowTerritoriesC(vector<Territory*> _countryList)
-//{
-//	vector<Territory*> ts;
-//	Territory* current;
-//	ts = _countryList;
-//
-//	for (int i = 0; i < ts.size(); i++) {
-//		current = ts.at(i);
-//		cout << current->getName() << "\n";
-//	}
-//};
-//
-//void ConquestFileReader::ShowContinentsC(vector<string> _continentList)
-//{
-//	string currentContinent;
-//	vector<string> cL = _continentList;
-//
-//	for (int i = 0; i < cL.size(); i++) {
-//		currentContinent = cL.at(i);
-//		cout << currentContinent << "\n";
-//	}
-//};
-//
-//vector<string> ConquestFileReader::GetContinentListC()
-//{
-//	return continentListConquest;
-//};
-//
-//vector<Territory*> ConquestFileReader::GetCountryListC()
-//{
-//	return countryListConquest;
-//};
-//
-//vector<vector<Territory*>> ConquestFileReader::GetBordersListC()
-//{
-//	return borderListConquest;
-//};
-//
-//vector<string> ConquestFileReader::GetContinentNameC()
-//{
-//	return continentNameList;
-//};
 
 vector<int> ConquestFileReader::SetArmiesNbC(vector<int>* bonusControlList)
 {

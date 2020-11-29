@@ -1,6 +1,6 @@
 //============================================================================
 // Name        : MapLoader.h
-// Author      : Marjolaine Roy (40098364)
+// Author      : Marjolaine, David, Jeremiah
 // Description : Map Loader header class.
 //============================================================================
 
@@ -11,7 +11,6 @@
 using namespace std;
 
 class MapLoader {
-
 	private:
 		vector<string> continentList; 
 		vector<Territory*> countryList; 
@@ -19,14 +18,11 @@ class MapLoader {
 		vector<int> continentNb; //To store the index of each continent associated to each country
 		vector<int> armiesNb; //To store the nb of armies for each continent
 
-		bool foundCountries;
-
 	public:
 		virtual bool CheckValidity(string _inputFileStream);
 		virtual vector<string> ReadMapFile(string _inputFileStream, vector<string> _continentList); //reads file & return list of continents
 		virtual vector<vector<Territory*>> ReadMapFileForBorders(string _inputFileStream, vector<vector<Territory*>> _bordersList, vector<Territory*> _countryList); //reads file & return list of borders for each country
 		virtual vector<Territory*> ReadMapFileForCountries(string _inputFileStream, vector<Territory*> _countryList); //reads file & return list of countries
-
 		void ShowBorders(vector<vector<Territory*>> _bordersList); //shows all the borders stored in bordersList, used mainly to debug
 		void ShowTerritories(vector<Territory*> _countryList); //shows all countries stored in countryList, used mainly to debug
 		void ShowContinents(vector<string> _continentList); //shows all continents stored in continentList, used mainly to debug
@@ -53,14 +49,6 @@ public:
 	vector<string> ReadMapFileConquest(string _inputFileStream, vector<string> _continentList); //reads file & return list of continents from a ConquestMap
 	vector<vector<Territory*>> ReadMapFileForBordersConquest(string _inputFileStream, vector<vector<Territory*>> _bordersList, vector<Territory*> _countryList); //reads file & return list of borders for each country from a ConquestMap
 	vector<Territory*> ReadMapFileForCountriesConquest(string _inputFileStream, vector<Territory*> _countryList); //reads file & return list of countries from a ConquestMap
-
-	void ShowBordersC(vector<vector<Territory*>> _bordersList); //shows all the borders stored in bordersList, used mainly to debug
-	void ShowTerritoriesC(vector<Territory*> _countryList); //shows all countries stored in countryList, used mainly to debug
-	void ShowContinentsC(vector<string> _continentList); //shows all continents stored in continentList, used mainly to debug
-	vector<string> GetContinentListC();
-	vector<Territory*> GetCountryListC();
-	vector<vector<Territory*>> GetBordersListC();
-	vector<string> GetContinentNameC();
 	vector<int> SetArmiesNbC(vector<int>* bonusControlList);
 	vector<int> GetArmiesNbC();
 
