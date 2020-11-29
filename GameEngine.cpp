@@ -155,11 +155,28 @@ int GameEngine::queryPlayerCount() {
 void GameEngine::createPlayers(int playerCount) {
 	for (int i = 1; i < playerCount + 1; i++) {
 		vector<Territory*> list;
-		players.push_back(new Player(list, new Hand(0, 0, 0, 0, 0, 0), i));
+
+		Player* player = new Player(list, new Hand(0, 0, 0, 0, 0, 0), i);
+		players.push_back(player);
 	}
-	vector<Territory*> nullist;
-	neutral = new Player(nullist, new Hand(0, 0, 0, 0, 0, 0), -1);
-	neutral->playerStrategy = new NeutralPlayerStrategy(neutral);
+
+	for(int i = 0; i < players.size(); i++){
+		if (i == 0) {
+			players[i]->playerStrategy = new HumanPlayerStrategy(players[i], players);
+		}
+		else if (i == 1) {
+			players[i]->playerStrategy = new NeutralPlayerStrategy(players[i]);
+		}
+		else if (i == 2) {
+			players[i]->playerStrategy = new AggressivePlayerStrategy(players[i]);
+		}
+		else if (i == 3) {
+			players[i]->playerStrategy = new BenevolentPlayerStrategy(players[i]);
+		}
+		else {
+			players[i]->playerStrategy = new AggressivePlayerStrategy(players[i]);
+		}
+	}
 }
 
 void GameEngine::assignTerritoriesToPlayers(vector<Player*> playerList, vector<Territory*> territoryList) {
@@ -204,22 +221,13 @@ void GameEngine::assignInitialArmies(vector<Player*> playerList) {
 
 	cout << armyCount;
 	cout << " armies are being assigned to each player..." << endl;
-	int playcount = 0;
+
 	for (auto player : playerList) {
 		player->mapPlayed = map;
 		Hand* playerHand = player->getHand();
 		player->numOfArmies = armyCount;
 		player->gameDeck = deck;
-		player->neutral = neutral;
-		if(playcount%2==0)
-		{
-			player->playerStrategy = new AggressivePlayerStrategy(player);
-		}
-		else
-		{
-			player->playerStrategy = new BenevolentPlayerStrategy(player);
-		}
-		playcount++;
+		player->neutral = players[1];
 	}
 }
 

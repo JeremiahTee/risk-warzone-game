@@ -44,6 +44,7 @@ public:
 	bool doneAdvance;
 	bool donecard;
 
+	Map* mapPlayed;
 	vector<Player*> negotiated;
 	vector<Territory*> attacks;
 	vector<Territory*> defences;
@@ -52,7 +53,6 @@ public:
 	int playerId = 0;
 	int tempArmies;
 	bool conqueredOne = false;
-	Map* mapPlayed;
 	bool orderFlag = false;
 	map<Territory*, vector<Territory*>> neighbourmap;
 	map<Territory*, vector<Territory*>> enemyneighbourmap;
@@ -68,9 +68,6 @@ public:
 
 	Hand* getHand();
 	OrderList* getOrderList();
-	vector<Territory*> toDefend();
-	vector<Territory*> toAttack();
-	void issueOrder();
 
 	Territory* getLowestArmyTerritory();
 	Territory* getHighestArmyTerritory();

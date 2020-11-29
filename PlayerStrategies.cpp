@@ -23,11 +23,6 @@ vector<Territory*> PlayerStrategy::sortTerritories(vector<Territory*> list) {
 		}
 	}
 
-	cout << "Sorting the list:" << endl;
-	for (auto t : sortedList) {
-		cout << t->getArmyCount() << endl;
-	}
-
 	return sortedList;
 }
 
@@ -110,7 +105,7 @@ void HumanPlayerStrategy::issueOrder() {
 			std::cin >> neighbourname;
 			if (neighbourname=="skip")
 			{
-				cout << "You chose to skip";
+				cout << "You chose to skip" << endl;
 			}
 			else {
 				/*for(auto it:player->getOwnedTerritories())
@@ -134,15 +129,18 @@ void HumanPlayerStrategy::issueOrder() {
 				}
 				else
 				{
-					cout << "Wrong name entered";
+					cout << "Wrong name entered" << endl;
 				}
 			}
-			cout << "Enter the source then press enter then target then press enter then number of armies then enter.";
+			cout << "Enter the source then press enter then target then press enter then number of armies then enter." << endl;
 			string source, target;
 			int num;
-			std::cin >> source;
-			std::cin >> target;
-			std::cin >> num;
+			cout << endl << "Source: ";
+			cin >> source;
+			cout << endl << "Target: ";
+			cin >> target;
+			cout << endl << "Number of armies: ";
+			cin >> num;
 			Territory* sourcet;
 			Territory* targett;
 			sourcet = player->mapPlayed->getTerritory(source);
@@ -159,21 +157,24 @@ void HumanPlayerStrategy::issueOrder() {
 		else if(choice == "cards")
 		{
 			cout << "Here is your hand of cards" << endl;
-			cout << "Airlift\t" << player->getHand()->getAirlift() << endl;
-			cout << "Bomb\t" << player->getHand()->getBomb() << endl;
-			cout << "Blockade\t" << player->getHand()->getBlockade() << endl;
-			cout << "Negotiate\t" << player->getHand()->getDiplomacy() << endl;
+			cout << "airlift\t" << player->getHand()->getAirlift() << endl;
+			cout << "bomb\t" << player->getHand()->getBomb() << endl;
+			cout << "blockade\t" << player->getHand()->getBlockade() << endl;
+			cout << "negotiate\t" << player->getHand()->getDiplomacy() << endl;
 			cout << "Which card do you wanna play?" << endl;
 			string cardtype;
 			cin >> cardtype;
 			if(cardtype=="airlift")
 			{
 				//Territory* source; Territory* target; int numArmies; Player* p;
-				cout << "enter source followed by target followed by number of armies";
+				cout << "Enter source followed by target followed by number of armies..." << endl;
 				string source, target;
 				int num;
+				cout << endl << "Source: ";
 				cin >> source;
+				cout << endl << "Target: ";
 				cin >> target;
+				cout << endl << "Number of armies: ";
 				cin >> num;
 				Territory* sourcet;
 				Territory* targett;
@@ -190,7 +191,7 @@ void HumanPlayerStrategy::issueOrder() {
 			}
 			else if (cardtype == "bomb")
 			{
-				cout << "enter target territory";
+				cout << "enter target territory: " << endl;
 				string  target;
 				cin >> target;
 				Territory* sourcet;
@@ -198,7 +199,7 @@ void HumanPlayerStrategy::issueOrder() {
 				targett = player->mapPlayed->getTerritory(target);
 				if ( targett->getName() == "N/A")
 				{
-					cout << "You have entered a wrong territory name. Try again next turn haha";
+					cout << endl << "You have entered a wrong territory name. Try again next turn haha" << endl;
 				}
 				else
 				{
@@ -207,14 +208,14 @@ void HumanPlayerStrategy::issueOrder() {
 			}
 			else if (cardtype == "blockade")
 			{
-				cout << "enter target territory";
+				cout << "Enter target territory: " << endl;
 				string  target;
 				cin >> target;
 				Territory* targett;
 				targett = player->mapPlayed->getTerritory(target);
 				if (targett->getName() == "N/A")
 				{
-					cout << "You have entered a wrong territory name. Try again next turn haha";
+					cout << endl << "You have entered a wrong territory name. Try again next turn haha" << endl;
 				}
 				else
 				{
@@ -224,12 +225,12 @@ void HumanPlayerStrategy::issueOrder() {
 			else if (cardtype == "negotiate")
 			{
 				
-				cout << "showing player names:" << endl;
+				cout << "Showing player names:" << endl;
 				for(auto it:gameplayers)
 				{
 					cout << it->getPlayerID();
 				}
-				cout << "enter the target player ID:" << endl;
+				cout << "Enter the target player ID:" << endl;
 				int playerid;
 				cin >> playerid;
 				if(playerid<=gameplayers.size())
@@ -239,7 +240,7 @@ void HumanPlayerStrategy::issueOrder() {
 			}
 			else 
 			{
-				cout << "invalid input try again next turn and maybe read properly";
+				cout << "invalid input try again next turn and maybe learn to read properly";
 			}
 		}
 		else
@@ -337,7 +338,7 @@ void BenevolentPlayerStrategy::issueOrder() {
 }
 vector<Territory*> BenevolentPlayerStrategy::toDefend() {
 	vector<Territory*> list = sortTerritories(player->getOwnedTerritories());
-	int defenceCount = ceil(list.size()*.25);
+	int defenceCount = ceil(list.size()*.5);
 
 	vector<Territory*> toReturn;
 
