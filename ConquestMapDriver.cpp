@@ -55,12 +55,26 @@ bool main() {
 
 	for (int i = 0; i < bordersList.size(); i++)
 	{
-		cout << "\nCountry at [" << i << "] has " << bordersList[i].size() << " neighbors." << endl;
+		cout << "\nCountry at [" << i << "] has " << bordersList[i].size() << " neighbor(s)." << endl;
 	}
 	
 	//Create the map
 	if (!continentList.empty() && !countryList.empty() && !bordersList.empty()) {
 		map = *adapter->CombineInfos(continentList, countryList, bordersList);
+	}
+
+	cout << "Map territories: \n" << endl;
+
+	for(auto terr: map.getTerritories())
+	{
+		cout << *terr << endl;
+	}
+
+	cout << "Map continents: \n" << endl;
+
+	for (auto cont : map.getContinents())
+	{
+		cout << cont << endl;
 	}
 
 	delete adapter;
