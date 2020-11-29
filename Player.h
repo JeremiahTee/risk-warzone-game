@@ -27,13 +27,14 @@ class Player : public Observer
 private:
 	
 	Hand* hand;
-	OrderList* orders;
-	PlayerStrategy* playerStrategy;
+	
 
 public:
+	PlayerStrategy* playerStrategy;
 	vector<Territory*> territories;
 	Player* neutral;
 	Deck* gameDeck;
+	OrderList* orders;
 	int roundwiseordercount;
 	bool doneIssue;
 	int numOfArmies;//Change to better name

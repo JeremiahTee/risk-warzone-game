@@ -272,7 +272,9 @@ void AggressivePlayerStrategy::issueOrder() {
 	}
 	else if (player->attackArmies > 0) {
 		Territory* weakest = getWeakestTerritory(attackList);
+		
 		player->getOrderList()->add(new Advance(mainTerritory, weakest, mainTerritory->getArmyCount(), player, player->gameDeck));
+		player->attackArmies=0;
 	}
 	else {
 		player->doneIssue = true;

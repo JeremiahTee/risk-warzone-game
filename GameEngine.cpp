@@ -159,6 +159,7 @@ void GameEngine::createPlayers(int playerCount) {
 	}
 	vector<Territory*> nullist;
 	neutral = new Player(nullist, new Hand(0, 0, 0, 0, 0, 0), -1);
+	neutral->playerStrategy = new NeutralPlayerStrategy(neutral);
 }
 
 void GameEngine::assignTerritoriesToPlayers(vector<Player*> playerList, vector<Territory*> territoryList) {
@@ -203,13 +204,22 @@ void GameEngine::assignInitialArmies(vector<Player*> playerList) {
 
 	cout << armyCount;
 	cout << " armies are being assigned to each player..." << endl;
-
+	int playcount = 0;
 	for (auto player : playerList) {
 		player->mapPlayed = map;
 		Hand* playerHand = player->getHand();
 		player->numOfArmies = armyCount;
 		player->gameDeck = deck;
 		player->neutral = neutral;
+		if(playcount%2==0)
+		{
+			player->playerStrategy = new AggressivePlayerStrategy(player);
+		}
+		else
+		{
+			player->playerStrategy = new BenevolentPlayerStrategy(player);
+		}
+		playcount++;
 	}
 }
 
@@ -233,8 +243,9 @@ void GameEngine::mainGameLoop()
 			it->neighbourmap.clear();
 			it->enemyneighbourmap.clear();
 			it->attacks.clear();
-			it->getOrderList()->orders.clear();
+			it->orders->orders.clear();
 			it->conqueredOne = false;
+			it->playerStrategy->reset();
 		}
 	}
 }
@@ -273,7 +284,7 @@ void GameEngine::orderIssuingPhase()
 	notifyPhase();
 	orderattempts = 0;
 	bool allDone = false;
-	while((!allDone)&&(orderattempts<100))//breqaks here
+	while((!allDone))//(orderattempts<100)
 	{
 		
 		allDone = true;
@@ -282,8 +293,9 @@ void GameEngine::orderIssuingPhase()
 		{
 			if(it->doneIssue==false)
 			{
-				it->issueOrder();
+				it->playerStrategy->issueOrder();
 				allDone = false;
+				
 			}
 		}
 		
@@ -298,6 +310,7 @@ void GameEngine::orderIssuingPhase()
 		it->doneIssue = false;
 		it->roundwiseordercount = 0;
 		it->tempArmies = it->numOfArmies;
+		
 	}
 }
 

@@ -122,7 +122,7 @@ bool Advance::validate()
 		else 
 		{
 			std::cout << "\nThe Advance Order is invalid.";
-			print();
+			
 		}
 		return false;
 	};

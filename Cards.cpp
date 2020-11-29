@@ -56,7 +56,14 @@ int Deck::draw(Deck* d)
     srand(time(0));
 
     nbOfCards = d->totalCards(d);
-    randomNumber = rand() % nbOfCards + 1;
+	if(nbOfCards==0)
+	{
+        randomNumber = 0;
+	}
+    else
+    {
+        randomNumber = (rand() % nbOfCards) + 1;
+    }
 
     cardArray[0] = d->getSpy();
     cardArray[1] = d->getBomb();
