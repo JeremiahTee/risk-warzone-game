@@ -110,7 +110,38 @@ Map* MapLoader::CombineInfos(vector<string> _continentList, vector<Territory*> _
 	cout << "\n";
 	return map;
 }
-
+ostream& operator << (ostream& out, MapLoader& ml)
+{
+	out << "Data stored in this MapLoader:" << endl;
+	out << "Continents:" << endl;
+	for(auto it: ml.continentList)
+	{
+		out << it << endl;
+	}
+	out << "Countries:" << endl;
+	for (auto it : ml.countryList)
+	{
+		out << it << endl;
+	}
+	
+	return out;
+}
+ostream& operator << (ostream& out, ConquestFileReader& ml)
+{
+	out << "Data stored in this MapLoader:" << endl;
+	out << "Continents:" << endl;
+	for (auto it : ml.continentListConquest)
+	{
+		out << it << endl;
+	}
+	out << "Countries:" << endl;
+	for (auto it : ml.countryListConquest)
+	{
+		out << it << endl;
+	}
+	
+	return out;
+}
 void MapLoader::ShowTerritories(vector<Territory*> _countryList) {
 
 	vector<Territory*> ts;
@@ -243,6 +274,18 @@ vector<Territory*> MapLoader::ReadMapFileForCountries(string _inputFileStream, v
 	cout << "File is not open " << "\n";
 	exit(0);
 }
+MapLoader::MapLoader()
+{
+	
+}
+
+MapLoader::MapLoader(MapLoader& ml)
+{
+	continentList = ml.continentList;
+	countryList = ml.countryList;
+	bordersList = ml.bordersList;
+	continentNb = ml.continentNb;
+}
 
 vector<vector<Territory*>> MapLoader::ReadMapFileForBorders(string _inputFileStream, vector<vector<Territory*>> _bordersList, vector<Territory*> _countryList) {
 	cout << "\nREGISTERING BORDERS" << endl;
@@ -329,6 +372,12 @@ vector<Territory*> ConquestFileReaderAdapter::ReadMapFileForCountries(string _in
 Map* ConquestFileReaderAdapter::CombineInfos(vector<string> _continentList, vector<Territory*> _countryList, vector<vector<Territory*>> _bordersList)
 {
 	return file_reader_.CombineInfosConquest(_continentList, _countryList, _bordersList);
+}
+
+MapLoader& MapLoader::operator=(MapLoader& h)
+{
+	MapLoader m = MapLoader(h);
+	return m;
 }
 
 //Conquest File Read methods
@@ -447,6 +496,25 @@ vector<vector<Territory*>> ConquestFileReader::ReadMapFileForBordersConquest(str
 	}
 
 	return _bordersList;
+}
+ConquestFileReader::ConquestFileReader()
+{
+	
+}
+
+ConquestFileReader::ConquestFileReader(ConquestFileReader& cfr)
+{
+	continentListConquest = cfr.continentListConquest;
+	countryListConquest = cfr.countryListConquest;
+	borderListConquest = cfr.borderListConquest;
+	territoryWithContinent = cfr.territoryWithContinent;
+	bonusWithContinent = cfr.bonusWithContinent;
+}
+
+ConquestFileReader& ConquestFileReader::operator=(ConquestFileReader& h)
+{
+	ConquestFileReader c = ConquestFileReader(h);
+	return c;
 }
 
 Map* ConquestFileReader::CombineInfosConquest(vector<string> _continentList, vector<Territory*> _countryList, vector<vector<Territory*>> _bordersList)

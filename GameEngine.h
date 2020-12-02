@@ -16,6 +16,7 @@ public:
 	Player* neutral;
 	GameEngine();
 	~GameEngine();
+	GameEngine(GameEngine&);
 	int orderattempts=0;
 	void gameStartPhase();
 	void startupPhase();
@@ -32,5 +33,6 @@ public:
 	void executeOrdersPhase();
 	void attachObservers(vector<Player*> players);
 	void eraseLosers();
+	GameEngine& operator=(GameEngine& g);
 	friend ostream& operator <<(ostream& out, GameEngine& m);
 };

@@ -20,6 +20,10 @@ class MapLoader {
 		vector<int> armiesNb; //To store the nb of armies for each continent
 
 	public:
+		MapLoader();
+		MapLoader(MapLoader&);
+		MapLoader& operator=(MapLoader& h);
+	
 		virtual bool CheckValidity(string _inputFileStream);
 		virtual vector<string> ReadMapFile(string _inputFileStream, vector<string> _continentList); //reads file & return list of continents
 		virtual vector<vector<Territory*>> ReadMapFileForBorders(string _inputFileStream, vector<vector<Territory*>> _bordersList, vector<Territory*> _countryList); //reads file & return list of borders for each country
@@ -34,6 +38,8 @@ class MapLoader {
 		vector<int> SetArmiesNb(vector<int> *bonusControlList);
 		vector<int> GetArmiesNb();
 
+		friend ostream& operator << (ostream& out, MapLoader& hps);
+	
 		virtual Map* CombineInfos(vector<string> _continentList, vector<Territory*> _countryList, vector<vector<Territory*>> _bordersList); //stores all information into map
 };
 
@@ -51,8 +57,12 @@ public:
 	vector<string> ReadMapFileConquest(string _inputFileStream, vector<string> _continentList); //reads file & return list of continents from a ConquestMap
 	vector<vector<Territory*>> ReadMapFileForBordersConquest(string _inputFileStream, vector<vector<Territory*>> _bordersList, vector<Territory*> _countryList); //reads file & return list of borders for each country from a ConquestMap
 	vector<Territory*> ReadMapFileForCountriesConquest(string _inputFileStream, vector<Territory*> _countryList); //reads file & return list of countries from a ConquestMap
-
+	ConquestFileReader();
+	ConquestFileReader(ConquestFileReader&);
 	Map* CombineInfosConquest(vector<string> _continentList, vector<Territory*> _countryList, vector<vector<Territory*>> _bordersList); //stores all information into map
+	ConquestFileReader& operator=(ConquestFileReader& h);
+	friend ostream& operator << (ostream& out, ConquestFileReader& hps);
+	
 };
 
 /*Adapter */

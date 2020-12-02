@@ -142,6 +142,22 @@ string GameEngine::queryDirectory(string directory) {
 
 	return path;
 }
+GameEngine::GameEngine(GameEngine& ge)
+{
+	map=ge.map;
+	 players=ge.players;
+	playersIssuingOrders=ge.playersIssuingOrders;
+	playersExecutingOrders=ge.playersExecutingOrders;
+	deck=ge.deck;
+	phase=ge.phase;
+	neutral=ge.neutral;
+}
+class GameEngine& GameEngine::operator=(GameEngine& g)
+{
+	GameEngine ge = GameEngine(g);
+	return  ge;
+}
+
 
 void GameEngine::createMap(string path, bool normalMap) {
 	MapLoader mapLoader = MapLoader();
