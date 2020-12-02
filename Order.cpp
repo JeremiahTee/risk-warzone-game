@@ -1,11 +1,8 @@
-﻿//============================================================================
-// Name        : Order.cpp
-// Author      : Aryamann Mehra (40127106)
-// Description : Order compilation unit class.
-//============================================================================
-
-#include "Order.h"
+﻿#include "Order.h"
 #include <iostream>
+#include <stdlib.h> 
+#include <time.h> 
+#include <vector> 
 
 Order::Order(std::string nm, std::string desc)
 {
@@ -20,64 +17,16 @@ Order::Order(const Order& o)
 	executed = o.executed;
 	isvalid = o.isvalid;
 };
-Order* Order:: operator = (Order& o)
+Order::Order()
 {
-	return o.getNew();
+	name = "";
+	description = "";
+	executed = false;
+	isvalid = false;
 };
-void Order::execute()
+void Order::setValidity(bool s)
 {
-
-};
-void Order::execute(int n)
-{
-
-};
-bool Order::validate()
-{
-	return false;
-};
-Order* Order::getNew()
-{
-	return new Order(*this);
-};
-
-Deploy::Deploy() : Order("Deploy", "place some armies on one of the current player's territories. ")
-{
-
-};
-Deploy::Deploy(const Deploy& d) : Order((Order&)d)
-{
-	std::cout << "\nDeploy created!\n\n";
-};
-
-
-bool Deploy::validate()
-{
-
-	if (isvalid == true)
-	{
-		return true;
-	};
-	return false;
-};
-void Deploy::execute()
-{
-	if (validate() == true)
-	{
-		executed = true;
-	}
-};
-void Deploy::execute(int n)
-{
-	if (validate() == true)
-	{
-		executed = true;
-		std::cout << "Validated and executed order number " << n << ", Name: " << name << ".\n";
-	}
-};
-Deploy* Deploy::getNew()
-{
-	return new Deploy(*this);
+	isvalid = s;
 };
 ostream& operator << (ostream& out, Order& o)
 {
@@ -93,203 +42,378 @@ ostream& operator << (ostream& out, Order& o)
 
 	return out;
 }
-void Order::setValidity(bool s)
+
+//==================================================================================================================================================================
+
+Deploy::Deploy(int numArmies1, Territory* t1, Player* p1) : Order("Deploy", "place some armies on one of the current player's territories. ")
 {
-	isvalid = s;
+	numArmies = numArmies1;//Change name to numArmiesAllocated throughout
+	t = t1;
+	p = p1;
+	p->tempArmies -= numArmies1;
+};
+Deploy::Deploy(const Deploy& d) : Order((Order&)d)
+{
+	numArmies = d.numArmies;
+	t = d.t;
+	p = d.p;
+};
+bool Deploy::validate()
+{
+	if ((p->numOfArmies >= numArmies) && (p == t->getOwner()))
+	{
+		std::cout << "\nThe Deploy Order is valid.";
+		setValidity(true);
+		return true;
+	}
+	
+	std::cout << "\nThe Deploy Order is invalid."<<endl;
+	print();
+	return false;
+};
+void Deploy::execute()
+{
+	if (validate() == true)
+	{
+		t->setArmyCount(t->getArmyCount() + numArmies);
+		p->numOfArmies = p->numOfArmies - numArmies;
+		executed = true;
+		print();
+	}
+	else
+	{
+		executed = true;
+	}
+}
+void Deploy::print()
+{
+	std::cout<< "\n--- DEPLOY: Player" << p->getPlayerID() <<" deploys "<< numArmies<<" armies to "<< t->getName() <<" ---" << endl;
+}
+void Advance::print()
+{
+	std::cout << "\n--- Advance: Player" << p->getPlayerID() << " advances " << numArmies << " armies to " << target->getName() << " ---" << endl;
+}
+;
+Deploy* Deploy::getNew()
+{
+	return new Deploy(*this);
 };
 
-Advance::Advance() : Order("Advance", "move some armies from one of the current player's territories (source) to an adjacent territory (target).If the target territory belongs to the current player, the armies are moved to the target territory.If the target territory belongs to another player, an attack happens between the two territories. ")
-{
+//==================================================================================================================================================================
 
-};
-Advance::Advance(const Advance& a) : Order((Order&)a)
+Advance::Advance(Territory* source1, Territory* target1, int numArmies1, Player* p1, Deck* d1) : Order("Advance", "move some armies from one of the current player's territories (source) to an adjacent territory (target).If the target territory belongs to the current player, the armies are moved to the target territory.If the target territory belongs to another player, an attack happens between the two territories. ")
 {
-
+	source = source1;
+	target = target1;
+	
+	numArmies = numArmies1;
+	p = p1;
+	d = d1;
 };
 bool Advance::validate()
 {
-
-	if (isvalid == true)
+	
+	if ((source->getArmyCount() < numArmies) || (source->getOwner() != p) || (source->isNeighbor(source, target, 2)) || (p->isNegotiated(p, target->getOwner())))//third condition is adjacency of source & neighbour
 	{
-		return true;
+		if (p->isNegotiated(p, target->getOwner()))
+		{
+			std::cout << "Attack invalid due to active negotiate card.";
+		}
+		else 
+		{
+			std::cout << "\nThe Advance Order is invalid.";
+			print();
+		}
+		return false;
 	};
-	return false;
+	std::cout << "\nThe Advance Order is valid.";
+	setValidity(true);
+	return true;
 };
 void Advance::execute()
 {
 	if (validate() == true)
 	{
-		executed = true;
+		print();
+		if ((target->getOwner() == p))
+		{
+			source->setArmyCount(source->getArmyCount() - numArmies);
+			target->setArmyCount(target->getArmyCount() + numArmies);
+		}
+		else
+		{
+			srand(time(NULL));
+			int probattack;
+			int probdefend;
 
+			int attackingArmies = numArmies;
+			int defendingArmies = target->getArmyCount();
+			source->setArmyCount(source->getArmyCount() - numArmies);
+			while ((attackingArmies != 0) && defendingArmies != 0)
+			{
+				probattack = rand() % 100 + 1;
+				if ((probattack >= 1) && (probattack <= 60))
+				{
+					defendingArmies--;
+				}
+				if (defendingArmies == 0)
+				{
+					break;
+				}
+				probdefend = rand() % 100 + 1;
+				if ((probdefend >= 1) && (probdefend <= 70))
+				{
+					attackingArmies--;
+				}
+			}
+			if (attackingArmies == 0)
+			{
+				target->setArmyCount(defendingArmies);
+				std::cout << "\nDefender Wins. ";
+			}
+			else
+			{
+				target->setArmyCount(attackingArmies);//Need to remove territory from Owner's vector & add to player vector.
+				Player* defender = target->getOwner();
+
+				int count = 0;
+				vector<Territory*>::iterator looper;
+				vector<Territory*> myvec = defender->getTerritories2();
+				for (looper = defender->getTerritories2().begin(); looper != defender->getTerritories2().end(); ++looper)
+				{
+
+					if (*looper == target)
+					{
+
+						break;
+					};
+					count++;
+				};
+
+				defender->territories.erase(looper);
+				target->setOwner(p);
+				p->territories.push_back(target);
+				std::cout << "\nAttacker Wins. ";
+				if (p->conqueredOne == false) 
+				{
+					int cardType(0);
+					Hand* h = p->getHand();
+					cardType = d->draw(d);
+					p->getHand()->addToHand(cardType, h);//h.addtohand
+					p->conqueredOne = true;
+				}
+			}
+		}
+		executed = true;
 	}
-};
-void Advance::execute(int n)
-{
-	if (validate() == true)
+	else
 	{
 		executed = true;
-		std::cout << "Validated and executed order number " << n << ", Name: " << name << ".\n";
 	}
+};
+Advance::Advance(const Advance& a) : Order((Order&)a)
+{
+	source = a.source;
+	target = a.target;
+	numArmies = a.numArmies;
+	p = a.p;
+	d = a.d;
 };
 Advance* Advance::getNew()
 {
 	return new Advance(*this);
 };
 
+//==================================================================================================================================================================
 
-Bomb::Bomb() : Order("Bomb", "destroy half of the armies located on an opponent's territory that is adjacent to one of the current player’s territories.")
+Bomb::Bomb(Territory* target1, Player* p1) //: Order("Bomb", "destroy half of the armies located on an opponent's territory that is adjacent to one of the current player’s territories.")
 {
-
-};
-
-Bomb::Bomb(const Bomb& b) : Order((Order&)b)
-{
-
+	target = target1;
+	p = p1;
 };
 bool Bomb::validate()
 {
-
-	if (isvalid == true)
+	if ((target->getOwner() != p) && (!p->isNegotiated(p, target->getOwner())))
 	{
+		std::cout << "\nThe Bomb Order is valid.";
+		setValidity(true);
 		return true;
 	};
+	if (p->isNegotiated(p, target->getOwner()))
+	{
+		std::cout << "Attack invalid due to active negotiate card.";
+	}
+	
 	return false;
 };
+void Bomb::print()
+{
+	std::cout << "\n--- Bomb: Player" << p->getPlayerID() << " bombs " << target->getName() << " ----get rekt" << endl;
+}
 void Bomb::execute()
 {
 	if (validate() == true)
 	{
+		target->setArmyCount(target->getArmyCount() / 2);
 		executed = true;
-
 	}
-};
-void Bomb::execute(int n)
-{
-	if (validate() == true)
+	else
 	{
 		executed = true;
-		std::cout << "Validated and executed order number " << n << ", Name: " << name << ".\n";
 	}
+};
+Bomb::Bomb(const Bomb& b) : Order((Order&)b)
+{
+	target = b.target;
+	p = b.p;
 };
 Bomb* Bomb::getNew()
 {
 	return new Bomb(*this);
 };
 
+//==================================================================================================================================================================
 
-Blockade::Blockade() : Order("Blockade", "triple the number of armies on one of the current player's territories and make it a neutral territory.")
+Blockade::Blockade(Territory* target1, Player* p1, Player* neutral1) //: Order("Blockade", "triple the number of armies on one of the current player's territories and make it a neutral territory.")
 {
-
-};
-Blockade::Blockade(const Blockade& bl) : Order(bl.name, bl.description)
-{
-
+	target = target1;
+	p = p1;
+	neutral = neutral1;
 };
 bool Blockade::validate()
 {
-
-	if (isvalid == true)
+	if ((target->getOwner() == p))
 	{
+		std::cout << "\nThe Blockade Order is valid.";
+		setValidity(true);
 		return true;
 	};
+	std::cout << "\nThe Blockade Order is invalid.";
 	return false;
 };
 void Blockade::execute()
 {
 	if (validate() == true)
 	{
-		executed = true;
+		target->setArmyCount(target->getArmyCount() * 2);
+		target->setOwner(neutral);
+		int count = 0;
+		auto looper = p->getTerritories2().front();
+		vector<Territory*>::iterator it = p->getTerritories2().begin();
+		vector<Territory*> myvec = p->getTerritories2();
+		for (it = myvec.begin(); it != myvec.end(); ++it)
+		{
+			if (*it == target)
+			{
+				break;
+			};
+			++count;
+		};
 
+		myvec.erase(myvec.begin() + count);//p->getTerritories2().begin()+count
+
+		neutral->getTerritories2().push_back(target);
 	}
-};
-void Blockade::execute(int n)
-{
-	if (validate() == true)
+	else
 	{
 		executed = true;
-		std::cout << "Validated and executed order number " << n << ", Name: " << name << ".\n";
 	}
+};
+Blockade::Blockade(const Blockade& bl) : Order((Order&)bl)
+{
+	target = bl.target;
+	p = bl.p;
+	neutral = bl.neutral;
 };
 Blockade* Blockade::getNew()
 {
 	return new Blockade(*this);
 };
 
+//==================================================================================================================================================================
 
-Airlift::Airlift() : Order("Airlift", "advance some armies from one of the current player's territories to any another territory.")
-{
-
-};
-Airlift::Airlift(const Airlift& al) : Order((Order&)al)
-{
-
+Airlift::Airlift(Territory* source1, Territory* target1, int numArmies1, Player* p1) {
+	source = source1;
+	target = target1;
+	numArmies = numArmies1;
+	p = p1;
 };
 bool Airlift::validate()
 {
-
-	if (isvalid == true)
+	if ((target->getOwner() == p) && (numArmies <= source->getArmyCount()) && (source->getOwner() == p))
 	{
+		std::cout << "\nThe Airlift Order is valid.";
+		setValidity(true);
 		return true;
 	}
-	else {
-		return false;
-	};
+	std::cout << "\nThe Airlift Order is invalid.";
+	return false;
 };
 void Airlift::execute()
 {
 	if (validate() == true)
 	{
+		source->setArmyCount(source->getArmyCount() - numArmies);
+		target->setArmyCount(target->getArmyCount() + numArmies);
+		print();
 		executed = true;
-
+	}
+	else
+	{
+		cout << " invalid airlift " << endl;
+		executed = true;
 	}
 };
-void Airlift::execute(int n)
+void Airlift::print()
 {
-	if (validate() == true)
-	{
-		executed = true;
-		std::cout << "Validated and executed order number " << n << ", Name: " << name << ".\n";
-	}
+	std::cout << "\n--- Airlift: Player" << p->getPlayerID() << " airlifts " << numArmies << " armies from " << source->getName() <<" to " << target->getName() << endl;
+}
+Airlift::Airlift(const Airlift& a) : Order((Order&)a)
+{
+	source = a.source;
+	target = a.target;
+	numArmies = a.numArmies;
+	p = a.p;
 };
 Airlift* Airlift::getNew()
 {
 	return new Airlift(*this);
 };
 
+//==================================================================================================================================================================
 
-Negotiate::Negotiate() : Order("Negotiate", "prevent attacks between the current player and another player until the end of the turn")
+Negotiate::Negotiate(Player* source1, Player* target1) : Order("Negotiate", "prevent attacks between the current player and another player until the end of the turn")
 {
-
-
+	source = source1;
+	target = target1;
 };
-
 Negotiate::Negotiate(const Negotiate& n) : Order((Order&)n)
 {
-
+	source = n.source;
+	target = n.target;
 };
 bool Negotiate::validate()
 {
-
-	if (isvalid == true)
+	if (source != target)
 	{
+		std::cout << "The Negotiate Order is valid.\n";
+		setValidity(true);
 		return true;
 	};
+	std::cout << "The Negotiate Order is invalid.\n";
 	return false;
 };
 void Negotiate::execute()
 {
 	if (validate() == true)
 	{
+		source->negotiated.push_back(target);
+		target->negotiated.push_back(source);
 		executed = true;
-
 	}
-};
-void Negotiate::execute(int n)
-{
-	if (validate() == true)
+	else
 	{
 		executed = true;
-		std::cout << "Validated and executed order number " << n << ", Name: " << name << ".\n";
 	}
 };
 Negotiate* Negotiate::getNew()
@@ -297,7 +421,7 @@ Negotiate* Negotiate::getNew()
 	return new Negotiate(*this);
 };
 
-
+//==================================================================================================================================================================
 
 OrderList::OrderList()
 {
@@ -328,7 +452,6 @@ void OrderList::move(int movefrom, int moveto)
 		orders.push_back(tomove);
 	}
 	else {
-
 		for (auto looper = orders.begin(); looper != orders.end(); ++looper)
 		{
 			++count;
@@ -351,7 +474,6 @@ void OrderList::move(int movefrom, int moveto)
 			{
 				orders.insert(looper, 1, tomove);
 			};
-
 		};
 	};
 };
@@ -385,21 +507,27 @@ void OrderList::executeOrders()
 	{
 		++count;
 		Order* x = *looper;
-
-
-		x->execute(count);
 	};
 };
 OrderList::OrderList(const OrderList& ol)
 {
-
 	for (auto looper = ol.orders.begin(); looper != ol.orders.end(); ++looper)
 	{
 		Order* x = *looper;
-		orders.push_back(x->getNew());
+		orders.push_back(x);
 	};
 };
-ostream& operator<<(ostream& os, OrderList& olist)
+OrderList::~OrderList() {
+	for (auto order : orders) {
+		delete order;
+	}
+}
+OrderList& OrderList::operator=(OrderList& o)
+{
+	OrderList p = OrderList(o);
+	return  p;
+};
+ostream& operator << (ostream& os, OrderList& olist)
 {
 	int count = 0;
 	for (auto looper = olist.orders.begin(); looper != olist.orders.end(); ++looper)
@@ -409,8 +537,9 @@ ostream& operator<<(ostream& os, OrderList& olist)
 	return os;
 };
 
-OrderList& OrderList::operator=(OrderList& o)
+std::list<Order*> OrderList::getOrders()
 {
-	OrderList p = OrderList(o);
-	return  p;
-};
+	return orders;
+}
+
+
