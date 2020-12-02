@@ -170,6 +170,10 @@ void GameEngine::createMap(string path, bool normalMap) {
 		ConquestFileReaderAdapter* adapter = new ConquestFileReaderAdapter(*reader);
 		continentList = adapter->ReadMapFile(path, continentList);
 		countryList = adapter->ReadMapFileForCountries(path, countryList);
+
+		cout << "Continent list size: " << continentList.size() << endl;
+		cout << "Country list size: " << countryList.size() << endl;
+		
 		bordersList = adapter->ReadMapFileForBorders(path, bordersList, countryList);
 		map = adapter->CombineInfos(continentList, countryList, bordersList);
 	}
