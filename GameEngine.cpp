@@ -129,6 +129,7 @@ string GameEngine::queryDirectory(string directory) {
 	catch (exception& e)
 	{
 		std::cout << "Unable to display file contents..." << endl;
+		std::cout << "Exception contents: " << e.what() << endl;
 	}
 
 	std::cout << "\n";

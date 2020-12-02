@@ -545,9 +545,10 @@ ConquestFileReaderAdapter::ConquestFileReaderAdapter(ConquestFileReaderAdapter&)
 	ConquestFileReaderAdapter* newAdapter = new ConquestFileReaderAdapter(file_reader_);
 }; 
 
-ConquestFileReaderAdapter& ConquestFileReaderAdapter::operator=(ConquestFileReaderAdapter& c) //stream insertion operator
+ConquestFileReaderAdapter& ConquestFileReaderAdapter::operator=(ConquestFileReaderAdapter& c) //assignment operator
 {
-	file_reader_ = c.file_reader_;
+	ConquestFileReaderAdapter a = ConquestFileReaderAdapter(c);
+	return a;
 };
 
 ostream& operator<<(ostream& out, ConquestFileReaderAdapter& c) //stream insertion operator
