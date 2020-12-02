@@ -7,6 +7,7 @@
 #pragma once
 #include <vector>
 #include "Map.h"
+#include <unordered_map>
 
 using namespace std;
 
@@ -42,15 +43,14 @@ private:
 	vector<string> continentListConquest; //new continentList
 	vector<Territory*> countryListConquest; //new countryList
 	vector<vector<Territory*>> borderListConquest; //new borderListConquest
-	vector<string> continentNameList; //new continentNb
-	vector<int> armiesNbConquestList; //new armiesNb
+	unordered_map<Territory*, string> territoryWithContinent;
+	unordered_map<string, int> bonusWithContinent;
+	
 public:
 	bool CheckValidityConquest(string _inputFileStream);
 	vector<string> ReadMapFileConquest(string _inputFileStream, vector<string> _continentList); //reads file & return list of continents from a ConquestMap
 	vector<vector<Territory*>> ReadMapFileForBordersConquest(string _inputFileStream, vector<vector<Territory*>> _bordersList, vector<Territory*> _countryList); //reads file & return list of borders for each country from a ConquestMap
 	vector<Territory*> ReadMapFileForCountriesConquest(string _inputFileStream, vector<Territory*> _countryList); //reads file & return list of countries from a ConquestMap
-	vector<int> SetArmiesNbC(vector<int>* bonusControlList);
-	vector<int> GetArmiesNbC();
 
 	Map* CombineInfosConquest(vector<string> _continentList, vector<Territory*> _countryList, vector<vector<Territory*>> _bordersList); //stores all information into map
 };

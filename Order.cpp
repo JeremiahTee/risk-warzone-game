@@ -122,7 +122,7 @@ bool Advance::validate()
 		else 
 		{
 			std::cout << "\nThe Advance Order is invalid.";
-			print();
+			
 		}
 		return false;
 	};
@@ -178,8 +178,8 @@ void Advance::execute()
 
 				int count = 0;
 				vector<Territory*>::iterator looper;
-				vector<Territory*> myvec = defender->getTerritories2();
-				for (looper = defender->getTerritories2().begin(); looper != defender->getTerritories2().end(); ++looper)
+				vector<Territory*> myvec = defender->getOwnedTerritories();
+				for (looper = defender->getOwnedTerritories().begin(); looper != defender->getOwnedTerritories().end(); ++looper)
 				{
 
 					if (*looper == target)
@@ -298,9 +298,9 @@ void Blockade::execute()
 		target->setArmyCount(target->getArmyCount() * 2);
 		target->setOwner(neutral);
 		int count = 0;
-		auto looper = p->getTerritories2().front();
-		vector<Territory*>::iterator it = p->getTerritories2().begin();
-		vector<Territory*> myvec = p->getTerritories2();
+		auto looper = p->getOwnedTerritories().front();
+		vector<Territory*>::iterator it = p->getOwnedTerritories().begin();
+		vector<Territory*> myvec = p->getOwnedTerritories();
 		for (it = myvec.begin(); it != myvec.end(); ++it)
 		{
 			if (*it == target)
@@ -312,7 +312,7 @@ void Blockade::execute()
 
 		myvec.erase(myvec.begin() + count);//p->getTerritories2().begin()+count
 
-		neutral->getTerritories2().push_back(target);
+		neutral->getOwnedTerritories().push_back(target);
 	}
 	else
 	{

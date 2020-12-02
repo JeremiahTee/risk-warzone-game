@@ -383,8 +383,8 @@ vector<string> ConquestFileReader::ReadMapFileConquest(string _inputFileStream, 
 		const int equals_index = currentLine.find('=');
 		auto continent = currentLine.substr(0, equals_index);
 		auto control_bonus = stoi(currentLine.substr(equals_index + 1));
-		armiesNbConquestList.push_back(control_bonus);
 		_continentList.push_back(continent);
+		bonusWithContinent.insert({ continent, control_bonus });
 	}
 	std::cout << "Continents list size: " << _continentList.size() << endl;
 	return _continentList;
@@ -432,10 +432,10 @@ vector<vector<Territory*>> ConquestFileReader::ReadMapFileForBordersConquest(str
 		//Get the continent name in between the 3rd comma and 4rth comma
 		auto continentName = currentLine.substr(third_comma_index + 1, fourth_comma_index - third_comma_index - 1); 
 		auto neighborsLine = currentLine.substr(fourth_comma_index + 1);
-
-		continentNameList.push_back(continentName);
 		
 		Territory* country = new Territory(territoryName);
+
+		territoryWithContinent.insert({country, continentName});
 		
 		//Split neighborsLine by the delimiter ","
 		vector<string> neighborsName = splitByDelimiter(neighborsLine, ',');
@@ -458,28 +458,19 @@ Map* ConquestFileReader::CombineInfosConquest(vector<string> _continentList, vec
 	for (int i = 0; i < _countryList.size(); i++)
 	{
 		map->addTerritory(_countryList[i], _bordersList[i]);
-		
-	}
+		string currentContinent;
 
-	for(int i= 0; i < armiesNbConquestList.size(); i++)
-	{
-		//Because of the 1-1 mapping between countryList and continentName list, this is possible
-		//Continent name list contains each continent name corresponding to each country
-		map->registerWithContinent(_continentList[i], armiesNbConquestList[i], _countryList[i]);
+		//Find corresponding territory to the continent
+		for (auto& [key, value] : territoryWithContinent) {
+			if (key->getName() == _countryList[i]->getName())
+			{
+				currentContinent = value;
+			}
+		}
+		map->addTerritory(currentContinent, bonusWithContinent[currentContinent], _countryList[i], _bordersList[i]);
 	}
 	
 	cout << "SUCCESS! Combined info from Conquest Map." << endl;
 	cout << "\n";
 	return map;
 }
-
-vector<int> ConquestFileReader::SetArmiesNbC(vector<int>* bonusControlList)
-{
-	armiesNbConquestList = *bonusControlList;
-	return armiesNbConquestList;
-};
-
-vector<int> ConquestFileReader::GetArmiesNbC()
-{
-	return armiesNbConquestList;
-};
