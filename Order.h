@@ -2,12 +2,8 @@
 #include <string>
 #include <iostream>
 #include <list>
-#include "Player.h"
 #include "Cards.h"
 #include "Map.h"
-/*using std::ostream;
-using std::istream;
-using std::list;*/
 
 class Territory;
 class Player;

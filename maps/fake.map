@@ -7,7 +7,6 @@ pic t_pic.png
 map t_map.gif
 crd t.cards
 
-[continents]
 North_Europe 5 red
 East_Europe 4 magenta
 South_Europe 5 green
