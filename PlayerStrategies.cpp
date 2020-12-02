@@ -108,16 +108,6 @@ void HumanPlayerStrategy::issueOrder() {
 				cout << "You chose to skip" << endl;
 			}
 			else {
-				/*for(auto it:player->getOwnedTerritories())
-				{
-					if(it->getName()==neighbourname)
-					{
-						for(auto name2 : player->mapPlayed->getTerritoryNeighbors(it))
-						{
-							
-						}
-					}
-				}*/
 				Territory* thisterr=player->mapPlayed->getTerritory(neighbourname);
 				if (thisterr->getName()!="N/A")
 				{
@@ -166,7 +156,6 @@ void HumanPlayerStrategy::issueOrder() {
 			cin >> cardtype;
 			if(cardtype=="airlift")
 			{
-				//Territory* source; Territory* target; int numArmies; Player* p;
 				cout << "Enter source followed by target followed by number of armies..." << endl;
 				string source, target;
 				int num;
