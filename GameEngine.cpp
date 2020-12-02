@@ -43,12 +43,18 @@ void GameEngine::gameStartPhase() {
 		fileName = queryDirectory("maps");
 
 	}
-	else if (mapType) {
+	else{
 		fileName = queryDirectory("conquest");
 	}
 
 	std::cout << "Loading " + fileName + " from file..." << endl;
-	createMap("maps\\" + fileName, mapType);
+	if(mapType)
+	{
+		createMap("maps\\" + fileName, mapType);
+	}else
+	{
+		createMap("conquest\\" + fileName, mapType);
+	}
 
 	std::cout << "Checking map validity..." << endl;
 	if (map->validate()) {
