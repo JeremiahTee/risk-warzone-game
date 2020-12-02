@@ -19,8 +19,9 @@ public:
 	int orderattempts=0;
 	void gameStartPhase();
 	void startupPhase();
+	bool queryMapType();
 	string queryDirectory(string directory);
-	void createMap(string path);
+	void createMap(string path, bool normalMap);
 	int queryPlayerCount();
 	void createPlayers(int playerCount);
 	void assignTerritoriesToPlayers(vector<Player*> playerList, vector<Territory*> territoryList);
