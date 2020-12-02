@@ -197,7 +197,6 @@ vector<string> MapLoader::ReadMapFile(string _inputFileStream, vector<string> _c
 		inputFileStream.close();
 		inputFileStream.clear();
 
-		cout << "Continents list size: " << _continentList.size() << endl;
 		return _continentList;
 	}
 
@@ -386,7 +385,6 @@ vector<string> ConquestFileReader::ReadMapFileConquest(string _inputFileStream, 
 		_continentList.push_back(continent);
 		bonusWithContinent.insert({ continent, control_bonus });
 	}
-	std::cout << "Continents list size: " << _continentList.size() << endl;
 	return _continentList;
 }
 
@@ -457,7 +455,6 @@ Map* ConquestFileReader::CombineInfosConquest(vector<string> _continentList, vec
 	
 	for (int i = 0; i < _countryList.size(); i++)
 	{
-		map->addTerritory(_countryList[i], _bordersList[i]);
 		string currentContinent;
 
 		//Find corresponding territory to the continent
