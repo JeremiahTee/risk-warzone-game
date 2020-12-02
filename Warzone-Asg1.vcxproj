@@ -169,8 +169,15 @@
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Africa.map" />
-    <None Include="Alabama.map" />
+    <None Include="conquest\Africa.map" />
+    <None Include="conquest\Alabama.map" />
+    <None Include="conquest\Alberta.map" />
+    <None Include="conquest\cfake.map" />
+    <None Include="maps\34.map" />
+    <None Include="maps\44.map" />
+    <None Include="maps\fake.map" />
+    <None Include="maps\france.map" />
+    <None Include="maps\google.map" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="maps">
+      <UniqueIdentifier>{db3b96d0-9dec-4748-83b2-cf2c0a95e388}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="conquest">
+      <UniqueIdentifier>{a70e05ed-6045-4ac1-99ca-e544efb3a154}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player.h">
@@ -92,11 +98,32 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Africa.map">
-      <Filter>Source Files</Filter>
+    <None Include="maps\34.map">
+      <Filter>maps</Filter>
     </None>
-    <None Include="Alabama.map">
-      <Filter>Source Files</Filter>
+    <None Include="maps\44.map">
+      <Filter>maps</Filter>
+    </None>
+    <None Include="maps\fake.map">
+      <Filter>maps</Filter>
+    </None>
+    <None Include="maps\france.map">
+      <Filter>maps</Filter>
+    </None>
+    <None Include="maps\google.map">
+      <Filter>maps</Filter>
+    </None>
+    <None Include="conquest\Africa.map">
+      <Filter>conquest</Filter>
+    </None>
+    <None Include="conquest\Alabama.map">
+      <Filter>conquest</Filter>
+    </None>
+    <None Include="conquest\Alberta.map">
+      <Filter>conquest</Filter>
+    </None>
+    <None Include="conquest\cfake.map">
+      <Filter>conquest</Filter>
     </None>
   </ItemGroup>
 </Project>
