@@ -242,7 +242,6 @@ bool Territory::isNeighbor(Territory* t1, Territory* t2, int n)
 	}
 }
 
-
 vector<string> Map::getContinents() {
 	vector<string> toReturn;
 	for (auto kv : continents) {
@@ -381,10 +380,10 @@ bool Map::checkWinner(vector<Player*> p)
 	return false;
 }
 
-/*
+
 ostream& operator <<(ostream& out, Map& m) {
 	for (auto c : m.getContinents()) {
 		out << c;
 	}
 	return out;
-}*/
+}

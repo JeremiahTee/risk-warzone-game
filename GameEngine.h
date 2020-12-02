@@ -12,7 +12,6 @@ public:
 	vector<Player*> playersIssuingOrders;
 	vector<Player*> playersExecutingOrders;
 	Deck* deck;
-	bool validExecution;
 	int phase;
 	Player* neutral;
 	GameEngine();
@@ -28,8 +27,9 @@ public:
 	void assignInitialArmies(vector<Player*> playerList);
 	void mainGameLoop();
 	void reinforcementPhase();
-	void orderIssuingPhase();
-	void orderExecutionPhase();
+	void issueOrdersPhase();
+	void executeOrdersPhase();
 	void attachObservers(vector<Player*> players);
 	void eraseLosers();
+	friend ostream& operator <<(ostream& out, GameEngine& m);
 };
