@@ -204,7 +204,7 @@ void GameEngine::createPlayers(int playerCount) {
 
 	for (int i = 0; i < players.size(); i++) {
 		if (i == 0) {
-			players[i]->playerStrategy = new HumanPlayerStrategy(players[i], players);
+			players[i]->playerStrategy = new HumanPlayerStrategy(players[i],players);
 		}
 		else if (i == 1) {
 			players[i]->playerStrategy = new NeutralPlayerStrategy(players[i]);
@@ -334,7 +334,7 @@ void GameEngine::issueOrdersPhase()
 	notifyPhase();
 	orderattempts = 0;
 	bool allDone = false;
-	while ((!allDone))//(orderattempts<100)
+	while ((!allDone))
 	{
 
 		allDone = true;
@@ -397,57 +397,108 @@ void GameEngine::executeOrdersPhase()
 	notifyGame();
 	notifyPhase();
 	bool allDone = false;
+	bool allDoneDeploy = false;
+	bool allDoneAirlift = false;
+	bool allDoneBlockade = false;
+	bool allDoneElse = false;
 	while (!allDone)
 	{
 		std::cout << players.back()->getOwnedTerritories().size() << endl;
 
 		allDone = true;
-		for (auto it : players)
-		{
-			for (auto orderit : it->getOrderList()->getOrders())
-			{
 
-				if ((orderit->name == "Deploy") && !(orderit->executed))
+
+
+
+
+		while (!allDoneDeploy) {
+			allDoneDeploy = true;
+			for (auto it : players)
+			{
+				for (auto orderit : it->getOrderList()->getOrders())
 				{
-					if (!orderit->executed)
+
+					if ((orderit->name == "Deploy") && !(orderit->executed))
 					{
-						orderit->execute();
-						allDone = false;
-						std::cout << "Deploy Executed" << endl;
-						break;
+						if (!orderit->executed)
+						{
+							orderit->execute();
+							allDone = false;
+							allDoneDeploy = false;
+							std::cout << "Deploy Executed" << endl;
+							break;
+						}
 					}
-				}
-				else if ((orderit->name == "Airlift") && !(orderit->executed))
-				{
-					if (!orderit->executed)
-					{
-						orderit->execute();
-						allDone = false;
-						break;
-					}
-				}
-				else if ((orderit->name == "Blockade") && (!orderit->executed))
-				{
-					if (!orderit->executed)
-					{
-						orderit->execute();
-						allDone = false;
-						break;
-					}
-				}
-				else
-				{
-					if (!orderit->executed)
-					{
-						orderit->execute();
-						allDone = false;
-						break;
-					}
+
 				}
 			}
 		}
-	}
+		while (!allDoneAirlift) {
+			allDoneAirlift = true;
+			for (auto it : players)
+			{
+				for (auto orderit : it->getOrderList()->getOrders())
+				{
 
+					if ((orderit->name == "Airlift") && !(orderit->executed))
+					{
+						if (!orderit->executed)
+						{
+							orderit->execute();
+							allDone = false;
+							allDoneAirlift = false;
+							std::cout << "Airlift Executed" << endl;
+							break;
+						}
+					}
+
+				}
+			}
+		}
+		while (!allDoneBlockade) {
+			allDoneBlockade = true;
+			for (auto it : players)
+			{
+				for (auto orderit : it->getOrderList()->getOrders())
+				{
+
+					if ((orderit->name == "Blockade") && !(orderit->executed))
+					{
+						if (!orderit->executed)
+						{
+							orderit->execute();
+							allDone = false;
+							allDoneBlockade = false;
+							std::cout << "Blockade Executed" << endl;
+							break;
+						}
+					}
+
+				}
+			}
+		}
+		while (!allDoneElse) {
+			allDoneElse = true;
+			for (auto it : players)
+			{
+				for (auto orderit : it->getOrderList()->getOrders())
+				{
+
+					if (!(orderit->executed))
+
+						if (!orderit->executed)
+						{
+							orderit->execute();
+							allDone = false;
+							allDoneElse = false;
+							std::cout << orderit->name << " Executed" << endl;
+							break;
+						}
+				}
+
+			}
+		}
+	}
 	eraseLosers();
 }
 

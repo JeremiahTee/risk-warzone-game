@@ -59,8 +59,9 @@ Player::~Player() {
 		territory->setOwner(NULL);
 	}
 	
-	//delete hand;
-	//delete orders;
+	delete hand;
+	delete orders;
+	delete playerStrategy;
 }
 
 //Returns the hand if it has a valid pointer to it
@@ -94,6 +95,12 @@ vector<Territory*> &Player::getOwnedTerritories() {
 
 void Player::setOwnedTerritories(vector<Territory*> &list) {
 	territories = list;
+}
+
+void Player::setStratedy(PlayerStrategy* ps)
+{
+	delete playerStrategy;
+	playerStrategy = ps;
 }
 
 void Player::updatePhase(int phaseNumber)

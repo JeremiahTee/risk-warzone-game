@@ -19,7 +19,9 @@ protected:
 public:
 	PlayerStrategy() = default;
 	PlayerStrategy(Player* player);
+	PlayerStrategy(PlayerStrategy&);
 
+	
 	virtual void issueOrder() = 0;
 	virtual vector<Territory*> toDefend() = 0;
 	virtual vector<Territory*> toAttack() = 0;
@@ -30,6 +32,8 @@ public:
 	Territory* getWeakestTerritory(vector<Territory*> list);
 	vector<Territory*> getEnemyNeighbors(Territory* territory);
 	bool hasEnemyNeighbor(Territory* territory);
+	friend ostream& operator << (ostream& out, PlayerStrategy& ps);
+	
 };
 
 class HumanPlayerStrategy : public PlayerStrategy{
@@ -39,11 +43,15 @@ private:
 public:
 	HumanPlayerStrategy() = default;
 	HumanPlayerStrategy(Player* player, vector<Player*> players);
-
+	HumanPlayerStrategy(HumanPlayerStrategy&);
+	friend ostream& operator << (ostream& out, HumanPlayerStrategy& hps);
+	HumanPlayerStrategy& operator=(HumanPlayerStrategy& h);
+	
 	void issueOrder();
 	vector<Territory*> toDefend();
 	vector<Territory*> toAttack();
 	void reset();
+	
 };
 
 
@@ -53,11 +61,14 @@ private:
 public:
 	AggressivePlayerStrategy() = default;
 	AggressivePlayerStrategy(Player* player);
-
+	AggressivePlayerStrategy(AggressivePlayerStrategy&);
+	AggressivePlayerStrategy& operator=(AggressivePlayerStrategy& h);
+	
 	void issueOrder();
 	vector<Territory*> toDefend();
 	vector<Territory*> toAttack();
 	void reset();
+	friend ostream& operator << (ostream& out, AggressivePlayerStrategy& aps);
 };
 
 
@@ -67,20 +78,27 @@ private:
 public:
 	BenevolentPlayerStrategy() = default;
 	BenevolentPlayerStrategy(Player* player);
-
+	BenevolentPlayerStrategy(BenevolentPlayerStrategy&);
+	BenevolentPlayerStrategy& operator=(BenevolentPlayerStrategy& h);
+	
 	void issueOrder();
 	vector<Territory*> toDefend();
 	vector<Territory*> toAttack();
 	void reset();
+	friend ostream& operator << (ostream& out, BenevolentPlayerStrategy& bps);
+
 };
 
 class NeutralPlayerStrategy : public PlayerStrategy {
 public:
 	NeutralPlayerStrategy() = default;
 	NeutralPlayerStrategy(Player* player);
-
+	NeutralPlayerStrategy(NeutralPlayerStrategy&);
+	NeutralPlayerStrategy& operator=(NeutralPlayerStrategy& h);
+	
 	void issueOrder();
 	vector<Territory*> toDefend();
 	vector<Territory*> toAttack();
 	void reset();
+	friend ostream& operator << (ostream& out, NeutralPlayerStrategy& nps);
 };

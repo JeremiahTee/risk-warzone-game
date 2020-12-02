@@ -5,6 +5,10 @@ using namespace std;
 PlayerStrategy::PlayerStrategy(Player* player) {
 	this->player = player;
 }
+PlayerStrategy::PlayerStrategy(PlayerStrategy& PS)
+{
+	this->player = PS.player;
+}
 
 vector<Territory*> PlayerStrategy::sortTerritories(vector<Territory*> list) {
 	vector<Territory*> sortedList = list;
@@ -22,7 +26,7 @@ vector<Territory*> PlayerStrategy::sortTerritories(vector<Territory*> list) {
 			sortedList[smallestIndex] = temp;
 		}
 	}
-
+	
 	return sortedList;
 }
 
@@ -56,6 +60,14 @@ bool PlayerStrategy::hasEnemyNeighbor(Territory* territory) {
 	}
 	return false;
 }
+ostream& operator << (ostream& out, PlayerStrategy& ps)
+{
+
+	out << "Base Strategy of player " << ps.player->getPlayerID() << endl;
+	
+	return out;
+}
+
 
 HumanPlayerStrategy::HumanPlayerStrategy(Player* player, vector<Player*>players) : PlayerStrategy(player) { gameplayers = players; };
 void HumanPlayerStrategy::issueOrder() {
@@ -238,8 +250,7 @@ void HumanPlayerStrategy::issueOrder() {
 		}
 		
 	}
-	
-	
+		
 }
 vector<Territory*> HumanPlayerStrategy::toDefend() {
 	vector<Territory*> list;
@@ -250,7 +261,30 @@ vector<Territory*> HumanPlayerStrategy::toAttack() {
 	vector<Territory*> list;
 	return list;
 }
+HumanPlayerStrategy& HumanPlayerStrategy::operator=(HumanPlayerStrategy& o)
+{
+	HumanPlayerStrategy p = HumanPlayerStrategy(o);
+	return  p;
+};
 void HumanPlayerStrategy::reset() {}
+
+HumanPlayerStrategy::HumanPlayerStrategy(HumanPlayerStrategy& hps) : PlayerStrategy( hps)
+{
+	this->players = hps.players;
+	this->gameplayers = hps.gameplayers;
+}
+ostream& operator << (ostream& out, HumanPlayerStrategy& hps)
+{
+
+	out << "Human Strategy of player " << hps.player->getPlayerID() << endl;
+	out << "The players in the game hosting this strategy are " <<  endl;
+	for(auto it: hps.gameplayers)
+	{
+		out << it->getPlayerID() << endl;
+	}
+
+	return out;
+}
 
 AggressivePlayerStrategy::AggressivePlayerStrategy(Player* player) : PlayerStrategy(player) {}
 void AggressivePlayerStrategy::issueOrder() {
@@ -302,13 +336,29 @@ vector<Territory*> AggressivePlayerStrategy::toDefend() {
 vector<Territory*> AggressivePlayerStrategy::toAttack() {
 	if (mainTerritory == nullptr || mainTerritory->getOwner() != player) {
 		cout << "Main territory is null or not owned by player." << endl;
+		cout << mainTerritory->getName() << "\t" << mainTerritory->getOwner()->getPlayerID() << "\t"<<player->getPlayerID();
 		exit(0);
 	}
 	return getEnemyNeighbors(mainTerritory);
 }
 void AggressivePlayerStrategy::reset() {}
+AggressivePlayerStrategy::AggressivePlayerStrategy(AggressivePlayerStrategy& hps) : PlayerStrategy(hps)
+{
+	this->mainTerritory = hps.mainTerritory;
+}
+ostream& operator << (ostream& out, AggressivePlayerStrategy& aps)
+{
 
-//Testcomment
+	out << "Aggressive Strategy of player " << aps.player->getPlayerID() << endl;
+	out << "The main territory in the game hosting this strategy are " << aps.mainTerritory->getName() <<endl;
+
+	return out;
+}
+AggressivePlayerStrategy& AggressivePlayerStrategy::operator=(AggressivePlayerStrategy& o)
+{
+	AggressivePlayerStrategy p = AggressivePlayerStrategy(o);
+	return  p;
+};
 BenevolentPlayerStrategy::BenevolentPlayerStrategy(Player* player) : PlayerStrategy(player) {}
 void BenevolentPlayerStrategy::issueOrder() {
 	vector<Territory*> defendList = toDefend();
@@ -343,12 +393,34 @@ vector<Territory*> BenevolentPlayerStrategy::toAttack() {
 void BenevolentPlayerStrategy::reset() {
 	benevolentIndex = 0;
 }
+BenevolentPlayerStrategy::BenevolentPlayerStrategy(BenevolentPlayerStrategy& bps):PlayerStrategy(bps)
+{
+	benevolentIndex = bps.benevolentIndex;
+}
+ostream& operator << (ostream& out, BenevolentPlayerStrategy& bps)
+{
+	out << "Benevolent Strategy of player " << bps.player->getPlayerID() << endl;
+	out << "The benevolent index currently in the game hosting this strategy are " << bps.benevolentIndex << endl;
+
+	return out;
+}
+BenevolentPlayerStrategy& BenevolentPlayerStrategy::operator=(BenevolentPlayerStrategy& o)
+{
+	BenevolentPlayerStrategy p = BenevolentPlayerStrategy(o);
+	return  p;
+};
 
 NeutralPlayerStrategy::NeutralPlayerStrategy(Player* player) : PlayerStrategy(player) {}
 void NeutralPlayerStrategy::issueOrder() {
 	//This does nothing.
 	player->doneIssue = true;
 }
+NeutralPlayerStrategy::NeutralPlayerStrategy(NeutralPlayerStrategy& nps):PlayerStrategy(nps)
+{
+	
+}
+
+
 vector<Territory*> NeutralPlayerStrategy::toDefend() {
 	vector<Territory*> list;
 	return list;
@@ -358,3 +430,13 @@ vector<Territory*> NeutralPlayerStrategy::toAttack() {
 	return list;
 }
 void NeutralPlayerStrategy::reset() {}
+ostream& operator << (ostream& out, NeutralPlayerStrategy& bps)
+{
+	out << "Neutral Strategy of player " << bps.player->getPlayerID() << endl;
+	return out;
+}
+NeutralPlayerStrategy& NeutralPlayerStrategy::operator=(NeutralPlayerStrategy& o)
+{
+	NeutralPlayerStrategy p = NeutralPlayerStrategy(o);
+	return  p;
+};

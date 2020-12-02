@@ -358,6 +358,7 @@ Map& Map::operator=(const Map& m) {
 bool Map::checkWinner(vector<Player*> p)
 {
 	vector<Territory*> terlist = getTerritories();
+	
 	bool flag = true;
 	for (auto player : p) {
 		
