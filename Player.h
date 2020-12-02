@@ -72,6 +72,8 @@ public:
 	int getPlayerID() { return playerId; };
 	int getNumberOfArmies() { return numOfArmies; };
 
+	void setStratedy(PlayerStrategy*);
+
 	virtual void updatePhase(int phaseNumber);
 	virtual void updateGame(int totalTerritories, bool isPlayerBeingRemoved);
 
