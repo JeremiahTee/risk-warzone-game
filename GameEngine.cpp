@@ -35,77 +35,109 @@ void GameEngine::attachObservers(vector<Player*> players)
 }
 
 void GameEngine::gameStartPhase() {
-	cout << "Initializing game engine..." << endl;
+	std::cout << "Initializing game engine..." << endl;
+	bool mapType = queryMapType();
+	string fileName = "";
+	
+	if (mapType) {
+		fileName = queryDirectory("maps");
 
-	string fileName = queryDirectory("maps");
-	cout << "Loading " + fileName + " from file..." << endl;
-	createMap("maps\\" + fileName);
+	}
+	else if (mapType) {
+		fileName = queryDirectory("conquest");
+	}
 
-	cout << "Checking map validity..." << endl;
+	std::cout << "Loading " + fileName + " from file..." << endl;
+	createMap("maps\\" + fileName, mapType);
+
+	std::cout << "Checking map validity..." << endl;
 	if (map->validate()) {
-		cout << "Map is valid!" << endl;
+		std::cout << "Map is valid!" << endl;
 	}
 	else {
-		cout << "Map is invalid, terminating program..." << endl;
+		std::cout << "Map is invalid, terminating program..." << endl;
 		exit(0);
 	}
 
-	cout << "Creating players...";
+	std::cout << "Creating players...";
 	int playerCount = queryPlayerCount();
-	cout << "Creating players..." << endl;
+	std::cout << "Creating players..." << endl;
 	createPlayers(playerCount);
 
 	deck = new Deck(10, 10, 10, 10, 10, 10);
 
 	attachObservers(players);
-	cout << "\n";
+	std::cout << "\n";
 }
 
 void GameEngine::startupPhase() {
 
-	cout << "Running startup phase..." << endl;
+	std::cout << "Running startup phase..." << endl;
 
 	//Shuffle elements in players.
-	cout << "Shuffling player list..." << endl;
+	std::cout << "Shuffling player list..." << endl;
 	auto rng = std::default_random_engine{};
 	std::shuffle(std::begin(players), std::end(players), rng);
 
 	//Assign all territories to players.
-	cout << "Assigning territories to players..." << endl;
+	std::cout << "Assigning territories to players..." << endl;
 	assignTerritoriesToPlayers(players, map->getTerritories());
 
 	//Assign initial army counts.
-	cout << "Assigning initial armies..." << endl;
+	std::cout << "Assigning initial armies..." << endl;
 	assignInitialArmies(players);
+}
+
+bool GameEngine::queryMapType() {
+	std::cout << "Would you like to use conquest or normal maps (input conquest or normal): " << endl;
+
+	string type = "";
+	cin >> type;
+
+	if (type != "conquest" && type != "normal") {
+		std::cout << "Invalid input, selecting normal option." << endl;
+		type = "normal";
+	}
+	else {
+		std::cout << "Rerouting to "<< type << " maps folder." << endl;
+	}
+
+	std::cout << "\n";
+	if (type == "normal") {
+		return true;
+	}
+	else {
+		return false;
+	}
 }
 
 string GameEngine::queryDirectory(string directory) {
 	vector<string> namelist;
-	cout << "Files names:" << endl;
+	std::cout << "Files names:" << endl;
 	try
 	{
 		for (const auto& entry : fs::directory_iterator(directory)) {
-			cout << entry.path().filename() << endl;
+			std::cout << entry.path().filename() << endl;
 		}
 	}
 	catch (exception& e)
 	{
-		cout << "Unable to display file contents..." << endl;
+		std::cout << "Unable to display file contents..." << endl;
 	}
 
-	cout << "\n";
+	std::cout << "\n";
 
-	cout << "Enter the file path of a map file: ";
+	std::cout << "Enter the file path of a map file: ";
 
 	string path = "";
 	cin >> path;
 
-	cout << "\n";
+	std::cout << "\n";
 
 	return path;
 }
 
-void GameEngine::createMap(string path) {
+void GameEngine::createMap(string path, bool normalMap) {
 	MapLoader mapLoader = MapLoader();
 
 	//Add continents
@@ -117,36 +149,39 @@ void GameEngine::createMap(string path) {
 	//Add borders
 	vector<vector<Territory*>> bordersList = mapLoader.GetBordersList();
 
-	////Normal map version
-	//countryList = mapLoader.ReadMapFileForCountries(path, countryList);
-	//continentList = mapLoader.ReadMapFile(path, continentList);
-	//bordersList = mapLoader.ReadMapFileForBorders(path, bordersList, countryList);
+	if (normalMap) {
+		////Normal map version
+		countryList = mapLoader.ReadMapFileForCountries(path, countryList);
+		continentList = mapLoader.ReadMapFile(path, continentList);
+		bordersList = mapLoader.ReadMapFileForBorders(path, bordersList, countryList);
 
-	////Create the map
-	//map = mapLoader.CombineInfos(continentList, countryList, bordersList);
-
-	//Adapter for Conquest version
-	ConquestFileReader* reader = new ConquestFileReader();
-	ConquestFileReaderAdapter* adapter = new ConquestFileReaderAdapter(*reader);
-	continentList = adapter->ReadMapFile(path, continentList);
-	countryList = adapter->ReadMapFileForCountries(path, countryList);
-	bordersList = adapter->ReadMapFileForBorders(path, bordersList, countryList);
-	map = adapter->CombineInfos(continentList, countryList, bordersList);
+		////Create the map
+		map = mapLoader.CombineInfos(continentList, countryList, bordersList);
+	}
+	else {
+		//Adapter for Conquest version
+		ConquestFileReader* reader = new ConquestFileReader();
+		ConquestFileReaderAdapter* adapter = new ConquestFileReaderAdapter(*reader);
+		continentList = adapter->ReadMapFile(path, continentList);
+		countryList = adapter->ReadMapFileForCountries(path, countryList);
+		bordersList = adapter->ReadMapFileForBorders(path, bordersList, countryList);
+		map = adapter->CombineInfos(continentList, countryList, bordersList);
+	}
 }
 
 int GameEngine::queryPlayerCount() {
-	cout << "Enter the number of players(2-5): ";
+	std::cout << "Enter the number of players(2-5): ";
 
 	int count;
 	cin >> count;
-	cout << "\n";
+	std::cout << "\n";
 
 	if (count < 2) {
-		cout << "Input too small, rounding player count up to 2." << endl;
+		std::cout << "Input too small, rounding player count up to 2." << endl;
 		count = 2;
 	}
 	else if (count > 5) {
-		cout << "Input too large, rounding player count down to 5." << endl;
+		std::cout << "Input too large, rounding player count down to 5." << endl;
 		count = 5;
 	}
 
@@ -188,11 +223,11 @@ void GameEngine::assignTerritoriesToPlayers(vector<Player*> playerList, vector<T
 		while (territoryIndex < territoryList.size()) {
 			Map::assignTerritory(playerList.at(playerIndex), territoryList.at(territoryIndex));
 
-			cout << "Territory (";
-			cout << territoryIndex;
-			cout << ") being assigned to Player (";
-			cout << playerList.at(playerIndex)->getPlayerID();
-			cout << ")." << endl;
+			std::cout << "Territory (";
+			std::cout << territoryIndex;
+			std::cout << ") being assigned to Player (";
+			std::cout << playerList.at(playerIndex)->getPlayerID();
+			std::cout << ")." << endl;
 
 			territoryIndex++;
 			playerIndex++;
@@ -220,8 +255,8 @@ void GameEngine::assignInitialArmies(vector<Player*> playerList) {
 		armyCount = 25;
 	}
 
-	cout << armyCount;
-	cout << " armies are being assigned to each player..." << endl;
+	std::cout << armyCount;
+	std::cout << " armies are being assigned to each player..." << endl;
 
 	for (auto player : playerList) {
 		player->mapPlayed = map;
