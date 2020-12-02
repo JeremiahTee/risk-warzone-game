@@ -12,7 +12,6 @@ public:
 	vector<Player*> playersIssuingOrders;
 	vector<Player*> playersExecutingOrders;
 	Deck* deck;
-	bool validExecution;
 	int phase;
 	Player* neutral;
 	GameEngine();

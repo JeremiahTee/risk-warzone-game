@@ -14,7 +14,6 @@ using std::cout;
 using std::endl;
 
 bool main() {
-
 	Map map = Map();
 	ConquestFileReader* reader = new ConquestFileReader();
 	ConquestFileReaderAdapter* adapter = new ConquestFileReaderAdapter(*reader);
@@ -23,6 +22,8 @@ bool main() {
 
 	cout << "Enter a file" << endl;
 	cin >> path;
+
+	path = "maps\\" + path;
 
 	//Check validity
 	adapter->CheckValidity(path);

@@ -17,7 +17,6 @@ namespace fs = std::filesystem;
 using namespace std;
 
 GameEngine::GameEngine() {
-	validExecution = true;
 }
 
 GameEngine::~GameEngine() {
@@ -40,51 +39,44 @@ void GameEngine::gameStartPhase() {
 
 	string fileName = queryDirectory("maps");
 	cout << "Loading " + fileName + " from file..." << endl;
-	createMap("maps\\"+fileName);
+	createMap("maps\\" + fileName);
 
 	cout << "Checking map validity..." << endl;
 	if (map->validate()) {
 		cout << "Map is valid!" << endl;
 	}
 	else {
-		cout << "Map is invalid, terminating..." << endl;
-		validExecution = false;
+		cout << "Map is invalid, terminating program..." << endl;
+		exit(0);
 	}
 
-	if (validExecution) {
-		cout << "Creating players...";
-		int playerCount = queryPlayerCount();
-		cout << "Creating players..." << endl;
-		createPlayers(playerCount);
+	cout << "Creating players...";
+	int playerCount = queryPlayerCount();
+	cout << "Creating players..." << endl;
+	createPlayers(playerCount);
 
-		deck = new Deck(10, 10, 10, 10, 10, 10);
+	deck = new Deck(10, 10, 10, 10, 10, 10);
 
-		attachObservers(players);
-	}
+	attachObservers(players);
 	cout << "\n";
 }
 
 void GameEngine::startupPhase() {
-	if (!validExecution) {
-		cout << "Execution invalid, cancelling startup phase..." << endl;
-	}
-	else {
 
-		cout << "Running startup phase..." << endl;
+	cout << "Running startup phase..." << endl;
 
-		//Shuffle elements in players.
-		cout << "Shuffling player list..." << endl;
-		auto rng = std::default_random_engine{};
-		std::shuffle(std::begin(players), std::end(players), rng);
+	//Shuffle elements in players.
+	cout << "Shuffling player list..." << endl;
+	auto rng = std::default_random_engine{};
+	std::shuffle(std::begin(players), std::end(players), rng);
 
-		//Assign all territories to players.
-		cout << "Assigning territories to players..." << endl;
-		assignTerritoriesToPlayers(players, map->getTerritories());
+	//Assign all territories to players.
+	cout << "Assigning territories to players..." << endl;
+	assignTerritoriesToPlayers(players, map->getTerritories());
 
-		//Assign initial army counts.
-		cout << "Assigning initial armies..." << endl;
-		assignInitialArmies(players);
-	}
+	//Assign initial army counts.
+	cout << "Assigning initial armies..." << endl;
+	assignInitialArmies(players);
 }
 
 string GameEngine::queryDirectory(string directory) {
@@ -115,22 +107,31 @@ string GameEngine::queryDirectory(string directory) {
 
 void GameEngine::createMap(string path) {
 	MapLoader mapLoader = MapLoader();
-	
+
 	//Add continents
 	vector<string> continentList = mapLoader.GetContinentList();
-	continentList = mapLoader.ReadMapFile(path, continentList);
 
 	//Add territories
 	vector<Territory*> countryList = mapLoader.GetCountryList();
-	countryList = mapLoader.ReadMapFileForCountries(path, countryList);
 
 	//Add borders
 	vector<vector<Territory*>> bordersList = mapLoader.GetBordersList();
-	bordersList = mapLoader.ReadMapFileForBorders(path, bordersList, countryList);
 
-	//Create the map
+	////Normal map version
+	//countryList = mapLoader.ReadMapFileForCountries(path, countryList);
+	//continentList = mapLoader.ReadMapFile(path, continentList);
+	//bordersList = mapLoader.ReadMapFileForBorders(path, bordersList, countryList);
 
-	map = mapLoader.CombineInfos(continentList, countryList, bordersList);
+	////Create the map
+	//map = mapLoader.CombineInfos(continentList, countryList, bordersList);
+
+	//Adapter for Conquest version
+	ConquestFileReader* reader = new ConquestFileReader();
+	ConquestFileReaderAdapter* adapter = new ConquestFileReaderAdapter(*reader);
+	continentList = adapter->ReadMapFile(path, continentList);
+	countryList = adapter->ReadMapFileForCountries(path, countryList);
+	bordersList = adapter->ReadMapFileForBorders(path, bordersList, countryList);
+	map = adapter->CombineInfos(continentList, countryList, bordersList);
 }
 
 int GameEngine::queryPlayerCount() {
@@ -144,7 +145,7 @@ int GameEngine::queryPlayerCount() {
 		cout << "Input too small, rounding player count up to 2." << endl;
 		count = 2;
 	}
-	else if(count > 5){
+	else if (count > 5) {
 		cout << "Input too large, rounding player count down to 5." << endl;
 		count = 5;
 	}
@@ -160,7 +161,7 @@ void GameEngine::createPlayers(int playerCount) {
 		players.push_back(player);
 	}
 
-	for(int i = 0; i < players.size(); i++){
+	for (int i = 0; i < players.size(); i++) {
 		if (i == 0) {
 			players[i]->playerStrategy = new HumanPlayerStrategy(players[i], players);
 		}
@@ -205,7 +206,7 @@ void GameEngine::assignTerritoriesToPlayers(vector<Player*> playerList, vector<T
 
 void GameEngine::assignInitialArmies(vector<Player*> playerList) {
 	int armyCount = 0;
-	
+
 	if (playerList.size() <= 2) {
 		armyCount = 40;
 	}
@@ -235,7 +236,7 @@ void GameEngine::mainGameLoop()
 {
 	while (!map->checkWinner(players))
 	{
-		
+
 		reinforcementPhase();
 		for (auto p : players) {
 			p->attackArmies = p->numOfArmies;
@@ -245,7 +246,7 @@ void GameEngine::mainGameLoop()
 		issueOrdersPhase();
 		playersExecutingOrders = players;
 		executeOrdersPhase();
-		for(auto it:players)
+		for (auto it : players)
 		{
 			std::cout << it->getOwnedTerritories().size() << endl;
 			it->neighbourmap.clear();
@@ -279,7 +280,7 @@ void GameEngine::reinforcementPhase()
 
 		if (p->numOfArmies < 3)
 		{
-			p->numOfArmies +=3;
+			p->numOfArmies += 3;
 		}
 		p->tempArmies = p->numOfArmies;
 	}
@@ -292,21 +293,21 @@ void GameEngine::issueOrdersPhase()
 	notifyPhase();
 	orderattempts = 0;
 	bool allDone = false;
-	while((!allDone))//(orderattempts<100)
+	while ((!allDone))//(orderattempts<100)
 	{
-		
+
 		allDone = true;
-		
-		for(auto it:playersIssuingOrders)
+
+		for (auto it : playersIssuingOrders)
 		{
-			if(it->doneIssue==false)
+			if (it->doneIssue == false)
 			{
 				it->playerStrategy->issueOrder();
 				allDone = false;
-				
+
 			}
 		}
-		
+
 		orderattempts++;
 	}
 	for (auto it : players)
@@ -318,7 +319,7 @@ void GameEngine::issueOrdersPhase()
 		it->doneIssue = false;
 		it->roundwiseordercount = 0;
 		it->tempArmies = it->numOfArmies;
-		
+
 	}
 }
 
@@ -327,10 +328,10 @@ void GameEngine::eraseLosers()
 	vector<int> loserPlayerIndex;
 
 	//Store all the indices of players without territories
-	for(int j = 0; j < players.size(); j++)
+	for (int j = 0; j < players.size(); j++)
 	{
 		auto player = players[j];
-		if(player->getOwnedTerritories().empty())
+		if (player->getOwnedTerritories().empty())
 		{
 			loserPlayerIndex.push_back(j);
 		}
@@ -339,7 +340,7 @@ void GameEngine::eraseLosers()
 	setIsPlayerBeingRemoved(true);
 
 	//Erase the players without territories from the player list
-	for(int j: loserPlayerIndex)
+	for (int j : loserPlayerIndex)
 	{
 		detach(players[j]); //detach the observer as well
 		players.erase(players.begin() + j);
@@ -405,7 +406,7 @@ void GameEngine::executeOrdersPhase()
 			}
 		}
 	}
-	
+
 	eraseLosers();
 }
 

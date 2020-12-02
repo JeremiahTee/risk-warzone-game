@@ -62,7 +62,7 @@ void HumanPlayerStrategy::issueOrder() {
 
 	if(player->tempArmies>0)
 	{
-		cout << "You have still got armies left to deploy. You have " << player->tempArmies<< " armies left. Deploy them before you can issue other orders.\nYour Territories:"<< endl;
+		cout << "Hey Player " << player->getPlayerID() << ". You still have armies left to deploy. You have " << player->tempArmies<< " armies left. Deploy them before you can issue other orders.\nYour Territories:"<< endl;
 		for(auto it: player->getOwnedTerritories())
 		{
 			cout << it->getName() << "\tArmies on this territory: " << it->getArmyCount() << endl;
@@ -89,7 +89,7 @@ void HumanPlayerStrategy::issueOrder() {
 	}
 	else 
 	{
-		cout << "What type of order do you want to issue. If you're done enter \"done\" Options are: Advance orders (type \"advance\") or Cards (type \"cards\")."<<endl;
+		cout << "What type of order do you want to issue? If you're done enter \"done\" Options are: Advance orders (type \"advance\") or Cards (type \"cards\")."<<endl;
 		string choice;
 		std::cin >> choice;
 		if(choice=="done")
