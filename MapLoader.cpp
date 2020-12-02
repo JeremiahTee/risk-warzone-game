@@ -539,3 +539,19 @@ Map* ConquestFileReader::CombineInfosConquest(vector<string> _continentList, vec
 	cout << "\n";
 	return map;
 }
+
+ConquestFileReaderAdapter::ConquestFileReaderAdapter(ConquestFileReaderAdapter&) //copy constructor
+{
+	ConquestFileReaderAdapter* newAdapter = new ConquestFileReaderAdapter(file_reader_);
+}; 
+
+ConquestFileReaderAdapter& ConquestFileReaderAdapter::operator=(ConquestFileReaderAdapter& c) //stream insertion operator
+{
+	file_reader_ = c.file_reader_;
+};
+
+ostream& operator<<(ostream& out, ConquestFileReaderAdapter& c) //stream insertion operator
+{
+	out << "This is an adapter with a file reader: " << c.file_reader_;
+	return out;
+};
