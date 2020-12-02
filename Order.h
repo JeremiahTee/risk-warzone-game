@@ -8,6 +8,10 @@
 /*using std::ostream;
 using std::istream;
 using std::list;*/
+
+class Territory;
+class Player;
+
 using namespace std;
 
 class Order

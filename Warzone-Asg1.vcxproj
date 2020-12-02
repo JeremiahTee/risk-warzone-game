@@ -148,6 +148,7 @@
     <ClInclude Include="GameObservers.h" />
     <ClInclude Include="Order.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerStrategies.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Cards.cpp" />
@@ -163,6 +164,7 @@
     <ClCompile Include="Order.cpp" />
     <ClCompile Include="OrderDriver.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerStrategies.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
