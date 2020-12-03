@@ -1,6 +1,6 @@
 ﻿//====================================================================================
 // Name        : Cards.h
-// Author      : David Kim (27151543)
+// Author      : David Kim 
 // Description : Cards header class containing definition for Deck and Hand classes.
 //====================================================================================
 
@@ -10,14 +10,13 @@ using namespace std;
 class Deck
 {
 private:
-    int spy; //Card Type 0
-    int bomb; //Card Type 1
-    int reinforcement; //Card Type 2
-    int blockade; //Card Type 3
-    int airlift; //Card Type 4
-    int diplomacy; //Card Type 5 //Not Order
+    int spy;                //Card Type 0
+    int bomb;               //Card Type 1
+    int reinforcement;      //Card Type 2
+    int blockade;           //Card Type 3
+    int airlift;            //Card Type 4
+    int diplomacy;          //Card Type 5
 public:
-    //friend ostream& operator<<(ostream& os, Deck& d);
     Deck* operator= (Deck& d);
     Deck(const Deck& deck);
     Deck(int, int, int, int, int, int);
@@ -48,7 +47,6 @@ private:
     int airlift;        // Card Type 4
     int diplomacy;      // Card Type 5
 public:
-    //friend ostream& operator<<(ostream& os, Hand& h);
     Hand* operator= (Hand& h);
     Hand() = default;
     Hand(const Hand& deck);
@@ -68,5 +66,4 @@ public:
     void setAirlift(int);
     int getDiplomacy();
     void setDiplomacy(int);
-    //int getTotalCards() { return spy + bomb + reinforcement + blockade + airlift + diplomacy; }
 };

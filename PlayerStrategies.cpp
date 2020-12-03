@@ -1,6 +1,6 @@
 #include "PlayerStrategies.h"
 
-using namespace std;
+using std::cout;
 
 PlayerStrategy::PlayerStrategy(Player* player) {
 	this->player = player;
@@ -62,7 +62,6 @@ bool PlayerStrategy::hasEnemyNeighbor(Territory* territory) {
 }
 ostream& operator << (ostream& out, PlayerStrategy& ps)
 {
-
 	out << "Base Strategy of player " << ps.player->getPlayerID() << endl;
 	
 	return out;
@@ -81,10 +80,10 @@ void HumanPlayerStrategy::issueOrder() {
 		}
 		cout << "How many armies?" << endl;
 		int numarmies;
-		std::cin >> numarmies;
+		cin >> numarmies;
 		cout << "And on which territories?" << endl;
 		string name;
-		std::cin >> name;
+		cin >> name;
 		bool flag = false;
 		for (auto it : player->getOwnedTerritories())
 		{
@@ -101,9 +100,9 @@ void HumanPlayerStrategy::issueOrder() {
 	}
 	else 
 	{
-		cout << "What type of order do you want to issue? If you're done enter \"done\" Options are: Advance orders (type \"advance\") or Cards (type \"cards\")."<<endl;
+		cout << "What type of order do you want to issue? Enter \"done\" when finished.\n Options are: Advance orders (type \"advance\") or Cards (type \"cards\")."<<endl;
 		string choice;
-		std::cin >> choice;
+		cin >> choice;
 		if(choice=="done")
 		{
 			player->doneIssue = true;
@@ -114,7 +113,7 @@ void HumanPlayerStrategy::issueOrder() {
 			cout << "You have chosen Advance. Your territories are ordered below and you can move armies from here to any other territory that own or to an enemy neighbours territory." << endl;
 			cout << "To see a neighbour of your territories enter the name or press skip if you're ready to place the order." << endl;
 			string neighbourname;
-			std::cin >> neighbourname;
+			cin >> neighbourname;
 			if (neighbourname=="skip")
 			{
 				cout << "You chose to skip" << endl;

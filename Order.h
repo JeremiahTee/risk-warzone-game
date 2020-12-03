@@ -22,7 +22,7 @@ public:
 	virtual void execute() = 0;
 	//To print the orders in sequence, and index each order, this takes an int value to print the index of that order. This has been overloaded for all child classes.
 	Order(std::string name, std::string desc);//The constructor called by all the child classes' default constructor
-	//friend ostream& operator<<(ostream&, const Order& o);
+	friend ostream& operator<<(ostream&, const Order& o);
 	Order();
 	void setValidity(bool s);//We can use this to set validity outside the Order classes.
 	Order(const Order& o);//Copy constructor providing deep copy.
@@ -121,4 +121,3 @@ public:
 	OrderList& operator=(OrderList& olist);//Returns a pointer to a deep copy of the order on the R.H.S of the = sign.
 	std::list<Order*> getOrders();
 };
-

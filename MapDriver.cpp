@@ -1,6 +1,6 @@
 //============================================================================
 // Name        : MapDriver.cpp
-// Author      : Maxime Johnson (40081684)
+// Author      : Maxime Johnson
 // Description : Driver class to test out Map and Territory features.
 //============================================================================
 

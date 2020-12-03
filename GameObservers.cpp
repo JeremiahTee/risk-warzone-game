@@ -1,6 +1,6 @@
 //============================================================================
 // Name        : Player.cpp
-// Author      : Jeremiah Tiongson (40055477)
+// Author      : Jeremiah Tiongson
 // Description : Observer & Subject implementations
 //============================================================================
 
@@ -42,7 +42,7 @@ void Subject::notifyPhase()
 void Subject::notifyGame()
 {
 	std::list<Observer*>::iterator i = observersList->begin();
-	std::cout << "Notifying game | Game Statistic Observer" << std::endl;
+	std::cout << "[Game Statistic Observer] | Game Notified" << std::endl;
 
 	for(; i != observersList->end(); ++i)
 	{

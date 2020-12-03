@@ -541,5 +541,3 @@ std::list<Order*> OrderList::getOrders()
 {
 	return orders;
 }
-
-

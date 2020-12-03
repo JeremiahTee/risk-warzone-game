@@ -1,3 +1,9 @@
+//============================================================================
+// Name        : GameEngine.h
+// Author      : Maxime, Marjorie
+// Description : GameEngine class declaration
+//============================================================================
+
 #pragma once
 #include "Cards.h"
 #include "Map.h"

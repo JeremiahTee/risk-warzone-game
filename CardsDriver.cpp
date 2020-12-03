@@ -1,6 +1,6 @@
 //====================================================================================
 // Name        : Cards.cpp
-// Author      : David Kim (27151543)
+// Author      : David Kim 
 // Description : Driver class to test out Cards, Hand and Deck features. 
 //====================================================================================
 //

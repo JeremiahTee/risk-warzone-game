@@ -1,5 +1,10 @@
-#include "GameEngine.h"
+//============================================================================
+// Name        : GameEngine.cpp
+// Author      : Maxime, Marjorie
+// Description : GameEngine implementation
+//============================================================================
 
+#include "GameEngine.h"
 #include "MapLoader.h"
 #include "Map.h"
 #include "Player.h"
@@ -163,7 +168,6 @@ class GameEngine& GameEngine::operator=(GameEngine& g)
 	return  ge;
 }
 
-
 void GameEngine::createMap(string path, bool normalMap) {
 	MapLoader mapLoader = MapLoader();
 
@@ -323,8 +327,8 @@ void GameEngine::mainGameLoop()
 		for (auto it : players)
 		{
 			std::cout << it->getOwnedTerritories().size() << endl;
-			it->neighbourmap.clear();
-			it->enemyneighbourmap.clear();
+			it->neighbourMap.clear();
+			it->enemyneighbourMap.clear();
 			it->attacks.clear();
 			it->orders->orders.clear();
 			it->conqueredOne = false;
@@ -395,7 +399,6 @@ void GameEngine::issueOrdersPhase()
 		it->doneIssue = false;
 		it->roundwiseordercount = 0;
 		it->tempArmies = it->numOfArmies;
-
 	}
 }
 
@@ -422,6 +425,7 @@ void GameEngine::eraseLosers()
 		players.erase(players.begin() + j);
 	}
 
+	notifyGame(); //Notify the game that player is being removed
 	setIsPlayerBeingRemoved(false);
 }
 
@@ -441,11 +445,7 @@ void GameEngine::executeOrdersPhase()
 		std::cout << players.back()->getOwnedTerritories().size() << endl;
 
 		allDone = true;
-
-
-
-
-
+		
 		while (!allDoneDeploy) {
 			allDoneDeploy = true;
 			for (auto it : players)

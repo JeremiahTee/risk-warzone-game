@@ -156,66 +156,57 @@ void MapLoader::ShowTerritories(vector<Territory*> _countryList) {
 
 bool MapLoader::CheckValidity(string _inputFileStream) {
 	cout << "\nChecking VALIDITY of NORMAL map..." << endl;
+
 	string line;
-	ifstream inputFileStream(_inputFileStream);
+	ifstream ifs(_inputFileStream);
 
-	bool hasCountries = false;
-	bool hasContinents = false;
-	bool hasBorders = false;
-	bool hasFiles = false;
-	bool isValid;
+	string currentLine;
 
-	while (getline(inputFileStream, line)) {
-		if (line == "[files]") {
-			hasFiles = true;
-		}else
-		{
-			cout << "Missing [files] tag. Exiting program...\n\n";
-			inputFileStream.close();
-			inputFileStream.clear();
-			exit(0);
-		}
-		
-		if (line == "[continents]") {
-			hasContinents = true;
-		}else
-		{
-			cout << "Missing [continents] tag. Exiting program...\n\n";
-			inputFileStream.close();
-			inputFileStream.clear();
-			exit(0);
-		}
-		
-		if (line == "[countries]") {
-			hasCountries = true;
-		}else
-		{
-			cout << "Missing [countries] tag. Exiting program...\n\n";
-			inputFileStream.close();
-			inputFileStream.clear();
-			exit(0);
-		}
-		
-		if (line == "[borders]") {
-			hasBorders = true;
-		}else
-		{
-			cout << "Missing [borders] tag. Exiting program...\n\n";
-			inputFileStream.close();
-			inputFileStream.clear();
-			exit(0);
-		}
+	while (getline(ifs, currentLine) && currentLine != "[continents]")
+	{
+		//While current line isn't equal to [Continents] skip 
 	}
 
-	inputFileStream.close();
-	inputFileStream.clear();
+	if (currentLine != "[continents]")
+	{
+		ifs.close();
+		ifs.clear();
+		cout << "Missing [continents] tag. Exiting program...\n\n";
+		exit(0);
+	}
 
-	if (hasContinents && hasBorders && hasCountries && hasFiles)
-		isValid = true;
-	else
-		isValid = false;
+	while (getline(ifs, currentLine) && currentLine != "[countries]")
+	{
+		//While current line isn't equal to [Territories] skip 
+	}
 
-	return isValid;
+	if (currentLine != "[countries]")
+	{
+		ifs.close();
+		ifs.clear();
+		cout << "Missing [countries] tag. Exiting program...\n\n";
+		exit(0);
+	}
+
+	while (getline(ifs, currentLine) && currentLine != "[borders]")
+	{
+		//While current line isn't equal to [Territories] skip 
+	}
+
+	if (currentLine != "[borders]")
+	{
+		ifs.close();
+		ifs.clear();
+		cout << "Missing [borders] tag. Exiting program...\n\n";
+		exit(0);
+	}
+
+	ifs.close();
+	ifs.clear();
+
+	cout << "Normal map is VALID and ready to be parsed :)" << endl;
+
+	return true;
 }
 
 vector<string> MapLoader::ReadMapFile(string _inputFileStream, vector<string> _continentList) {
@@ -415,42 +406,40 @@ bool ConquestFileReader::CheckValidityConquest(string _inputFileStream)
 	string line;
 	ifstream ifs(_inputFileStream);
 
-	bool hasCountries = false;
-	bool hasContinents = false;
-	bool isValid;
+	string currentLine;
+	
+	while (getline(ifs, currentLine) && currentLine != "[Continents]")
+	{
+		//While current line isn't equal to [Continents] skip 
+	}
 
-	while (getline(ifs, line)) {
-		if (line == "[Continents]") {
-			hasContinents = true;
-		}else
-		{
-			ifs.close();
-			ifs.clear();
-			cout << "Missing [Continents] tag. Exiting program...\n\n";
-			exit(0);
-			
-		}
-		if (line == "[Territories]") {
-			hasCountries = true;
-		}else
-		{
-			ifs.close();
-			ifs.clear();
-			cout << "Missing [Territories] tag. Exiting program...\n\n";
-			exit(0);
-		}
+	if(currentLine !=  "[Continents]")
+	{
+		ifs.close();
+		ifs.clear();
+		cout << "Missing [Continents] tag. Exiting program...\n\n";
+		exit(0);
+	}
+
+	while (getline(ifs, currentLine) && currentLine != "[Territories]")
+	{
+		//While current line isn't equal to [Territories] skip 
+	}
+
+	if (currentLine != "[Territories]")
+	{
+		ifs.close();
+		ifs.clear();
+		cout << "Missing [Territories] tag. Exiting program...\n\n";
+		exit(0);
 	}
 
 	ifs.close();
 	ifs.clear();
 
-	if (hasContinents && hasCountries)
-	{
-		isValid = true;
-		cout << "Conquest map is VALID and ready to be parsed :)" << endl;
-	}
+	cout << "Conquest map is VALID and ready to be parsed :)" << endl;
 
-	return isValid;
+	return true;
 }
 
 vector<string> ConquestFileReader::ReadMapFileConquest(string _inputFileStream, vector<string> _continentList)

@@ -1,6 +1,6 @@
 ////============================================================================
 //// Name        : MapLoaderDriver.cpp
-//// Author      : Marjolaine Roy (40098364)
+//// Author      : Marjolaine Roy
 //// Description : Map Loader Driver c++ class.
 ////============================================================================
 //

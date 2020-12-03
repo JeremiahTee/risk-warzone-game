@@ -1,6 +1,6 @@
 //============================================================================
 // Name        : Player.cpp
-// Author      : Jeremiah Tiongson (40055477)
+// Author      : Jeremiah Tiongson
 // Description : Observer & Subject class declarations
 //============================================================================
 

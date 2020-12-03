@@ -1,14 +1,3 @@
-////============================================================================
-////      Authors                ID           e-mail
-////	
-////	David Kim           | 27151543 | jykdavid.kim@gmail.com
-////	Aryamann Mehra      | 40127106 | aryamanmehra98@gmail.com
-////	Jeremiah Tiongson   | 40055477 | jeremiahteee@gmail.com
-////	Maxime Johnson      | 40081684 | 11johnson1111@gmail.com
-////	Marjolaine Roy      | 40098364 | roy.marjolaine@hotmail.com
-////============================================================================
-//
-//
 //#include "Map.h"
 //#include "Player.h"
 //#include <ostream>

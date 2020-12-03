@@ -1,6 +1,6 @@
 //============================================================================
 // Name        : Player.cpp
-// Author      : Jeremiah Tiongson (40055477)
+// Author      : Jeremiah Tiongson
 // Description : Player compilation unit class.
 //============================================================================
 
@@ -33,24 +33,21 @@ Player::Player(const Player& p)
 {
 	territories = p.territories;
 	hand = p.hand;
-	neighbourmap = p.neighbourmap;
+	neighbourMap = p.neighbourMap;
 
 }
+
 bool Player::isNegotiated(Player* p1, Player* p2)
 {
 	vector<Player*> myvec = p1->negotiated;
 	vector<Player*>::iterator it = myvec.begin();
 	for (it = myvec.begin(); it != myvec.end(); ++it)
 	{
-
-
 		if (*it == p2)
 		{
 			return true;
-		};
-
-
-	};
+		}
+	}
 	return false;
 }
 
@@ -155,14 +152,15 @@ void Player::updateGame(int totalTerritories, bool isPlayerBeingRemoved)
 		if (percent > 80.0)
 		{
 			if (percent == 100.0) { //Announce when a player has won
-				cout << "Congratulations! ~ Player " << playerId << " has WON the game by owning all territories." << endl;
+				cout << "CONGRATULATIONS! ~ Player " << playerId << " has WON the game by owning all territories :)" << endl;
 			}
 		}
-		else 
+		else
 		{
 			cout << "Watch out! Player " << playerId << " owns " << percent << "% of the territories" << endl;
 		}
-	}else //Announce when a player has been removed 
+	}
+	else //Announce when a player has been removed 
 	{
 		cout << "Player " << playerId << " has been removed.";
 	}

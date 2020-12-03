@@ -1,6 +1,6 @@
 //============================================================================
 // Name        : Map.cpp
-// Author      : Maxime Johnson (40081684)
+// Author      : Maxime Johnson
 // Description : Map c++ class.
 //============================================================================
 
@@ -45,10 +45,10 @@ int Territory::getArmyCount() {
 void Territory::setArmyCount(int armies) {
 	armyCount = armies;
 }
-map <Territory*,vector<Territory*>> Map::getTerritoryNeighbors( Player* caller)
+map <Territory*, vector<Territory*>> Map::getTerritoryNeighbors(Player* caller)
 {
 	map<Territory*, vector<Territory*>>neighborsvec;
-	for(auto it:caller->getOwnedTerritories())
+	for (auto it : caller->getOwnedTerritories())
 	{
 		if (it->getOwner() != nullptr) {
 			Territory* thisOne = it;
@@ -97,7 +97,7 @@ bool Map::validateTerritoryConnectivity() {
 		if (!validateNodeConnectivity(i)) {
 			return false;
 		}
-	 }
+	}
 
 	return true;
 }
@@ -190,13 +190,13 @@ bool Map::validateContinentExclusivity() {
 }
 
 Territory* Map::getTerritory(string territoryName) {
-  if (!territories.empty()) {
-    for (auto i : territories) {
-      if (i->getName() == territoryName) {
-        return i;
-      }
-    }
-  }
+	if (!territories.empty()) {
+		for (auto i : territories) {
+			if (i->getName() == territoryName) {
+				return i;
+			}
+		}
+	}
 	return new Territory("N/A");
 }
 
@@ -212,8 +212,6 @@ vector<Territory*> Map::getTerritoryNeighbors(string territoryName) {
 	return territoryNeighbors.at(territoryName);
 }
 
-
-
 void Map::addTerritory(Territory* territory, vector<Territory*> neighborList) {
 	territories.push_back(territory);
 	territoryNeighbors[territory->getName()] = neighborList;
@@ -223,8 +221,6 @@ void Map::addTerritory(string continent, int bonusArmyCount, Territory* territor
 	addTerritory(territory, neighborList);
 	registerWithContinent(continent, bonusArmyCount, territory);
 }
-
-
 
 unordered_map<string, vector<Territory*>> Map::getTerritoryNeighborMap() {
 	return territoryNeighbors;
@@ -361,21 +357,21 @@ Map& Map::operator=(const Map& m) {
 bool Map::checkWinner(vector<Player*> p)
 {
 	vector<Territory*> terlist = getTerritories();
-	
+
 	bool flag = true;
 	for (auto player : p) {
-		
+
 		flag = true;
-		
+
 		for (auto it : terlist)
 		{
-			
-			if(it->getOwner()!=player)
+
+			if (it->getOwner() != player)
 			{
 				flag = false;
 			}
 		}
-		if(flag)
+		if (flag)
 		{
 			winner = player;
 			return true;
@@ -383,7 +379,6 @@ bool Map::checkWinner(vector<Player*> p)
 	}
 	return false;
 }
-
 
 ostream& operator <<(ostream& out, Map& m) {
 	for (auto c : m.getContinents()) {

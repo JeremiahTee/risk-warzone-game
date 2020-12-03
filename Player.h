@@ -1,6 +1,6 @@
 //============================================================================
 // Name        : Player.h
-// Author      : Jeremiah Tiongson (40055477)
+// Author      : Jeremiah Tiongson 
 // Description : Player header class.
 //============================================================================
 
@@ -20,14 +20,12 @@ class Territory; //forward declaration to avoid compilation errors
 class OrderList;
 class PlayerStrategy;
 
-
 class Player : public Observer
 {
 private:
 	
 	Hand* hand;
 	
-
 public:
 	PlayerStrategy* playerStrategy;
 	vector<Territory*> territories;
@@ -53,8 +51,8 @@ public:
 	int tempArmies;
 	bool conqueredOne = false;
 	bool orderFlag = false;
-	map<Territory*, vector<Territory*>> neighbourmap;
-	map<Territory*, vector<Territory*>> enemyneighbourmap;
+	map<Territory*, vector<Territory*>> neighbourMap;
+	map<Territory*, vector<Territory*>> enemyneighbourMap;
 	int attackArmies;
 
 	Player() = default;
@@ -77,5 +75,4 @@ public:
 	virtual void updateGame(int totalTerritories, bool isPlayerBeingRemoved);
 
 	friend ostream& operator << (ostream& out, const Player& p);
-
 };

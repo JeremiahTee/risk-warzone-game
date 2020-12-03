@@ -43,7 +43,7 @@ class MapLoader {
 		virtual Map* CombineInfos(vector<string> _continentList, vector<Territory*> _countryList, vector<vector<Territory*>> _bordersList); //stores all information into map
 };
 
-class ConquestFileReader
+class ConquestFileReader //Adaptee
 {
 private:
 	vector<string> continentListConquest; //new continentList
@@ -53,7 +53,7 @@ private:
 	unordered_map<string, int> bonusWithContinent;
 	
 public:
-	bool CheckValidityConquest(string _inputFileStream);
+	bool CheckValidityConquest(string _inputFileStream); // checks the pertinent tags for validity
 	vector<string> ReadMapFileConquest(string _inputFileStream, vector<string> _continentList); //reads file & return list of continents from a ConquestMap
 	vector<vector<Territory*>> ReadMapFileForBordersConquest(string _inputFileStream, vector<vector<Territory*>> _bordersList, vector<Territory*> _countryList); //reads file & return list of borders for each country from a ConquestMap
 	vector<Territory*> ReadMapFileForCountriesConquest(string _inputFileStream, vector<Territory*> _countryList); //reads file & return list of countries from a ConquestMap
@@ -65,13 +65,13 @@ public:
 };
 
 /*Adapter */
-class ConquestFileReaderAdapter : MapLoader
+class ConquestFileReaderAdapter : MapLoader //Adapter
 {
 private:
 	ConquestFileReader file_reader_;
 public:
 	ConquestFileReaderAdapter(ConquestFileReader fileReader);
-	bool CheckValidity(string _inputFileStream);
+	bool CheckValidity(string _inputFileStream); // checks the pertinent conquest tags for validity
 	vector<string> ReadMapFile(string _inputFileStream, vector<string> _continentList);
 	vector<Territory*> ReadMapFileForCountries(string _inputFileStream, vector<Territory*> _countryList);
 	vector<vector<Territory*>> ReadMapFileForBorders(string _inputFileStream, vector<vector<Territory*>> _bordersList, vector<Territory*> _countryList);
