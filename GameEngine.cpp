@@ -4,7 +4,6 @@
 #include "Map.h"
 #include "Player.h"
 #include "Cards.h"
-
 #include <process.h>
 #include <iostream>
 #include <filesystem>
@@ -20,7 +19,12 @@ GameEngine::GameEngine() {
 }
 
 GameEngine::~GameEngine() {
+	delete deck;
 	delete map;
+
+	neutral = nullptr;
+	deck = nullptr;
+	map = nullptr;
 }
 
 void GameEngine::attachObservers(vector<Player*> players)
@@ -129,6 +133,7 @@ string GameEngine::queryDirectory(string directory) {
 	catch (exception& e)
 	{
 		std::cout << "Unable to display file contents..." << endl;
+		std::cout << "Exception contents: " << e.what() << endl;
 	}
 
 	std::cout << "\n";
@@ -318,6 +323,8 @@ void GameEngine::mainGameLoop()
 			it->playerStrategy->reset();
 		}
 	}
+
+	notifyGame();
 }
 void GameEngine::reinforcementPhase()
 {

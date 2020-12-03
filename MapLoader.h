@@ -62,7 +62,6 @@ public:
 	Map* CombineInfosConquest(vector<string> _continentList, vector<Territory*> _countryList, vector<vector<Territory*>> _bordersList); //stores all information into map
 	ConquestFileReader& operator=(ConquestFileReader& h);
 	friend ostream& operator << (ostream& out, ConquestFileReader& hps);
-	
 };
 
 /*Adapter */
@@ -77,4 +76,8 @@ public:
 	vector<Territory*> ReadMapFileForCountries(string _inputFileStream, vector<Territory*> _countryList);
 	vector<vector<Territory*>> ReadMapFileForBorders(string _inputFileStream, vector<vector<Territory*>> _bordersList, vector<Territory*> _countryList);
 	Map* CombineInfos(vector<string> _continentList, vector<Territory*> _countryList, vector<vector<Territory*>> _bordersList); //stores all information into map
+
+	ConquestFileReaderAdapter(ConquestFileReaderAdapter&); //copy constructor
+	ConquestFileReaderAdapter& operator=(ConquestFileReaderAdapter& cfr); //stream insertion operator
+	friend ostream& operator<<(ostream& out, ConquestFileReaderAdapter& cfr); //stream insertion operator
 };

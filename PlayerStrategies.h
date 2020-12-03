@@ -1,10 +1,9 @@
 #pragma once
 
-#include "Map.h";
-#include "Player.h";
-
-#include <vector>;
-#include <iostream>;
+#include "Map.h"
+#include "Player.h"
+#include <vector>
+#include <iostream>
 
 class Territory;
 class Player;

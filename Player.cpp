@@ -34,7 +34,7 @@ Player::Player(const Player& p)
 	territories = p.territories;
 	hand = p.hand;
 	neighbourmap = p.neighbourmap;
-	
+
 }
 bool Player::isNegotiated(Player* p1, Player* p2)
 {
@@ -48,7 +48,7 @@ bool Player::isNegotiated(Player* p1, Player* p2)
 		{
 			return true;
 		};
-		
+
 
 	};
 	return false;
@@ -57,11 +57,15 @@ bool Player::isNegotiated(Player* p1, Player* p2)
 Player::~Player() {
 	for (auto territory : territories) {
 		territory->setOwner(NULL);
+		territory = nullptr;
 	}
-	
+
 	delete hand;
 	delete orders;
 	delete playerStrategy;
+	hand = nullptr;
+	orders = nullptr;
+	playerStrategy = nullptr;
 }
 
 //Returns the hand if it has a valid pointer to it
@@ -89,11 +93,11 @@ std::ostream& operator <<(ostream& out, const Player& p)
 	return out;
 }
 
-vector<Territory*> &Player::getOwnedTerritories() {
+vector<Territory*>& Player::getOwnedTerritories() {
 	return territories;
 }
 
-void Player::setOwnedTerritories(vector<Territory*> &list) {
+void Player::setOwnedTerritories(vector<Territory*>& list) {
 	territories = list;
 }
 
@@ -124,7 +128,7 @@ void Player::updatePhase(int phaseNumber)
 		}
 		cout << endl;
 	}
-	else{
+	else {
 		cout << "[Player " << playerId << " at Order Execution Phase (3)]" << endl;
 		cout << "Territories\t\t\t\t # Armies" << endl;
 		cout << "**********************************************************" << endl;
@@ -150,14 +154,13 @@ void Player::updateGame(int totalTerritories, bool isPlayerBeingRemoved)
 
 		if (percent > 80.0)
 		{
-			cout << "Watch out! Player " << playerId << " owns " << percent << "% of the territories" << endl;
+			if (percent == 100.0) { //Announce when a player has won
+				cout << "Congratulations! ~ Player " << playerId << " has WON the game by owning all territories." << endl;
+			}
 		}
-		else if (percent == 100.0) { //Announce when a player has won
-			cout << "Winner winner, chicken dinner ~ Player " << playerId << "has won the game by owning all territories." << endl;
-		}
-		else
+		else 
 		{
-			cout << "Player " << playerId << " owns " << percent << "% of the territories" << endl;
+			cout << "Watch out! Player " << playerId << " owns " << percent << "% of the territories" << endl;
 		}
 	}else //Announce when a player has been removed 
 	{

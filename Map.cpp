@@ -76,11 +76,14 @@ Map::Map(const Map& map) {
 	continents = map.continents;
 }
 
-/*Map::~Map() {
+Map::~Map() {
 	for (auto territory : territories) {
 		delete territory;
 	}
-}*/
+
+	delete winner;
+	winner = nullptr;
+}
 
 bool Map::validate() {
 	return validateTerritoryConnectivity() && validateContinentConnectivity() && validateContinentExclusivity();
