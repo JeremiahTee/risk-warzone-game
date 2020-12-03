@@ -177,26 +177,34 @@ void GameEngine::createMap(string path, bool normalMap) {
 	vector<vector<Territory*>> bordersList = mapLoader.GetBordersList();
 
 	if (normalMap) {
-		////Normal map version
-		countryList = mapLoader.ReadMapFileForCountries(path, countryList);
-		continentList = mapLoader.ReadMapFile(path, continentList);
-		bordersList = mapLoader.ReadMapFileForBorders(path, bordersList, countryList);
 
-		////Create the map
-		map = mapLoader.CombineInfos(continentList, countryList, bordersList);
+		if(mapLoader.CheckValidity(path))
+		{
+			////Normal map version
+			countryList = mapLoader.ReadMapFileForCountries(path, countryList);
+			continentList = mapLoader.ReadMapFile(path, continentList);
+			bordersList = mapLoader.ReadMapFileForBorders(path, bordersList, countryList);
+
+			////Create the map
+			map = mapLoader.CombineInfos(continentList, countryList, bordersList);
+		}
 	}
 	else {
 		//Adapter for Conquest version
 		ConquestFileReader* reader = new ConquestFileReader();
 		ConquestFileReaderAdapter* adapter = new ConquestFileReaderAdapter(*reader);
-		continentList = adapter->ReadMapFile(path, continentList);
-		countryList = adapter->ReadMapFileForCountries(path, countryList);
 
-		cout << "Continent list size: " << continentList.size() << endl;
-		cout << "Country list size: " << countryList.size() << endl;
-		
-		bordersList = adapter->ReadMapFileForBorders(path, bordersList, countryList);
-		map = adapter->CombineInfos(continentList, countryList, bordersList);
+		if (adapter->CheckValidity(path))
+		{
+			continentList = adapter->ReadMapFile(path, continentList);
+			countryList = adapter->ReadMapFileForCountries(path, countryList);
+
+			cout << "Continent list size: " << continentList.size() << endl;
+			cout << "Country list size: " << countryList.size() << endl;
+
+			bordersList = adapter->ReadMapFileForBorders(path, bordersList, countryList);
+			map = adapter->CombineInfos(continentList, countryList, bordersList);
+		}
 	}
 }
 

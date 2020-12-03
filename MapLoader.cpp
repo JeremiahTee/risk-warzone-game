@@ -155,7 +155,7 @@ void MapLoader::ShowTerritories(vector<Territory*> _countryList) {
 }
 
 bool MapLoader::CheckValidity(string _inputFileStream) {
-	cout << "\nCHECKING VALIDITY" << endl;
+	cout << "\nChecking VALIDITY of NORMAL map..." << endl;
 	string line;
 	ifstream inputFileStream(_inputFileStream);
 
@@ -168,15 +168,42 @@ bool MapLoader::CheckValidity(string _inputFileStream) {
 	while (getline(inputFileStream, line)) {
 		if (line == "[files]") {
 			hasFiles = true;
+		}else
+		{
+			cout << "Missing [files] tag. Exiting program...\n\n";
+			inputFileStream.close();
+			inputFileStream.clear();
+			exit(0);
 		}
+		
 		if (line == "[continents]") {
 			hasContinents = true;
+		}else
+		{
+			cout << "Missing [continents] tag. Exiting program...\n\n";
+			inputFileStream.close();
+			inputFileStream.clear();
+			exit(0);
 		}
+		
 		if (line == "[countries]") {
 			hasCountries = true;
+		}else
+		{
+			cout << "Missing [countries] tag. Exiting program...\n\n";
+			inputFileStream.close();
+			inputFileStream.clear();
+			exit(0);
 		}
+		
 		if (line == "[borders]") {
 			hasBorders = true;
+		}else
+		{
+			cout << "Missing [borders] tag. Exiting program...\n\n";
+			inputFileStream.close();
+			inputFileStream.clear();
+			exit(0);
 		}
 	}
 
@@ -395,9 +422,22 @@ bool ConquestFileReader::CheckValidityConquest(string _inputFileStream)
 	while (getline(ifs, line)) {
 		if (line == "[Continents]") {
 			hasContinents = true;
+		}else
+		{
+			ifs.close();
+			ifs.clear();
+			cout << "Missing [Continents] tag. Exiting program...\n\n";
+			exit(0);
+			
 		}
 		if (line == "[Territories]") {
 			hasCountries = true;
+		}else
+		{
+			ifs.close();
+			ifs.clear();
+			cout << "Missing [Territories] tag. Exiting program...\n\n";
+			exit(0);
 		}
 	}
 
@@ -407,11 +447,7 @@ bool ConquestFileReader::CheckValidityConquest(string _inputFileStream)
 	if (hasContinents && hasCountries)
 	{
 		isValid = true;
-		cout << "Valid map file :)" << endl;
-	}else
-	{
-		cout << "Invalid map file. Make sure the [Continents] and [Territories] lines are present." << endl;
-		isValid = false;
+		cout << "Conquest map is VALID and ready to be parsed :)" << endl;
 	}
 
 	return isValid;
