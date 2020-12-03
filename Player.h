@@ -12,7 +12,6 @@
 #include "Cards.h"
 #include <vector>
 
-
 using std::vector;
 using std::string;
 
@@ -61,7 +60,7 @@ public:
 	Player() = default;
 	Player(vector<Territory*> territories, Hand* hand, int id);
 	Player(const Player& o);
-	~Player();
+	virtual ~Player();
 
 	vector<Territory*>& getOwnedTerritories();
 	void setOwnedTerritories(vector<Territory*>& list);
