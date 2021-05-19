@@ -1,5 +1,4 @@
-# Warzone-Asg1
-COMP 345 -  Risk Clone (Warzone edition)
+# C++ Course Project -  Risk Game (Warzone edition)
 
 ## Team N12 :
 * **JT**
@@ -7,3 +6,5 @@ COMP 345 -  Risk Clone (Warzone edition)
 * **Marshmallow**
 * **Carrot**
 * **DK**
+
+## Teamwork Makes The Dream Work
